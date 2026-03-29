@@ -332,6 +332,40 @@ nav a:not(.active){display:none}
   </div>
 </section>
 
+<!-- Q&A SECTION -->
+
+<section class="section" id="qa">
+  <div class="section-header">
+    <div>
+      <div class="section-label">💬 Community</div>
+      <div class="section-title">Sawaal Poochho & Jawab Pao</div>
+    </div>
+  </div>
+
+  <!-- Ask Question Box -->
+
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;margin-bottom:28px">
+    <h3 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;margin-bottom:16px">❓ Apna Sawaal Poochho</h3>
+    <p style="font-size:.82rem;color:var(--muted);margin-bottom:16px">Koi bhi sawaal poochh sakta hai — login ki zarurat nahi!</p>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <input id="qName" type="text" placeholder="Aapka Naam (optional)" style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;padding:11px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'"/>
+      <textarea id="qText" rows="3" placeholder="Aapka sawaal yahan likhein... jaise 'Pressure transmitter calibrate kaise karte hain?'" style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;padding:11px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;resize:none" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'"></textarea>
+      <button onclick="submitQuestion()" style="background:var(--accent);color:#fff;border:none;border-radius:8px;padding:13px;font-weight:700;font-size:.9rem;cursor:pointer;font-family:'Syne',sans-serif;transition:background .2s" onmouseover="this.style.background='#ff8c50'" onmouseout="this.style.background='var(--accent)'">
+        🚀 Sawaal Bhejo
+      </button>
+      <div id="qSuccess" style="display:none;background:rgba(0,200,100,.1);border:1px solid rgba(0,200,100,.3);border-radius:8px;padding:12px;text-align:center;color:#00c864;font-size:.88rem">
+        ✅ Sawaal submit ho gaya! Jald hi jawab milega.
+      </div>
+    </div>
+  </div>
+
+  <!-- Questions List -->
+
+  <div id="qaList" style="display:flex;flex-direction:column;gap:16px">
+    <div style="text-align:center;padding:40px;color:var(--muted)">⏳ Sawaal load ho rahe hain...</div>
+  </div>
+</section>
+
 <!-- NEWSLETTER -->
 
 <section class="section">
@@ -378,329 +412,431 @@ nav a:not(.active){display:none}
 </div>
 
 <script>
+// FIREBASE Q&A SYSTEM
+const DB_URL = 'https://sugartechindia-60aee-default-rtdb.asia-southeast1.firebasedatabase.app';
+const ADMIN_EMAIL = 'adityatiwari093@gmail.com';
+
+async function submitQuestion() {
+  const name = document.getElementById('qName').value.trim() || 'Anonymous';
+  const text = document.getElementById('qText').value.trim();
+  if (!text) { alert('Sawaal likhna zaroori hai!'); return; }
+  const q = { name, text, time: Date.now(), answers: {} };
+  try {
+    await fetch(`${DB_URL}/questions.json`, {
+      method: 'POST',
+      body: JSON.stringify(q)
+    });
+    document.getElementById('qSuccess').style.display = 'block';
+    document.getElementById('qName').value = '';
+    document.getElementById('qText').value = '';
+    setTimeout(() => document.getElementById('qSuccess').style.display = 'none', 4000);
+    loadQuestions();
+  } catch(e) { alert('Error! Internet check karo.'); }
+}
+
+async function submitAnswer(qId) {
+  const aText = document.getElementById('ans_' + qId).value.trim();
+  if (!aText) { alert('Jawab likhna zaroori hai!'); return; }
+  const ans = { text: aText, time: Date.now(), by: 'Aditya Tiwari ✅' };
+  try {
+    await fetch(`${DB_URL}/questions/${qId}/answers.json`, {
+      method: 'POST',
+      body: JSON.stringify(ans)
+    });
+    document.getElementById('ans_' + qId).value = '';
+    loadQuestions();
+  } catch(e) { alert('Error! Try again.'); }
+}
+
+function timeAgo(ts) {
+  const diff = Math.floor((Date.now() - ts) / 1000);
+  if (diff < 60) return 'abhi abhi';
+  if (diff < 3600) return Math.floor(diff/60) + ' min pehle';
+  if (diff < 86400) return Math.floor(diff/3600) + ' ghante pehle';
+  return Math.floor(diff/86400) + ' din pehle';
+}
+
+async function loadQuestions() {
+  const list = document.getElementById('qaList');
+  try {
+    const res = await fetch(`${DB_URL}/questions.json`);
+    const data = await res.json();
+    if (!data) { list.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted)">🤔 Abhi koi sawaal nahi hai. Pehla sawaal aap poochho!</div>'; return; }
+    const qs = Object.entries(data).reverse();
+    list.innerHTML = qs.map(([id, q]) => {
+      const answers = q.answers ? Object.values(q.answers) : [];
+      const ansHtml = answers.map(a => `
+        <div style="background:rgba(255,107,43,.08);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:12px 16px;margin-top:10px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+            <span style="font-size:.78rem;font-weight:700;color:var(--accent)">${a.by}</span>
+            <span style="font-size:.72rem;color:var(--muted)">${timeAgo(a.time)}</span>
+          </div>
+          <p style="font-size:.88rem;color:var(--text);line-height:1.7">${a.text}</p>
+        </div>`).join('');
+
+      const isAdmin = localStorage.getItem('sti_admin') === 'yes';
+      const adminBox = isAdmin ? `
+        <div style="margin-top:12px;display:flex;gap:8px">
+          <textarea id="ans_${id}" rows="2" placeholder="Jawab likhein..." style="flex:1;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;padding:10px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;resize:none"></textarea>
+
+```
+      <button onclick="submitAnswer('${id}')" style="background:var(--accent);color:#fff;border:none;border-radius:8px;padding:10px 16px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;white-space:nowrap;font-size:.82rem">Jawab Do</button>
+    </div>` : '';
+
+  return `<div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:36px;height:36px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:800;color:#fff;flex-shrink:0">${q.name.charAt(0).toUpperCase()}</div>
+        <div>
+          <p style="font-size:.85rem;font-weight:700">${q.name}</p>
+          <p style="font-size:.72rem;color:var(--muted)">${timeAgo(q.time)}</p>
+        </div>
+      </div>
+      <span style="background:var(--tag-bg);border:1px solid var(--border);border-radius:6px;padding:3px 8px;font-size:.7rem;color:var(--muted)">${answers.length} jawab</span>
+    </div>
+    <p style="font-size:.92rem;line-height:1.7;margin-bottom:10px">${q.text}</p>
+    ${ansHtml}
+    ${adminBox}
+  </div>`;
+}).join('');
+```
+
+} catch(e) {
+list.innerHTML = ‘<div style="text-align:center;padding:40px;color:var(--muted)">⚠️ Load nahi hua. Refresh karo.</div>’;
+}
+}
+
+// Admin login — type ‘admin’ in console or use secret
+function checkAdmin() {
+const pass = prompt(‘Admin Password:’);
+if (pass === ‘sugar@admin2025’) {
+localStorage.setItem(‘sti_admin’, ‘yes’);
+alert(‘✅ Admin mode on!’);
+loadQuestions();
+} else { alert(‘❌ Wrong password’); }
+}
+
+loadQuestions();
+setInterval(loadQuestions, 30000); // auto refresh every 30s
+
 function sendContact() {
-  const n = document.getElementById('cName').value.trim();
-  const e = document.getElementById('cEmail').value.trim();
-  const s = document.getElementById('cSubject').value.trim();
-  const m = document.getElementById('cMsg').value.trim();
-  if (!n || !e || !m) { alert('Naam, Email aur Message zaroori hai!'); return; }
-  const mailto = `mailto:adityatiwari093@gmail.com?subject=${encodeURIComponent(s||'SugarTechIndia Contact')}&body=${encodeURIComponent('Naam: '+n+'\nEmail: '+e+'\n\nMessage:\n'+m)}`;
-  window.location.href = mailto;
-  document.getElementById('cSuccess').style.display = 'block';
-  document.getElementById('cName').value = '';
-  document.getElementById('cEmail').value = '';
-  document.getElementById('cSubject').value = '';
-  document.getElementById('cMsg').value = '';
+const n = document.getElementById(‘cName’).value.trim();
+const e = document.getElementById(‘cEmail’).value.trim();
+const s = document.getElementById(‘cSubject’).value.trim();
+const m = document.getElementById(‘cMsg’).value.trim();
+if (!n || !e || !m) { alert(‘Naam, Email aur Message zaroori hai!’); return; }
+const mailto = `mailto:adityatiwari093@gmail.com?subject=${encodeURIComponent(s||'SugarTechIndia Contact')}&body=${encodeURIComponent('Naam: '+n+'\nEmail: '+e+'\n\nMessage:\n'+m)}`;
+window.location.href = mailto;
+document.getElementById(‘cSuccess’).style.display = ‘block’;
+document.getElementById(‘cName’).value = ‘’;
+document.getElementById(‘cEmail’).value = ‘’;
+document.getElementById(‘cSubject’).value = ‘’;
+document.getElementById(‘cMsg’).value = ‘’;
 }
 
 // AUTO FETCH YOUTUBE VIDEOS
-const YT_API_KEY = 'AIzaSyBm6D5Y3PU1dBUMKMNHVXSsbYra6Bx4TVQ';
-const CHANNEL_ID = 'UCEi3rGduiFjbPT6EWrrwmXw';
+const YT_API_KEY = ‘AIzaSyBm6D5Y3PU1dBUMKMNHVXSsbYra6Bx4TVQ’;
+const CHANNEL_ID = ‘UCEi3rGduiFjbPT6EWrrwmXw’;
 
 async function loadYouTubeVideos() {
-  const grid = document.getElementById('videoGrid');
-  try {
-    // Fetch more videos to filter out shorts
-    const res = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${YT_API_KEY}&channelId=${CHANNEL_ID}&part=snippet&order=date&maxResults=50&type=video&videoDuration=medium`);
-    const data = await res.json();
-    if (!data.items || data.items.length === 0) { grid.innerHTML = '<p style="color:var(--muted);grid-column:1/-1;text-align:center;padding:40px">Koi video nahi mili. API check karo.</p>'; return; }
+const grid = document.getElementById(‘videoGrid’);
+try {
+// Fetch more videos to filter out shorts
+const res = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${YT_API_KEY}&channelId=${CHANNEL_ID}&part=snippet&order=date&maxResults=50&type=video&videoDuration=medium`);
+const data = await res.json();
+if (!data.items || data.items.length === 0) { grid.innerHTML = ‘<p style="color:var(--muted);grid-column:1/-1;text-align:center;padding:40px">Koi video nahi mili. API check karo.</p>’; return; }
 
-    // Get video IDs to fetch duration details
-    const ids = data.items.map(v => v.id.videoId).join(',');
-    const detailRes = await fetch(`https://www.googleapis.com/youtube/v3/videos?key=${YT_API_KEY}&id=${ids}&part=contentDetails,snippet`);
-    const detailData = await detailRes.json();
+```
+// Get video IDs to fetch duration details
+const ids = data.items.map(v => v.id.videoId).join(',');
+const detailRes = await fetch(`https://www.googleapis.com/youtube/v3/videos?key=${YT_API_KEY}&id=${ids}&part=contentDetails,snippet`);
+const detailData = await detailRes.json();
 
-    // Filter out Shorts (duration less than 60 seconds)
-    const filtered = detailData.items.filter(v => {
-      const dur = v.contentDetails.duration; // e.g. PT1M30S
-      const match = dur.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
-      const h = parseInt(match[1]||0), m = parseInt(match[2]||0), s = parseInt(match[3]||0);
-      const totalSec = h*3600 + m*60 + s;
-      return totalSec >= 60; // exclude shorts under 60s
-    });
+// Filter out Shorts (duration less than 60 seconds)
+const filtered = detailData.items.filter(v => {
+  const dur = v.contentDetails.duration; // e.g. PT1M30S
+  const match = dur.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+  const h = parseInt(match[1]||0), m = parseInt(match[2]||0), s = parseInt(match[3]||0);
+  const totalSec = h*3600 + m*60 + s;
+  return totalSec >= 60; // exclude shorts under 60s
+});
 
-    if (!filtered.length) { grid.innerHTML = '<p style="color:var(--muted);grid-column:1/-1;text-align:center;padding:40px">Koi regular video nahi mili.</p>'; return; }
+if (!filtered.length) { grid.innerHTML = '<p style="color:var(--muted);grid-column:1/-1;text-align:center;padding:40px">Koi regular video nahi mili.</p>'; return; }
 
-    grid.innerHTML = filtered.map(v => {
-      const id = v.id;
-      const title = v.snippet.title;
-      const thumb = v.snippet.thumbnails.high?.url || v.snippet.thumbnails.default?.url;
-      const date = new Date(v.snippet.publishedAt).toLocaleDateString('hi-IN',{year:'numeric',month:'short',day:'numeric'});
-      // Format duration
-      const dur = v.contentDetails.duration;
-      const m2 = dur.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
-      const hh = parseInt(m2[1]||0), mm = parseInt(m2[2]||0), ss = parseInt(m2[3]||0);
-      const durStr = hh ? `${hh}:${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}` : `${mm}:${String(ss).padStart(2,'0')}`;
-      return `<a class="video-card" href="https://www.youtube.com/watch?v=${id}" target="_blank">
-        <div class="video-thumb"><img src="${thumb}" alt="${title}" loading="lazy"/><div class="play-btn"><div class="play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
-        <div style="position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,.8);color:#fff;font-size:.72rem;padding:2px 6px;border-radius:4px">${durStr}</div></div>
-        <div class="video-body"><span class="tag">SugarTechIndia</span><h3>${title}</h3></div>
-        <div class="video-footer"><span>▶ Watch on YouTube</span><span>${date}</span></div>
-      </a>`;
-    }).join('');
-  } catch(e) {
-    grid.innerHTML = '<p style="color:var(--muted);grid-column:1/-1;text-align:center;padding:40px">⚠️ Videos load nahi hui. Internet check karo.</p>';
-  }
+grid.innerHTML = filtered.map(v => {
+  const id = v.id;
+  const title = v.snippet.title;
+  const thumb = v.snippet.thumbnails.high?.url || v.snippet.thumbnails.default?.url;
+  const date = new Date(v.snippet.publishedAt).toLocaleDateString('hi-IN',{year:'numeric',month:'short',day:'numeric'});
+  // Format duration
+  const dur = v.contentDetails.duration;
+  const m2 = dur.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+  const hh = parseInt(m2[1]||0), mm = parseInt(m2[2]||0), ss = parseInt(m2[3]||0);
+  const durStr = hh ? `${hh}:${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}` : `${mm}:${String(ss).padStart(2,'0')}`;
+  return `<a class="video-card" href="https://www.youtube.com/watch?v=${id}" target="_blank">
+    <div class="video-thumb"><img src="${thumb}" alt="${title}" loading="lazy"/><div class="play-btn"><div class="play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+    <div style="position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,.8);color:#fff;font-size:.72rem;padding:2px 6px;border-radius:4px">${durStr}</div></div>
+    <div class="video-body"><span class="tag">SugarTechIndia</span><h3>${title}</h3></div>
+    <div class="video-footer"><span>▶ Watch on YouTube</span><span>${date}</span></div>
+  </a>`;
+}).join('');
+```
+
+} catch(e) {
+grid.innerHTML = ‘<p style="color:var(--muted);grid-column:1/-1;text-align:center;padding:40px">⚠️ Videos load nahi hui. Internet check karo.</p>’;
+}
 }
 loadYouTubeVideos();
 
 const instruments = [
-  {
-    id:1, icon:"🔴", color:"#2a1010", cat:"pressure",
-    name:"Pressure Transmitter", tag:"Pressure",
-    short:"Process pressure ko measure karke 4-20mA signal mein convert karta hai.",
-    def:"Pressure Transmitter ek industrial sensor hai jo fluid ya gas ka pressure measure karta hai aur use 4-20mA ya HART signal mein convert karke control room ko bhejta hai. Yeh absolute, gauge, ya differential pressure measure kar sakta hai.",
-    work:"Isme ek sensing diaphragm hota hai jo pressure ke hisaab se deflect hota hai. Yeh deflection ek strain gauge ya capacitive sensor se measure hota hai aur electronic circuit usse proportional current signal (4-20mA) mein convert karta hai. 4mA = minimum pressure, 20mA = maximum pressure.",
-    apps:["Oil & Gas pipelines mein pressure monitoring","Boiler steam pressure control","Chemical reactor pressure measurement","Water supply system mein pressure monitoring"],
-    tags:["4-20mA","HART","Gauge Pressure","Absolute Pressure"]
-  },
-  {
-    id:2, icon:"💧", color:"#0a1a2a", cat:"level",
-    name:"Level Transmitter", tag:"Level",
-    short:"Tank ya vessel mein liquid level ko continuously measure karta hai.",
-    def:"Level Transmitter ek device hai jo kisi bhi tank, vessel ya silo mein liquid ya solid material ka level continuously measure karta hai aur 4-20mA signal provide karta hai. Yeh DP type, ultrasonic, radar ya float type ho sakta hai.",
-    work:"DP (Differential Pressure) type mein tank ke bottom par pressure measure hoti hai — jitna zyada liquid, utna zyada pressure. Ultrasonic type mein sound waves liquid surface se bounce hoke wapas aati hain aur time calculate hota hai. Radar type mein microwave signals use hoti hain.",
-    apps:["Water treatment plant mein tank level","Oil storage tank monitoring","Chemical dosing tank level","Boiler drum level control"],
-    tags:["DP Type","Ultrasonic","Radar","Float Type","4-20mA"]
-  },
-  {
-    id:3, icon:"🌡️", color:"#1a0a00", cat:"temperature",
-    name:"Temperature Transmitter", tag:"Temperature",
-    short:"RTD ya thermocouple ka signal leke 4-20mA mein convert karta hai.",
-    def:"Temperature Transmitter ek device hai jo RTD (PT100) ya Thermocouple se milne wale weak millivolt/resistance signal ko amplify karke 4-20mA standard signal mein convert karta hai taaki long distance tak signal loss ke bina bheja ja sake.",
-    work:"RTD ka resistance temperature ke saath change hota hai. Transmitter is resistance change ko measure karta hai aur Wheatstone bridge circuit se accurate temperature calculate karta hai. Phir is value ko 4mA (minimum temp) se 20mA (maximum temp) ke beech map karta hai.",
-    apps:["Furnace temperature control","Heat exchanger monitoring","Pasteurization process","HVAC systems"],
-    tags:["PT100","RTD","Thermocouple","4-20mA","HART"]
-  },
-  {
-    id:4, icon:"🔵", color:"#0a1020", cat:"flow",
-    name:"Magnetic Flow Transmitter", tag:"Flow",
-    short:"Conductive liquid ka flow Faraday's law se measure karta hai.",
-    def:"Magnetic Flow Transmitter (Electromagnetic Flowmeter) ek ऐसा device hai jo electrically conductive liquids ka volumetric flow rate measure karta hai. Isme koi moving parts nahi hoti, isliye maintenance bahut kam hoti hai.",
-    work:"Faraday's law of electromagnetic induction par kaam karta hai. Pipe ke around magnets lage hote hain jo magnetic field create karte hain. Conductive liquid jab is field mein se flow karta hai toh EMF generate hoti hai. Yeh EMF flow rate ke proportional hoti hai aur electrodes se measure ki jaati hai.",
-    apps:["Water treatment plants","Sewage flow measurement","Chemical dosing lines","Food & beverage industry"],
-    tags:["Faraday's Law","No Moving Parts","Conductive Liquid","EMF"]
-  },
-  {
-    id:5, icon:"🌀", color:"#0a1a10", cat:"flow",
-    name:"Vortex Flowmeter", tag:"Flow",
-    short:"Von Karman effect se vortices count karke flow measure karta hai.",
-    def:"Vortex Flowmeter ek ऐसा device hai jo Von Karman vortex shedding effect use karke gas, steam ya liquid ka flow measure karta hai. Yeh high temperature steam measurement ke liye bahut popular hai.",
-    work:"Pipe ke andar ek bluff body (shedder bar) hoti hai. Jab fluid is par se guzarta hai toh alternate sides par vortices (eddies) create hoti hain. In vortices ki frequency flow velocity ke proportional hoti hai. Ek piezoelectric sensor in pressure fluctuations ko detect karta hai aur frequency count karta hai.",
-    apps:["Steam flow measurement","Compressed air monitoring","Natural gas metering","Chemical plant flow control"],
-    tags:["Von Karman","Vortex Shedding","Steam","Gas","Piezoelectric"]
-  },
-  {
-    id:6, icon:"⚖️", color:"#1a1a00", cat:"flow",
-    name:"Density Meter", tag:"Analyzer",
-    short:"Liquid ya gas ki density real-time mein measure karta hai.",
-    def:"Density Meter (Densitometer) ek instrument hai jo process liquid ya gas ki density ya specific gravity continuously measure karta hai. Yeh concentration measurement ke liye bhi use hota hai — jaise sugar concentration, acid strength etc.",
-    work:"Vibrating tube principle par kaam karta hai. Ek U-shaped ya straight tube mein liquid flow karta hai aur tube vibrate karta hai. Liquid ki density ke hisaab se vibration frequency change hoti hai. Zyada density = kam frequency. Is frequency se density calculate ki jaati hai.",
-    apps:["Sugar mill mein Brix measurement","Acid/alkali concentration","Brewery mein alcohol content","Crude oil density"],
-    tags:["Vibrating Tube","Brix","Specific Gravity","Concentration"]
-  },
-  {
-    id:7, icon:"⚡", color:"#0a0a1a", cat:"analyzer",
-    name:"Conductivity Meter", tag:"Analyzer",
-    short:"Liquid mein dissolved salts/ions ki concentration measure karta hai.",
-    def:"Conductivity Meter ek instrument hai jo liquid ki electrical conductivity measure karta hai, jo directly dissolved ions/salts ki concentration indicate karta hai. Pure water ki conductivity bahut kam hoti hai jabki saltwater ki zyada.",
-    work:"Do ya char electrodes liquid mein dube hote hain. Inke beech AC current pass kiya jaata hai. Liquid ki conductivity ke hisaab se current flow hota hai. Ohm's law se resistance calculate hoti hai aur usse conductivity (S/cm ya mS/cm) calculate ki jaati hai.",
-    apps:["RO plant mein water purity check","Boiler feedwater monitoring","Chemical process control","Effluent treatment plants"],
-    tags:["TDS","Salinity","EC","mS/cm","Water Quality"]
-  },
-  {
-    id:8, icon:"🧪", color:"#1a000a", cat:"analyzer",
-    name:"pH Meter", tag:"Analyzer",
-    short:"Liquid ki acidity ya alkalinity (pH value) measure karta hai.",
-    def:"pH Meter ek electrochemical instrument hai jo liquid ka pH value measure karta hai. pH scale 0-14 hoti hai — 7 neutral, 7 se kam acidic, 7 se zyada alkaline. Yeh water treatment, chemical process aur food industry mein critical hai.",
-    work:"Ek glass electrode use hota hai jo H+ ions ke liye sensitive hota hai. Reference electrode ke saath milke yeh ek electrochemical cell banata hai. Liquid mein H+ ion concentration ke hisaab se voltage generate hota hai — pH 7 par 0mV, aur har pH unit change par ~59.2mV change hota hai.",
-    apps:["Effluent treatment pH control","Drinking water treatment","Chemical neutralization","Food processing"],
-    tags:["Glass Electrode","H+ Ions","0-14 Scale","Buffer Solution"]
-  },
-  {
-    id:9, icon:"💨", color:"#001a1a", cat:"analyzer",
-    name:"O2 Analyzer", tag:"Analyzer",
-    short:"Flue gas ya process gas mein oxygen percentage measure karta hai.",
-    def:"O2 Analyzer (Oxygen Analyzer) ek instrument hai jo gas streams mein oxygen ki concentration measure karta hai. Combustion efficiency improve karne aur safety ke liye yeh bahut important hai — boilers, furnaces aur incinerators mein widely used hai.",
-    work:"Zirconia type mein zirconium oxide cell hota hai jo high temperature par (650°C+) oxygen ions conduct karta hai. Reference side (air) aur process side ke oxygen partial pressure difference se Nernst equation ke through EMF generate hota hai jo O2% indicate karta hai. Electrochemical type room temperature par kaam karta hai.",
-    apps:["Boiler combustion control","Furnace efficiency optimization","Inert gas purging monitoring","Safety systems"],
-    tags:["Zirconia","Nernst Equation","Combustion","Flue Gas","ppm/%"]
-  },
-  {
-    id:10, icon:"🔔", color:"#1a0010", cat:"switch",
-    name:"Pressure Switch", tag:"Switch",
-    short:"Set pressure par ON/OFF signal deta hai — alarms aur trips ke liye.",
-    def:"Pressure Switch ek electromechanical device hai jo jab process pressure ek pre-set value (set point) tak pahunchti hai toh electrical contact open ya close kar deta hai. Yeh safety shutdown aur alarm systems mein use hota hai.",
-    work:"Ek sensing element (diaphragm ya piston) process pressure feel karta hai. Jab pressure set point se cross karta hai toh yeh element move karta hai aur ek micro-switch ya snap-action switch operate karta hai jo circuit complete ya break karta hai. Adjustable spring se set point set ki jaati hai.",
-    apps:["High pressure alarm","Pump protection","Compressor safety trip","Fire fighting systems"],
-    tags:["Set Point","SPDT","Micro Switch","NO/NC","Dead Band"]
-  },
-  {
-    id:11, icon:"📊", color:"#001010", cat:"switch",
-    name:"Level Switch", tag:"Switch",
-    short:"High ya low level par ON/OFF signal deta hai — overflow aur dry run protection.",
-    def:"Level Switch ek device hai jo tank mein liquid level ek specific point par pahunchne par electrical signal generate karta hai. Yeh continuous measurement nahi karta, sirf ek ya do fixed points par signal deta hai — high level alarm ya low level trip ke liye.",
-    work:"Float type mein liquid par ek float hota hai. Level badhne par float upar uthta hai aur magnetic coupling se reed switch operate karta hai. Vibrating fork type mein fork vibrate karta hai — liquid mein doobne par vibration ruk jaati hai aur circuit operate hota hai. Conductivity type mein liquid ko conductor maana jaata hai.",
-    apps:["Tank overflow prevention","Pump dry run protection","Sump pit control","Chemical tank alarms"],
-    tags:["Float Type","Vibrating Fork","Reed Switch","High/Low Alarm"]
-  },
-  {
-    id:12, icon:"📡", color:"#0a001a", cat:"level",
-    name:"Radar Level Transmitter", tag:"Level",
-    short:"Microwave/radar waves se contactless level measurement karta hai.",
-    def:"Radar Level Transmitter (RADAR = Radio Detection And Ranging) ek non-contact level measurement device hai jo microwave radio waves emit karta hai. Yeh harsh environments mein bhi accurate measurement deta hai — extreme temperature, pressure, vapour, foam sab mein.",
-    work:"Antenna se microwave pulses emit hoti hain jo liquid surface se reflect hokar wapas aati hain. Transmitted aur received signal ke beech time difference (Time of Flight) measure hota hai. Distance = (Speed of Light × Time) / 2. Is se level calculate hota hai. FMCW type mein frequency modulation use hoti hai.",
-    apps:["Crude oil storage tanks","Corrosive chemical vessels","Silos mein solid level","High pressure/temperature vessels"],
-    tags:["Non-Contact","FMCW","GWR","Microwave","Time of Flight"]
-  },
-  {
-    id:13, icon:"🔄", color:"#1a1000", cat:"switch",
-    name:"Zero Speed Sensor", tag:"Switch",
-    short:"Machine ya conveyor ke ruk jaane par turant signal deta hai.",
-    def:"Zero Speed Sensor (Speed Switch) ek device hai jo rotating machinery ki speed monitor karta hai aur jab speed ek minimum threshold se neeche girki hai ya machine bilkul ruk jaati hai toh alarm ya trip signal generate karta hai.",
-    work:"Inductive proximity sensor type mein ek rotating target (gear ya bolt) ke pass sensor lagta hai. Har tooth pass hone par pulse generate hoti hai. Control circuit pulse frequency measure karta hai. Jab pulses aana band ho jaate hain ya frequency bahut kam ho jaye toh zero speed output activate hota hai.",
-    apps:["Conveyor belt jam detection","Kiln rotation monitoring","Bucket elevator safety","Crusher/mill protection"],
-    tags:["Proximity","Pulse Count","RPM","Safety Relay","Conveyor"]
-  },
-  {
-    id:14, icon:"🔲", color:"#001a00", cat:"switch",
-    name:"Limit Switch", tag:"Switch",
-    short:"Mechanical motion ya position detect karta hai — valve open/close feedback.",
-    def:"Limit Switch ek electromechanical device hai jo physical contact se machine parts ki position ya motion detect karta hai. Valve ki open/close position, actuator position, door status ya conveyor item detection ke liye use hota hai.",
-    work:"Ek actuator (lever, plunger ya roller) machine part ko touch karta hai. Jab machine part move karta hai aur actuator ko operate karta hai toh internal micro-switch ka contact change hota hai (NO se NC ya vice versa). Yeh electrical signal control system ko position information deta hai.",
-    apps:["Valve position feedback (open/close)","Conveyor item detection","Door/gate position","Machine safety guarding"],
-    tags:["NO/NC","Position Feedback","Mechanical","NAMUR","Valve"]
-  },
-  {
-    id:15, icon:"🎛️", color:"#1a0a1a", cat:"valve",
-    name:"Valve Positioner", tag:"Valve",
-    short:"Control valve ki exact position maintain karta hai — 4-20mA command par.",
-    def:"Valve Positioner ek closed-loop controller hai jo control valve stem ki actual position ko continuously monitor karta hai aur use control signal (4-20mA) ke according exact position par rakhta hai. Yeh valve hysteresis aur friction effects ko overcome karta hai.",
-    work:"Controller se 4-20mA signal milta hai (command). Position sensor (LVDT ya potentiometer) valve ki actual position feedback deta hai. Positioner in dono ko compare karta hai — agar difference hai toh pneumatic pressure adjust karke valve stem ko sahi position par laata hai. Yeh process continuously repeat hota hai.",
-    apps:["Flow control valves","Pressure reducing valves","Temperature control loops","Split-range control"],
-    tags:["4-20mA","HART","LVDT","Pneumatic","Closed Loop"]
-  },
-  {
-    id:16, icon:"💪", color:"#0a1a0a", cat:"valve",
-    name:"Actuator", tag:"Valve",
-    short:"Control signal ko mechanical motion mein convert karke valve operate karta hai.",
-    def:"Actuator ek device hai jo electrical, pneumatic ya hydraulic energy ko mechanical force/motion mein convert karta hai taaki valve, damper ya other final control element ko operate kar sake. Yeh automation ka 'muscle' hai.",
-    work:"Pneumatic actuator mein compressed air (3-15 psi ya 4-20mA to I/P converter se) diaphragm ya piston par act karta hai jo stem ko move karta hai. Electric actuator mein motor gear train se stem rotate karta hai. Hydraulic actuator mein oil pressure mechanical force provide karta hai.",
-    apps:["Globe valve operation","Butterfly valve automation","Damper control in HVAC","Gate valve remote operation"],
-    tags:["Pneumatic","Electric","Hydraulic","Linear","Rotary"]
-  },
-  {
-    id:17, icon:"🔌", color:"#1a0000", cat:"valve",
-    name:"Solenoid Valve", tag:"Valve",
-    short:"Electrical signal se on/off operate hone wala electromagnetic valve.",
-    def:"Solenoid Valve ek electromechanically operated valve hai jo electrical current se operate hota hai. Jab coil energize hoti hai toh magnetic field plunger ko attract karta hai jo valve open ya close karta hai. Yeh 2-way ya 3-way ho sakta hai.",
-    work:"Valve body mein ek electromagnetic coil hoti hai. Current flow hone par coil ek magnetic field create karti hai jo ferromagnetic plunger ko attract karti hai. Plunger move karke valve seat se door hota hai aur flow path khul jaata hai. Current band karne par spring plunger wapas laata hai aur valve band ho jaata hai.",
-    apps:["Pneumatic system air control","Water irrigation systems","Fuel control in burners","Hydraulic circuit control"],
-    tags:["NC/NO","Coil","Plunger","2-way","3-way","24VDC"]
-  },
-  {
-    id:18, icon:"🌊", color:"#001020", cat:"flow",
-    name:"Differential Pressure Transmitter", tag:"Pressure",
-    short:"Do points ka pressure difference measure karke flow ya level calculate karta hai.",
-    def:"DP Transmitter (Differential Pressure Transmitter) do process points ke beech pressure difference measure karta hai. Yeh flow measurement (orifice plate ke saath), level measurement aur filter condition monitoring mein widely use hota hai.",
-    work:"High pressure aur low pressure ports dono sides par connect hote hain. Internally ek sensing diaphragm dono pressures ke beech mein hota hai. Diaphragm ka deflection DP ke proportional hota hai. Capacitive ya strain gauge sensing se yeh deflection electrical signal mein convert hota hai. Flow = K × √(ΔP).",
-    apps:["Orifice plate ke saath flow measurement","Tank level (hydrostatic)","Filter ΔP monitoring","Venturi tube flow"],
-    tags:["ΔP","Orifice","Venturi","4-20mA","HART","Hydrostatic"]
-  },
-  {
-    id:19, icon:"📻", color:"#001a10", cat:"level",
-    name:"Ultrasonic Level Transmitter", tag:"Level",
-    short:"Sound waves se non-contact liquid level measure karta hai.",
-    def:"Ultrasonic Level Transmitter ek non-contact level measurement device hai jo ultrasonic sound waves (40kHz+) emit karta hai jo liquid surface se reflect hokar wapas aate hain. Open channels, water tanks aur non-contact requirement mein best choice hai.",
-    work:"Transducer se ultrasonic pulses emit hote hain. Yeh pulses liquid surface se reflect hokar wapas transducer tak aate hain. Time of flight measure hota hai — distance = (Speed of Sound × Time) / 2. Temperature compensation bhi hoti hai kyunki sound speed temperature se affect hoti hai. Distance se level calculate hota hai.",
-    apps:["Open channel flow measurement","Water tank level","Sump pump control","River/dam level monitoring"],
-    tags:["Non-Contact","Time of Flight","Echo","Temperature Compensation"]
-  },
-  {
-    id:20, icon:"🌡️", color:"#200a00", cat:"temperature",
-    name:"Thermocouple", tag:"Temperature",
-    short:"Do dissimilar metals ke junction par temperature se EMF generate hota hai.",
-    def:"Thermocouple ek temperature sensor hai jo Seebeck effect par based hai — do alag metals ke junction par temperature difference se small voltage (EMF) generate hoti hai. Yeh high temperature measurement ke liye best hai aur bahut rugged hota hai.",
-    work:"Do alag dhatu (jaise Chromel-Alumel for Type K) ko ek end par weld kiya jaata hai — yeh hot junction hai. Doosra end (cold junction/reference junction) known temperature par rakha jaata hai. Temperature difference ke hisaab se EMF generate hoti hai. Transmitter ya mV meter se yeh voltage temperature mein convert hota hai.",
-    apps:["Furnace temperature (upto 1200°C+)","Boiler flue gas temperature","Kiln temperature measurement","Heat treatment processes"],
-    tags:["Type K","Type J","Type T","Seebeck Effect","mV","Hot Junction"]
-  },
-  {
-    id:21, icon:"〰️", color:"#0a2000", cat:"temperature",
-    name:"RTD / PT100", tag:"Temperature",
-    short:"Resistance change se accurate temperature measure karta hai — ±0.1°C accuracy.",
-    def:"RTD (Resistance Temperature Detector) ek precision temperature sensor hai jisme pure platinum wire ka resistance temperature ke saath predictable tarike se change hota hai. PT100 ka matlab hai 0°C par 100 ohm resistance. Yeh thermocouples se zyada accurate hota hai.",
-    work:"Platinum wire ka resistance temperature badhne par linearly increase hota hai — approximately 0.385 ohm/°C. Transmitter ya bridge circuit is resistance change ko measure karta hai. 2-wire, 3-wire ya 4-wire connection possible hai — 4-wire sabse accurate hota hai kyunki lead wire resistance eliminate hoti hai.",
-    apps:["HVAC precision control","Pharmaceutical process","Food processing temperature","Laboratory instruments"],
-    tags:["PT100","PT1000","3-Wire","4-Wire","±0.1°C","Platinum"]
-  },
-  {
-    id:22, icon:"🔦", color:"#0a0a20", cat:"level",
-    name:"Guided Wave Radar (GWR)", tag:"Level",
-    short:"Probe ke through radar waves guide karke accurate level measure karta hai.",
-    def:"Guided Wave Radar (GWR) ek level measurement technology hai jisme microwave pulses ko ek probe (rod ya cable) ke through liquid/solid surface tak guide kiya jaata hai. Yeh turbulence, foam, vapour aur low dielectric materials mein bhi accurate kaam karta hai.",
-    work:"Transmitter se microwave pulses probe ke along neeche jaate hain. Jab yeh liquid surface par pahunchte hain toh dielectric constant change hone ki wajah se kuch energy reflect hoti hai. Wapas aane mein jo time lagta hai (Time Domain Reflectometry - TDR) se distance aur phir level calculate hota hai.",
-    apps:["Interface level measurement (oil-water)","LPG/LNG storage","Solids level in silos","Turbulent liquid tanks"],
-    tags:["TDR","GWR","Probe","Dielectric","Interface Level"]
-  }
+{
+id:1, icon:“🔴”, color:”#2a1010”, cat:“pressure”,
+name:“Pressure Transmitter”, tag:“Pressure”,
+short:“Process pressure ko measure karke 4-20mA signal mein convert karta hai.”,
+def:“Pressure Transmitter ek industrial sensor hai jo fluid ya gas ka pressure measure karta hai aur use 4-20mA ya HART signal mein convert karke control room ko bhejta hai. Yeh absolute, gauge, ya differential pressure measure kar sakta hai.”,
+work:“Isme ek sensing diaphragm hota hai jo pressure ke hisaab se deflect hota hai. Yeh deflection ek strain gauge ya capacitive sensor se measure hota hai aur electronic circuit usse proportional current signal (4-20mA) mein convert karta hai. 4mA = minimum pressure, 20mA = maximum pressure.”,
+apps:[“Oil & Gas pipelines mein pressure monitoring”,“Boiler steam pressure control”,“Chemical reactor pressure measurement”,“Water supply system mein pressure monitoring”],
+tags:[“4-20mA”,“HART”,“Gauge Pressure”,“Absolute Pressure”]
+},
+{
+id:2, icon:“💧”, color:”#0a1a2a”, cat:“level”,
+name:“Level Transmitter”, tag:“Level”,
+short:“Tank ya vessel mein liquid level ko continuously measure karta hai.”,
+def:“Level Transmitter ek device hai jo kisi bhi tank, vessel ya silo mein liquid ya solid material ka level continuously measure karta hai aur 4-20mA signal provide karta hai. Yeh DP type, ultrasonic, radar ya float type ho sakta hai.”,
+work:“DP (Differential Pressure) type mein tank ke bottom par pressure measure hoti hai — jitna zyada liquid, utna zyada pressure. Ultrasonic type mein sound waves liquid surface se bounce hoke wapas aati hain aur time calculate hota hai. Radar type mein microwave signals use hoti hain.”,
+apps:[“Water treatment plant mein tank level”,“Oil storage tank monitoring”,“Chemical dosing tank level”,“Boiler drum level control”],
+tags:[“DP Type”,“Ultrasonic”,“Radar”,“Float Type”,“4-20mA”]
+},
+{
+id:3, icon:“🌡️”, color:”#1a0a00”, cat:“temperature”,
+name:“Temperature Transmitter”, tag:“Temperature”,
+short:“RTD ya thermocouple ka signal leke 4-20mA mein convert karta hai.”,
+def:“Temperature Transmitter ek device hai jo RTD (PT100) ya Thermocouple se milne wale weak millivolt/resistance signal ko amplify karke 4-20mA standard signal mein convert karta hai taaki long distance tak signal loss ke bina bheja ja sake.”,
+work:“RTD ka resistance temperature ke saath change hota hai. Transmitter is resistance change ko measure karta hai aur Wheatstone bridge circuit se accurate temperature calculate karta hai. Phir is value ko 4mA (minimum temp) se 20mA (maximum temp) ke beech map karta hai.”,
+apps:[“Furnace temperature control”,“Heat exchanger monitoring”,“Pasteurization process”,“HVAC systems”],
+tags:[“PT100”,“RTD”,“Thermocouple”,“4-20mA”,“HART”]
+},
+{
+id:4, icon:“🔵”, color:”#0a1020”, cat:“flow”,
+name:“Magnetic Flow Transmitter”, tag:“Flow”,
+short:“Conductive liquid ka flow Faraday’s law se measure karta hai.”,
+def:“Magnetic Flow Transmitter (Electromagnetic Flowmeter) ek ऐसा device hai jo electrically conductive liquids ka volumetric flow rate measure karta hai. Isme koi moving parts nahi hoti, isliye maintenance bahut kam hoti hai.”,
+work:“Faraday’s law of electromagnetic induction par kaam karta hai. Pipe ke around magnets lage hote hain jo magnetic field create karte hain. Conductive liquid jab is field mein se flow karta hai toh EMF generate hoti hai. Yeh EMF flow rate ke proportional hoti hai aur electrodes se measure ki jaati hai.”,
+apps:[“Water treatment plants”,“Sewage flow measurement”,“Chemical dosing lines”,“Food & beverage industry”],
+tags:[“Faraday’s Law”,“No Moving Parts”,“Conductive Liquid”,“EMF”]
+},
+{
+id:5, icon:“🌀”, color:”#0a1a10”, cat:“flow”,
+name:“Vortex Flowmeter”, tag:“Flow”,
+short:“Von Karman effect se vortices count karke flow measure karta hai.”,
+def:“Vortex Flowmeter ek ऐसा device hai jo Von Karman vortex shedding effect use karke gas, steam ya liquid ka flow measure karta hai. Yeh high temperature steam measurement ke liye bahut popular hai.”,
+work:“Pipe ke andar ek bluff body (shedder bar) hoti hai. Jab fluid is par se guzarta hai toh alternate sides par vortices (eddies) create hoti hain. In vortices ki frequency flow velocity ke proportional hoti hai. Ek piezoelectric sensor in pressure fluctuations ko detect karta hai aur frequency count karta hai.”,
+apps:[“Steam flow measurement”,“Compressed air monitoring”,“Natural gas metering”,“Chemical plant flow control”],
+tags:[“Von Karman”,“Vortex Shedding”,“Steam”,“Gas”,“Piezoelectric”]
+},
+{
+id:6, icon:“⚖️”, color:”#1a1a00”, cat:“flow”,
+name:“Density Meter”, tag:“Analyzer”,
+short:“Liquid ya gas ki density real-time mein measure karta hai.”,
+def:“Density Meter (Densitometer) ek instrument hai jo process liquid ya gas ki density ya specific gravity continuously measure karta hai. Yeh concentration measurement ke liye bhi use hota hai — jaise sugar concentration, acid strength etc.”,
+work:“Vibrating tube principle par kaam karta hai. Ek U-shaped ya straight tube mein liquid flow karta hai aur tube vibrate karta hai. Liquid ki density ke hisaab se vibration frequency change hoti hai. Zyada density = kam frequency. Is frequency se density calculate ki jaati hai.”,
+apps:[“Sugar mill mein Brix measurement”,“Acid/alkali concentration”,“Brewery mein alcohol content”,“Crude oil density”],
+tags:[“Vibrating Tube”,“Brix”,“Specific Gravity”,“Concentration”]
+},
+{
+id:7, icon:“⚡”, color:”#0a0a1a”, cat:“analyzer”,
+name:“Conductivity Meter”, tag:“Analyzer”,
+short:“Liquid mein dissolved salts/ions ki concentration measure karta hai.”,
+def:“Conductivity Meter ek instrument hai jo liquid ki electrical conductivity measure karta hai, jo directly dissolved ions/salts ki concentration indicate karta hai. Pure water ki conductivity bahut kam hoti hai jabki saltwater ki zyada.”,
+work:“Do ya char electrodes liquid mein dube hote hain. Inke beech AC current pass kiya jaata hai. Liquid ki conductivity ke hisaab se current flow hota hai. Ohm’s law se resistance calculate hoti hai aur usse conductivity (S/cm ya mS/cm) calculate ki jaati hai.”,
+apps:[“RO plant mein water purity check”,“Boiler feedwater monitoring”,“Chemical process control”,“Effluent treatment plants”],
+tags:[“TDS”,“Salinity”,“EC”,“mS/cm”,“Water Quality”]
+},
+{
+id:8, icon:“🧪”, color:”#1a000a”, cat:“analyzer”,
+name:“pH Meter”, tag:“Analyzer”,
+short:“Liquid ki acidity ya alkalinity (pH value) measure karta hai.”,
+def:“pH Meter ek electrochemical instrument hai jo liquid ka pH value measure karta hai. pH scale 0-14 hoti hai — 7 neutral, 7 se kam acidic, 7 se zyada alkaline. Yeh water treatment, chemical process aur food industry mein critical hai.”,
+work:“Ek glass electrode use hota hai jo H+ ions ke liye sensitive hota hai. Reference electrode ke saath milke yeh ek electrochemical cell banata hai. Liquid mein H+ ion concentration ke hisaab se voltage generate hota hai — pH 7 par 0mV, aur har pH unit change par ~59.2mV change hota hai.”,
+apps:[“Effluent treatment pH control”,“Drinking water treatment”,“Chemical neutralization”,“Food processing”],
+tags:[“Glass Electrode”,“H+ Ions”,“0-14 Scale”,“Buffer Solution”]
+},
+{
+id:9, icon:“💨”, color:”#001a1a”, cat:“analyzer”,
+name:“O2 Analyzer”, tag:“Analyzer”,
+short:“Flue gas ya process gas mein oxygen percentage measure karta hai.”,
+def:“O2 Analyzer (Oxygen Analyzer) ek instrument hai jo gas streams mein oxygen ki concentration measure karta hai. Combustion efficiency improve karne aur safety ke liye yeh bahut important hai — boilers, furnaces aur incinerators mein widely used hai.”,
+work:“Zirconia type mein zirconium oxide cell hota hai jo high temperature par (650°C+) oxygen ions conduct karta hai. Reference side (air) aur process side ke oxygen partial pressure difference se Nernst equation ke through EMF generate hota hai jo O2% indicate karta hai. Electrochemical type room temperature par kaam karta hai.”,
+apps:[“Boiler combustion control”,“Furnace efficiency optimization”,“Inert gas purging monitoring”,“Safety systems”],
+tags:[“Zirconia”,“Nernst Equation”,“Combustion”,“Flue Gas”,“ppm/%”]
+},
+{
+id:10, icon:“🔔”, color:”#1a0010”, cat:“switch”,
+name:“Pressure Switch”, tag:“Switch”,
+short:“Set pressure par ON/OFF signal deta hai — alarms aur trips ke liye.”,
+def:“Pressure Switch ek electromechanical device hai jo jab process pressure ek pre-set value (set point) tak pahunchti hai toh electrical contact open ya close kar deta hai. Yeh safety shutdown aur alarm systems mein use hota hai.”,
+work:“Ek sensing element (diaphragm ya piston) process pressure feel karta hai. Jab pressure set point se cross karta hai toh yeh element move karta hai aur ek micro-switch ya snap-action switch operate karta hai jo circuit complete ya break karta hai. Adjustable spring se set point set ki jaati hai.”,
+apps:[“High pressure alarm”,“Pump protection”,“Compressor safety trip”,“Fire fighting systems”],
+tags:[“Set Point”,“SPDT”,“Micro Switch”,“NO/NC”,“Dead Band”]
+},
+{
+id:11, icon:“📊”, color:”#001010”, cat:“switch”,
+name:“Level Switch”, tag:“Switch”,
+short:“High ya low level par ON/OFF signal deta hai — overflow aur dry run protection.”,
+def:“Level Switch ek device hai jo tank mein liquid level ek specific point par pahunchne par electrical signal generate karta hai. Yeh continuous measurement nahi karta, sirf ek ya do fixed points par signal deta hai — high level alarm ya low level trip ke liye.”,
+work:“Float type mein liquid par ek float hota hai. Level badhne par float upar uthta hai aur magnetic coupling se reed switch operate karta hai. Vibrating fork type mein fork vibrate karta hai — liquid mein doobne par vibration ruk jaati hai aur circuit operate hota hai. Conductivity type mein liquid ko conductor maana jaata hai.”,
+apps:[“Tank overflow prevention”,“Pump dry run protection”,“Sump pit control”,“Chemical tank alarms”],
+tags:[“Float Type”,“Vibrating Fork”,“Reed Switch”,“High/Low Alarm”]
+},
+{
+id:12, icon:“📡”, color:”#0a001a”, cat:“level”,
+name:“Radar Level Transmitter”, tag:“Level”,
+short:“Microwave/radar waves se contactless level measurement karta hai.”,
+def:“Radar Level Transmitter (RADAR = Radio Detection And Ranging) ek non-contact level measurement device hai jo microwave radio waves emit karta hai. Yeh harsh environments mein bhi accurate measurement deta hai — extreme temperature, pressure, vapour, foam sab mein.”,
+work:“Antenna se microwave pulses emit hoti hain jo liquid surface se reflect hokar wapas aati hain. Transmitted aur received signal ke beech time difference (Time of Flight) measure hota hai. Distance = (Speed of Light × Time) / 2. Is se level calculate hota hai. FMCW type mein frequency modulation use hoti hai.”,
+apps:[“Crude oil storage tanks”,“Corrosive chemical vessels”,“Silos mein solid level”,“High pressure/temperature vessels”],
+tags:[“Non-Contact”,“FMCW”,“GWR”,“Microwave”,“Time of Flight”]
+},
+{
+id:13, icon:“🔄”, color:”#1a1000”, cat:“switch”,
+name:“Zero Speed Sensor”, tag:“Switch”,
+short:“Machine ya conveyor ke ruk jaane par turant signal deta hai.”,
+def:“Zero Speed Sensor (Speed Switch) ek device hai jo rotating machinery ki speed monitor karta hai aur jab speed ek minimum threshold se neeche girki hai ya machine bilkul ruk jaati hai toh alarm ya trip signal generate karta hai.”,
+work:“Inductive proximity sensor type mein ek rotating target (gear ya bolt) ke pass sensor lagta hai. Har tooth pass hone par pulse generate hoti hai. Control circuit pulse frequency measure karta hai. Jab pulses aana band ho jaate hain ya frequency bahut kam ho jaye toh zero speed output activate hota hai.”,
+apps:[“Conveyor belt jam detection”,“Kiln rotation monitoring”,“Bucket elevator safety”,“Crusher/mill protection”],
+tags:[“Proximity”,“Pulse Count”,“RPM”,“Safety Relay”,“Conveyor”]
+},
+{
+id:14, icon:“🔲”, color:”#001a00”, cat:“switch”,
+name:“Limit Switch”, tag:“Switch”,
+short:“Mechanical motion ya position detect karta hai — valve open/close feedback.”,
+def:“Limit Switch ek electromechanical device hai jo physical contact se machine parts ki position ya motion detect karta hai. Valve ki open/close position, actuator position, door status ya conveyor item detection ke liye use hota hai.”,
+work:“Ek actuator (lever, plunger ya roller) machine part ko touch karta hai. Jab machine part move karta hai aur actuator ko operate karta hai toh internal micro-switch ka contact change hota hai (NO se NC ya vice versa). Yeh electrical signal control system ko position information deta hai.”,
+apps:[“Valve position feedback (open/close)”,“Conveyor item detection”,“Door/gate position”,“Machine safety guarding”],
+tags:[“NO/NC”,“Position Feedback”,“Mechanical”,“NAMUR”,“Valve”]
+},
+{
+id:15, icon:“🎛️”, color:”#1a0a1a”, cat:“valve”,
+name:“Valve Positioner”, tag:“Valve”,
+short:“Control valve ki exact position maintain karta hai — 4-20mA command par.”,
+def:“Valve Positioner ek closed-loop controller hai jo control valve stem ki actual position ko continuously monitor karta hai aur use control signal (4-20mA) ke according exact position par rakhta hai. Yeh valve hysteresis aur friction effects ko overcome karta hai.”,
+work:“Controller se 4-20mA signal milta hai (command). Position sensor (LVDT ya potentiometer) valve ki actual position feedback deta hai. Positioner in dono ko compare karta hai — agar difference hai toh pneumatic pressure adjust karke valve stem ko sahi position par laata hai. Yeh process continuously repeat hota hai.”,
+apps:[“Flow control valves”,“Pressure reducing valves”,“Temperature control loops”,“Split-range control”],
+tags:[“4-20mA”,“HART”,“LVDT”,“Pneumatic”,“Closed Loop”]
+},
+{
+id:16, icon:“💪”, color:”#0a1a0a”, cat:“valve”,
+name:“Actuator”, tag:“Valve”,
+short:“Control signal ko mechanical motion mein convert karke valve operate karta hai.”,
+def:“Actuator ek device hai jo electrical, pneumatic ya hydraulic energy ko mechanical force/motion mein convert karta hai taaki valve, damper ya other final control element ko operate kar sake. Yeh automation ka ‘muscle’ hai.”,
+work:“Pneumatic actuator mein compressed air (3-15 psi ya 4-20mA to I/P converter se) diaphragm ya piston par act karta hai jo stem ko move karta hai. Electric actuator mein motor gear train se stem rotate karta hai. Hydraulic actuator mein oil pressure mechanical force provide karta hai.”,
+apps:[“Globe valve operation”,“Butterfly valve automation”,“Damper control in HVAC”,“Gate valve remote operation”],
+tags:[“Pneumatic”,“Electric”,“Hydraulic”,“Linear”,“Rotary”]
+},
+{
+id:17, icon:“🔌”, color:”#1a0000”, cat:“valve”,
+name:“Solenoid Valve”, tag:“Valve”,
+short:“Electrical signal se on/off operate hone wala electromagnetic valve.”,
+def:“Solenoid Valve ek electromechanically operated valve hai jo electrical current se operate hota hai. Jab coil energize hoti hai toh magnetic field plunger ko attract karta hai jo valve open ya close karta hai. Yeh 2-way ya 3-way ho sakta hai.”,
+work:“Valve body mein ek electromagnetic coil hoti hai. Current flow hone par coil ek magnetic field create karti hai jo ferromagnetic plunger ko attract karti hai. Plunger move karke valve seat se door hota hai aur flow path khul jaata hai. Current band karne par spring plunger wapas laata hai aur valve band ho jaata hai.”,
+apps:[“Pneumatic system air control”,“Water irrigation systems”,“Fuel control in burners”,“Hydraulic circuit control”],
+tags:[“NC/NO”,“Coil”,“Plunger”,“2-way”,“3-way”,“24VDC”]
+},
+{
+id:18, icon:“🌊”, color:”#001020”, cat:“flow”,
+name:“Differential Pressure Transmitter”, tag:“Pressure”,
+short:“Do points ka pressure difference measure karke flow ya level calculate karta hai.”,
+def:“DP Transmitter (Differential Pressure Transmitter) do process points ke beech pressure difference measure karta hai. Yeh flow measurement (orifice plate ke saath), level measurement aur filter condition monitoring mein widely use hota hai.”,
+work:“High pressure aur low pressure ports dono sides par connect hote hain. Internally ek sensing diaphragm dono pressures ke beech mein hota hai. Diaphragm ka deflection DP ke proportional hota hai. Capacitive ya strain gauge sensing se yeh deflection electrical signal mein convert hota hai. Flow = K × √(ΔP).”,
+apps:[“Orifice plate ke saath flow measurement”,“Tank level (hydrostatic)”,“Filter ΔP monitoring”,“Venturi tube flow”],
+tags:[“ΔP”,“Orifice”,“Venturi”,“4-20mA”,“HART”,“Hydrostatic”]
+},
+{
+id:19, icon:“📻”, color:”#001a10”, cat:“level”,
+name:“Ultrasonic Level Transmitter”, tag:“Level”,
+short:“Sound waves se non-contact liquid level measure karta hai.”,
+def:“Ultrasonic Level Transmitter ek non-contact level measurement device hai jo ultrasonic sound waves (40kHz+) emit karta hai jo liquid surface se reflect hokar wapas aate hain. Open channels, water tanks aur non-contact requirement mein best choice hai.”,
+work:“Transducer se ultrasonic pulses emit hote hain. Yeh pulses liquid surface se reflect hokar wapas transducer tak aate hain. Time of flight measure hota hai — distance = (Speed of Sound × Time) / 2. Temperature compensation bhi hoti hai kyunki sound speed temperature se affect hoti hai. Distance se level calculate hota hai.”,
+apps:[“Open channel flow measurement”,“Water tank level”,“Sump pump control”,“River/dam level monitoring”],
+tags:[“Non-Contact”,“Time of Flight”,“Echo”,“Temperature Compensation”]
+},
+{
+id:20, icon:“🌡️”, color:”#200a00”, cat:“temperature”,
+name:“Thermocouple”, tag:“Temperature”,
+short:“Do dissimilar metals ke junction par temperature se EMF generate hota hai.”,
+def:“Thermocouple ek temperature sensor hai jo Seebeck effect par based hai — do alag metals ke junction par temperature difference se small voltage (EMF) generate hoti hai. Yeh high temperature measurement ke liye best hai aur bahut rugged hota hai.”,
+work:“Do alag dhatu (jaise Chromel-Alumel for Type K) ko ek end par weld kiya jaata hai — yeh hot junction hai. Doosra end (cold junction/reference junction) known temperature par rakha jaata hai. Temperature difference ke hisaab se EMF generate hoti hai. Transmitter ya mV meter se yeh voltage temperature mein convert hota hai.”,
+apps:[“Furnace temperature (upto 1200°C+)”,“Boiler flue gas temperature”,“Kiln temperature measurement”,“Heat treatment processes”],
+tags:[“Type K”,“Type J”,“Type T”,“Seebeck Effect”,“mV”,“Hot Junction”]
+},
+{
+id:21, icon:”〰️”, color:”#0a2000”, cat:“temperature”,
+name:“RTD / PT100”, tag:“Temperature”,
+short:“Resistance change se accurate temperature measure karta hai — ±0.1°C accuracy.”,
+def:“RTD (Resistance Temperature Detector) ek precision temperature sensor hai jisme pure platinum wire ka resistance temperature ke saath predictable tarike se change hota hai. PT100 ka matlab hai 0°C par 100 ohm resistance. Yeh thermocouples se zyada accurate hota hai.”,
+work:“Platinum wire ka resistance temperature badhne par linearly increase hota hai — approximately 0.385 ohm/°C. Transmitter ya bridge circuit is resistance change ko measure karta hai. 2-wire, 3-wire ya 4-wire connection possible hai — 4-wire sabse accurate hota hai kyunki lead wire resistance eliminate hoti hai.”,
+apps:[“HVAC precision control”,“Pharmaceutical process”,“Food processing temperature”,“Laboratory instruments”],
+tags:[“PT100”,“PT1000”,“3-Wire”,“4-Wire”,“±0.1°C”,“Platinum”]
+},
+{
+id:22, icon:“🔦”, color:”#0a0a20”, cat:“level”,
+name:“Guided Wave Radar (GWR)”, tag:“Level”,
+short:“Probe ke through radar waves guide karke accurate level measure karta hai.”,
+def:“Guided Wave Radar (GWR) ek level measurement technology hai jisme microwave pulses ko ek probe (rod ya cable) ke through liquid/solid surface tak guide kiya jaata hai. Yeh turbulence, foam, vapour aur low dielectric materials mein bhi accurate kaam karta hai.”,
+work:“Transmitter se microwave pulses probe ke along neeche jaate hain. Jab yeh liquid surface par pahunchte hain toh dielectric constant change hone ki wajah se kuch energy reflect hoti hai. Wapas aane mein jo time lagta hai (Time Domain Reflectometry - TDR) se distance aur phir level calculate hota hai.”,
+apps:[“Interface level measurement (oil-water)”,“LPG/LNG storage”,“Solids level in silos”,“Turbulent liquid tanks”],
+tags:[“TDR”,“GWR”,“Probe”,“Dielectric”,“Interface Level”]
+}
 ];
 
-let currentCat = 'all';
+let currentCat = ‘all’;
 
 function renderCards(list) {
-  const grid = document.getElementById('encGrid');
-  if (!list.length) { grid.innerHTML = '<p style="color:var(--muted);grid-column:1/-1;text-align:center;padding:40px">Koi instrument nahi mila 🔍</p>'; return; }
-  grid.innerHTML = list.map(i => `
-    <div class="enc-card" onclick="openModal(${i.id})" data-cat="${i.cat}">
-      <div class="enc-card-header">
-        <div class="enc-icon" style="background:${i.color}">${i.icon}</div>
-        <div><h4>${i.name}</h4><span class="tag">${i.tag}</span></div>
-      </div>
-      <p>${i.short}</p>
-      <div class="enc-card-footer"><span>${i.cat.charAt(0).toUpperCase()+i.cat.slice(1)}</span><span class="more">Aur Jaano →</span></div>
-    </div>`).join('');
+const grid = document.getElementById(‘encGrid’);
+if (!list.length) { grid.innerHTML = ‘<p style="color:var(--muted);grid-column:1/-1;text-align:center;padding:40px">Koi instrument nahi mila 🔍</p>’; return; }
+grid.innerHTML = list.map(i => ` <div class="enc-card" onclick="openModal(${i.id})" data-cat="${i.cat}"> <div class="enc-card-header"> <div class="enc-icon" style="background:${i.color}">${i.icon}</div> <div><h4>${i.name}</h4><span class="tag">${i.tag}</span></div> </div> <p>${i.short}</p> <div class="enc-card-footer"><span>${i.cat.charAt(0).toUpperCase()+i.cat.slice(1)}</span><span class="more">Aur Jaano →</span></div> </div>`).join(’’);
 }
 
 function filterCat(cat, el) {
-  currentCat = cat;
-  document.querySelectorAll('.enc-filter').forEach(e => e.classList.remove('active'));
-  el.classList.add('active');
-  const q = document.querySelector('.enc-search').value.toLowerCase();
-  applyFilters(q, cat);
+currentCat = cat;
+document.querySelectorAll(’.enc-filter’).forEach(e => e.classList.remove(‘active’));
+el.classList.add(‘active’);
+const q = document.querySelector(’.enc-search’).value.toLowerCase();
+applyFilters(q, cat);
 }
 
 function filterEnc(q) {
-  applyFilters(q.toLowerCase(), currentCat);
+applyFilters(q.toLowerCase(), currentCat);
 }
 
 function applyFilters(q, cat) {
-  let list = instruments;
-  if (cat !== 'all') list = list.filter(i => i.cat === cat);
-  if (q) list = list.filter(i => i.name.toLowerCase().includes(q) || i.short.toLowerCase().includes(q) || i.tag.toLowerCase().includes(q));
-  renderCards(list);
+let list = instruments;
+if (cat !== ‘all’) list = list.filter(i => i.cat === cat);
+if (q) list = list.filter(i => i.name.toLowerCase().includes(q) || i.short.toLowerCase().includes(q) || i.tag.toLowerCase().includes(q));
+renderCards(list);
 }
 
 function openModal(id) {
-  const i = instruments.find(x => x.id === id);
-  document.getElementById('mIcon').textContent = i.icon;
-  document.getElementById('mIcon').style.background = i.color;
-  document.getElementById('mTitle').textContent = i.name;
-  document.getElementById('mTag').textContent = i.tag;
-  document.getElementById('mDef').textContent = i.def;
-  document.getElementById('mWork').textContent = i.work;
-  document.getElementById('mApps').innerHTML = i.apps.map(a => `<li>${a}</li>`).join('');
-  document.getElementById('mTags').innerHTML = i.tags.map(t => `<span class="tag">${t}</span>`).join('');
-  document.getElementById('modalOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
+const i = instruments.find(x => x.id === id);
+document.getElementById(‘mIcon’).textContent = i.icon;
+document.getElementById(‘mIcon’).style.background = i.color;
+document.getElementById(‘mTitle’).textContent = i.name;
+document.getElementById(‘mTag’).textContent = i.tag;
+document.getElementById(‘mDef’).textContent = i.def;
+document.getElementById(‘mWork’).textContent = i.work;
+document.getElementById(‘mApps’).innerHTML = i.apps.map(a => `<li>${a}</li>`).join(’’);
+document.getElementById(‘mTags’).innerHTML = i.tags.map(t => `<span class="tag">${t}</span>`).join(’’);
+document.getElementById(‘modalOverlay’).classList.add(‘open’);
+document.body.style.overflow = ‘hidden’;
 }
 
-function closeModal(e) { if (e.target.id === 'modalOverlay') closeModalBtn(); }
+function closeModal(e) { if (e.target.id === ‘modalOverlay’) closeModalBtn(); }
 function closeModalBtn() {
-  document.getElementById('modalOverlay').classList.remove('open');
-  document.body.style.overflow = '';
+document.getElementById(‘modalOverlay’).classList.remove(‘open’);
+document.body.style.overflow = ‘’;
 }
 
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalBtn(); });
+document.addEventListener(‘keydown’, e => { if (e.key === ‘Escape’) closeModalBtn(); });
 renderCards(instruments);
 </script>
 
