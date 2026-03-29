@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="hi">
 <head>
@@ -265,6 +265,73 @@ nav a:not(.active){display:none}
   </div>
 </section>
 
+<!-- CONTACT US -->
+
+<section class="section" id="contact">
+  <div class="section-header">
+    <div>
+      <div class="section-label">📞 Contact Us</div>
+      <div class="section-title">Humse Sampark Karo</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+
+```
+<!-- Admin Card -->
+<div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px">
+  <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px">
+    <div style="width:64px;height:64px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0">👨‍💻</div>
+    <div>
+      <h3 style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800">Aditya Tiwari</h3>
+      <p style="color:var(--accent);font-size:.82rem;font-weight:600">SugarTechIndia — Founder & Creator</p>
+    </div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <a href="tel:+919893788283" style="display:flex;align-items:center;gap:12px;background:var(--tag-bg);border:1px solid var(--border);border-radius:10px;padding:12px 16px;text-decoration:none;color:var(--text);transition:border-color .2s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+      <span style="font-size:1.2rem">📱</span>
+      <div>
+        <p style="font-size:.72rem;color:var(--muted);margin-bottom:2px">Mobile</p>
+        <p style="font-size:.9rem;font-weight:600">+91-9893788283</p>
+      </div>
+    </a>
+    <a href="mailto:adityatiwari093@gmail.com" style="display:flex;align-items:center;gap:12px;background:var(--tag-bg);border:1px solid var(--border);border-radius:10px;padding:12px 16px;text-decoration:none;color:var(--text);transition:border-color .2s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+      <span style="font-size:1.2rem">✉️</span>
+      <div>
+        <p style="font-size:.72rem;color:var(--muted);margin-bottom:2px">Email</p>
+        <p style="font-size:.9rem;font-weight:600">adityatiwari093@gmail.com</p>
+      </div>
+    </a>
+    <a href="https://youtube.com/@sugartechindia" target="_blank" style="display:flex;align-items:center;gap:12px;background:var(--tag-bg);border:1px solid var(--border);border-radius:10px;padding:12px 16px;text-decoration:none;color:var(--text);transition:border-color .2s" onmouseover="this.style.borderColor='#ff0000'" onmouseout="this.style.borderColor='var(--border)'">
+      <span style="font-size:1.2rem">🎬</span>
+      <div>
+        <p style="font-size:.72rem;color:var(--muted);margin-bottom:2px">YouTube</p>
+        <p style="font-size:.9rem;font-weight:600">@sugartechindia</p>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- Contact Form -->
+<div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px">
+  <h3 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;margin-bottom:20px">💬 Message Bhejo</h3>
+  <div style="display:flex;flex-direction:column;gap:12px" id="contactForm">
+    <input id="cName" type="text" placeholder="Aapka Naam" style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;padding:11px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'"/>
+    <input id="cEmail" type="email" placeholder="Aapka Email" style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;padding:11px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'"/>
+    <input id="cSubject" type="text" placeholder="Subject" style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;padding:11px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'"/>
+    <textarea id="cMsg" rows="4" placeholder="Aapka message..." style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;padding:11px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;resize:none;transition:border-color .2s" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'"></textarea>
+    <button onclick="sendContact()" style="background:var(--accent);color:#fff;border:none;border-radius:8px;padding:13px;font-weight:700;font-size:.9rem;cursor:pointer;font-family:'Syne',sans-serif;transition:background .2s" onmouseover="this.style.background='#ff8c50'" onmouseout="this.style.background='var(--accent)'">
+      📨 Message Bhejo
+    </button>
+    <div id="cSuccess" style="display:none;background:rgba(0,200,100,.1);border:1px solid rgba(0,200,100,.3);border-radius:8px;padding:12px;text-align:center;color:#00c864;font-size:.88rem">
+      ✅ Message send ho gaya! Jald hi reply milega.
+    </div>
+  </div>
+</div>
+```
+
+  </div>
+</section>
+
 <!-- NEWSLETTER -->
 
 <section class="section">
@@ -311,23 +378,62 @@ nav a:not(.active){display:none}
 </div>
 
 <script>
+function sendContact() {
+  const n = document.getElementById('cName').value.trim();
+  const e = document.getElementById('cEmail').value.trim();
+  const s = document.getElementById('cSubject').value.trim();
+  const m = document.getElementById('cMsg').value.trim();
+  if (!n || !e || !m) { alert('Naam, Email aur Message zaroori hai!'); return; }
+  const mailto = `mailto:adityatiwari093@gmail.com?subject=${encodeURIComponent(s||'SugarTechIndia Contact')}&body=${encodeURIComponent('Naam: '+n+'\nEmail: '+e+'\n\nMessage:\n'+m)}`;
+  window.location.href = mailto;
+  document.getElementById('cSuccess').style.display = 'block';
+  document.getElementById('cName').value = '';
+  document.getElementById('cEmail').value = '';
+  document.getElementById('cSubject').value = '';
+  document.getElementById('cMsg').value = '';
+}
+
 // AUTO FETCH YOUTUBE VIDEOS
-const YT_API_KEY = 'AIzaSyBm6D5Y3PU1dBUMKMNHVXSsbYra6Bx4TVQ';
+const YT_API_KEY = 'YOUR_API_KEY_HERE';
 const CHANNEL_ID = 'UCEi3rGduiFjbPT6EWrrwmXw';
 
 async function loadYouTubeVideos() {
   const grid = document.getElementById('videoGrid');
   try {
-    const res = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${YT_API_KEY}&channelId=${CHANNEL_ID}&part=snippet&order=date&maxResults=12&type=video`);
+    // Fetch more videos to filter out shorts
+    const res = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${YT_API_KEY}&channelId=${CHANNEL_ID}&part=snippet&order=date&maxResults=50&type=video&videoDuration=medium`);
     const data = await res.json();
     if (!data.items || data.items.length === 0) { grid.innerHTML = '<p style="color:var(--muted);grid-column:1/-1;text-align:center;padding:40px">Koi video nahi mili. API check karo.</p>'; return; }
-    grid.innerHTML = data.items.map(v => {
-      const id = v.id.videoId;
+
+    // Get video IDs to fetch duration details
+    const ids = data.items.map(v => v.id.videoId).join(',');
+    const detailRes = await fetch(`https://www.googleapis.com/youtube/v3/videos?key=${YT_API_KEY}&id=${ids}&part=contentDetails,snippet`);
+    const detailData = await detailRes.json();
+
+    // Filter out Shorts (duration less than 60 seconds)
+    const filtered = detailData.items.filter(v => {
+      const dur = v.contentDetails.duration; // e.g. PT1M30S
+      const match = dur.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+      const h = parseInt(match[1]||0), m = parseInt(match[2]||0), s = parseInt(match[3]||0);
+      const totalSec = h*3600 + m*60 + s;
+      return totalSec >= 60; // exclude shorts under 60s
+    });
+
+    if (!filtered.length) { grid.innerHTML = '<p style="color:var(--muted);grid-column:1/-1;text-align:center;padding:40px">Koi regular video nahi mili.</p>'; return; }
+
+    grid.innerHTML = filtered.map(v => {
+      const id = v.id;
       const title = v.snippet.title;
       const thumb = v.snippet.thumbnails.high?.url || v.snippet.thumbnails.default?.url;
       const date = new Date(v.snippet.publishedAt).toLocaleDateString('hi-IN',{year:'numeric',month:'short',day:'numeric'});
+      // Format duration
+      const dur = v.contentDetails.duration;
+      const m2 = dur.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+      const hh = parseInt(m2[1]||0), mm = parseInt(m2[2]||0), ss = parseInt(m2[3]||0);
+      const durStr = hh ? `${hh}:${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}` : `${mm}:${String(ss).padStart(2,'0')}`;
       return `<a class="video-card" href="https://www.youtube.com/watch?v=${id}" target="_blank">
-        <div class="video-thumb"><img src="${thumb}" alt="${title}" loading="lazy"/><div class="play-btn"><div class="play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+        <div class="video-thumb"><img src="${thumb}" alt="${title}" loading="lazy"/><div class="play-btn"><div class="play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+        <div style="position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,.8);color:#fff;font-size:.72rem;padding:2px 6px;border-radius:4px">${durStr}</div></div>
         <div class="video-body"><span class="tag">SugarTechIndia</span><h3>${title}</h3></div>
         <div class="video-footer"><span>▶ Watch on YouTube</span><span>${date}</span></div>
       </a>`;
@@ -599,4 +705,4 @@ renderCards(instruments);
 </script>
 
 </body>
-</html>   
+</html>
