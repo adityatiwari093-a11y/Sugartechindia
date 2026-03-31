@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<html lang="hi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Instrument Troubleshooting Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0a0f;--card:#16161f;--border:#2a2a3a;--accent:#ff6b2b;--accent2:#ffb347;--text:#f0eee8;--muted:#7a7a9a;--tag:#1e1e2e;--green:#00c864;--yellow:#ffd700;--red:#ff4444}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;padding:24px}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 80% 10%,rgba(255,107,43,.1) 0%,transparent 60%);pointer-events:none;z-index:0}
+
+.container{max-width:900px;margin:0 auto;position:relative;z-index:1}
+
+/* HEADER */
+.header{text-align:center;margin-bottom:40px}
+.header .badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,107,43,.12);border:1px solid rgba(255,107,43,.3);border-radius:100px;padding:6px 16px;font-size:.78rem;color:var(–accent2);margin-bottom:16px}
+.header h1{font-family:‘Syne’,sans-serif;font-size:2rem;font-weight:800;margin-bottom:8px}
+.header h1 span{color:var(–accent)}
+.header p{color:var(–muted);font-size:.95rem}
+
+/* INSTRUMENT SELECTOR */
+.inst-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:32px}
+.inst-btn{background:var(–card);border:1px solid var(–border);border-radius:14px;padding:18px 14px;cursor:pointer;transition:all .3s;text-align:center}
+.inst-btn:hover,.inst-btn.active{border-color:var(–accent);background:rgba(255,107,43,.1)}
+.inst-btn .ico{font-size:2rem;margin-bottom:8px}
+.inst-btn h4{font-family:‘Syne’,sans-serif;font-size:.85rem;font-weight:700}
+.inst-btn p{font-size:.72rem;color:var(–muted);margin-top:4px}
+
+/* PROBLEM SELECTOR */
+.problems-section{display:none}
+.problems-section.show{display:block}
+.back-btn{display:inline-flex;align-items:center;gap:8px;background:var(–tag);border:1px solid var(–border);border-radius:8px;padding:8px 16px;font-size:.85rem;color:var(–muted);cursor:pointer;margin-bottom:20px;transition:all .2s}
+.back-btn:hover{color:var(–accent);border-color:var(–accent)}
+.selected-inst{background:var(–card);border:1px solid var(–border);border-radius:14px;padding:20px;margin-bottom:24px;display:flex;align-items:center;gap:16px}
+.selected-inst .ico{font-size:2.5rem}
+.selected-inst h3{font-family:‘Syne’,sans-serif;font-size:1.1rem;font-weight:800}
+.selected-inst p{font-size:.82rem;color:var(–muted)}
+
+.section-label{font-family:‘Syne’,sans-serif;font-size:.7rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(–accent);margin-bottom:16px}
+.prob-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:32px}
+.prob-btn{background:var(–card);border:1px solid var(–border);border-radius:12px;padding:16px;cursor:pointer;transition:all .3s;text-align:left;display:flex;align-items:center;gap:12px}
+.prob-btn:hover{border-color:var(–yellow);background:rgba(255,215,0,.05)}
+.prob-btn .prob-ico{font-size:1.5rem;flex-shrink:0}
+.prob-btn h4{font-family:‘Syne’,sans-serif;font-size:.88rem;font-weight:700;margin-bottom:3px}
+.prob-btn p{font-size:.75rem;color:var(–muted)}
+
+/* SOLUTION */
+.solution-section{display:none}
+.solution-section.show{display:block}
+.solution-header{background:linear-gradient(135deg,rgba(255,107,43,.15),rgba(255,179,71,.08));border:1px solid rgba(255,107,43,.3);border-radius:14px;padding:24px;margin-bottom:24px}
+.solution-header h2{font-family:‘Syne’,sans-serif;font-size:1.2rem;font-weight:800;margin-bottom:6px}
+.solution-header p{font-size:.88rem;color:var(–muted)}
+
+.steps-container{display:flex;flex-direction:column;gap:16px;margin-bottom:24px}
+.step{background:var(–card);border:1px solid var(–border);border-radius:12px;overflow:hidden;transition:all .3s}
+.step.done{border-color:var(–green);background:rgba(0,200,100,.05)}
+.step.problem-found{border-color:var(–red);background:rgba(255,68,68,.05)}
+.step-header{padding:16px 20px;display:flex;align-items:center;gap:14px;cursor:pointer}
+.step-num{width:32px;height:32px;border-radius:50%;background:var(–tag);border:2px solid var(–border);display:flex;align-items:center;justify-content:center;font-family:‘Syne’,sans-serif;font-size:.82rem;font-weight:800;flex-shrink:0;transition:all .3s}
+.step.done .step-num{background:var(–green);border-color:var(–green);color:#fff}
+.step.problem-found .step-num{background:var(–red);border-color:var(–red);color:#fff}
+.step-title{flex:1}
+.step-title h4{font-family:‘Syne’,sans-serif;font-size:.92rem;font-weight:700;margin-bottom:3px}
+.step-title p{font-size:.78rem;color:var(–muted)}
+.step-status{font-size:1.2rem}
+.step-body{padding:0 20px;max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s}
+.step.open .step-body{max-height:500px;padding:0 20px 20px}
+.step-detail{font-size:.88rem;color:var(–muted);line-height:1.8;margin-bottom:14px}
+.step-actions{display:flex;gap:10px;flex-wrap:wrap}
+.action-btn{padding:8px 16px;border-radius:8px;font-size:.82rem;font-weight:600;cursor:pointer;font-family:‘DM Sans’,sans-serif;border:none;transition:all .2s}
+.btn-ok{background:rgba(0,200,100,.15);color:var(–green);border:1px solid rgba(0,200,100,.3)}
+.btn-ok:hover{background:rgba(0,200,100,.25)}
+.btn-fail{background:rgba(255,68,68,.15);color:var(–red);border:1px solid rgba(255,68,68,.3)}
+.btn-fail:hover{background:rgba(255,68,68,.25)}
+.alert-box{border-radius:10px;padding:14px 16px;margin-top:12px;font-size:.85rem;line-height:1.7;display:none}
+.alert-box.show{display:block}
+.alert-red{background:rgba(255,68,68,.1);border:1px solid rgba(255,68,68,.3);color:#ff8888}
+.alert-green{background:rgba(0,200,100,.1);border:1px solid rgba(0,200,100,.3);color:var(–green)}
+.alert-yellow{background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.3);color:var(–yellow)}
+
+/* RESULT */
+.result-box{background:var(–card);border:2px solid var(–green);border-radius:14px;padding:28px;text-align:center;display:none}
+.result-box.show{display:block}
+.result-box h3{font-family:‘Syne’,sans-serif;font-size:1.2rem;font-weight:800;margin-bottom:10px}
+.result-box p{color:var(–muted);font-size:.9rem;line-height:1.8}
+
+.reset-btn{display:inline-flex;align-items:center;gap:8px;background:var(–accent);color:#fff;border:none;border-radius:10px;padding:12px 24px;font-size:.9rem;font-weight:700;cursor:pointer;font-family:‘Syne’,sans-serif;margin-top:20px;transition:all .2s}
+.reset-btn:hover{background:#ff8c50}
+
+@media(max-width:600px){
+.inst-grid{grid-template-columns:repeat(2,1fr)}
+.prob-grid{grid-template-columns:1fr}
+.header h1{font-size:1.5rem}
+}
+</style>
+
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+
+  <div class="header">
+    <div class="badge">🔧 SugarTechIndia</div>
+    <h1>Instrument <span>Troubleshooting</span> Guide</h1>
+    <p>Apna instrument select karo → Problem batao → Step-by-step solution pao</p>
+  </div>
+
+  <!-- STEP 1: SELECT INSTRUMENT -->
+
+  <div id="instSection">
+    <div class="section-label">Step 1 — Instrument Select Karo</div>
+    <div class="inst-grid">
+      <div class="inst-btn" onclick="selectInst('pressure_transmitter')">
+        <div class="ico">🔴</div>
+        <h4>Pressure Transmitter</h4>
+        <p>4-20mA signal issues</p>
+      </div>
+      <div class="inst-btn" onclick="selectInst('temperature')">
+        <div class="ico">🌡️</div>
+        <h4>Temperature Sensor</h4>
+        <p>RTD / Thermocouple</p>
+      </div>
+      <div class="inst-btn" onclick="selectInst('flow_meter')">
+        <div class="ico">🔵</div>
+        <h4>Flow Meter</h4>
+        <p>Magnetic / Vortex</p>
+      </div>
+      <div class="inst-btn" onclick="selectInst('level_transmitter')">
+        <div class="ico">💧</div>
+        <h4>Level Transmitter</h4>
+        <p>DP / Ultrasonic / Radar</p>
+      </div>
+      <div class="inst-btn" onclick="selectInst('control_valve')">
+        <div class="ico">🎛️</div>
+        <h4>Control Valve</h4>
+        <p>Positioner / Actuator</p>
+      </div>
+      <div class="inst-btn" onclick="selectInst('ph_analyzer')">
+        <div class="ico">🧪</div>
+        <h4>pH / Conductivity</h4>
+        <p>Analyzer issues</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2: SELECT PROBLEM -->
+
+  <div class="problems-section" id="probSection">
+    <button class="back-btn" onclick="goBack('inst')">← Wapas Jao</button>
+    <div class="selected-inst" id="selectedInstCard"></div>
+    <div class="section-label">Step 2 — Problem Select Karo</div>
+    <div class="prob-grid" id="probGrid"></div>
+  </div>
+
+  <!-- STEP 3: SOLUTION -->
+
+  <div class="solution-section" id="solSection">
+    <button class="back-btn" onclick="goBack('prob')">← Wapas Jao</button>
+    <div class="solution-header">
+      <h2 id="solTitle"></h2>
+      <p id="solDesc"></p>
+    </div>
+    <div class="section-label">Step-by-Step Troubleshooting</div>
+    <div class="steps-container" id="stepsContainer"></div>
+    <div class="result-box" id="resultBox">
+      <div style="font-size:3rem;margin-bottom:12px">✅</div>
+      <h3>Problem Solve Ho Gayi!</h3>
+      <p id="resultText"></p>
+      <button class="reset-btn" onclick="resetAll()">🔄 Naya Troubleshoot Shuru Karo</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const data = {
+  pressure_transmitter: {
+    name: "Pressure Transmitter",
+    ico: "🔴",
+    desc: "4-20mA pressure transmitter troubleshooting",
+    problems: [
+      { id: "no_output", ico: "📵", title: "Koi Output Nahi", desc: "4mA bhi nahi aa raha" },
+      { id: "wrong_reading", ico: "📊", title: "Galat Reading", desc: "Value sahi nahi aa rahi" },
+      { id: "fluctuating", ico: "📈", title: "Reading Fluctuate Ho Rahi", desc: "Value up-down karti hai" },
+      { id: "high_reading", ico: "⬆️", title: "Reading Hamesha High", desc: "20mA ya usse zyada" },
+      { id: "low_reading", ico: "⬇️", title: "Reading Hamesha Low", desc: "4mA ya usse kam" },
+      { id: "no_comm", ico: "📡", title: "HART Communication Nahi", desc: "Communicator connect nahi hota" }
+    ]
+  },
+  temperature: {
+    name: "Temperature Sensor",
+    ico: "🌡️",
+    desc: "RTD / Thermocouple troubleshooting",
+    problems: [
+      { id: "open_circuit", ico: "🔌", title: "Open Circuit / Burnout", desc: "Reading bahut high ya error" },
+      { id: "wrong_temp", ico: "📊", title: "Galat Temperature", desc: "Actual se alag aa rahi hai" },
+      { id: "fluctuating", ico: "📈", title: "Temperature Fluctuate", desc: "Stable nahi rehti" },
+      { id: "negative", ico: "❄️", title: "Negative Reading", desc: "Ulta reading aa rahi hai" }
+    ]
+  },
+  flow_meter: {
+    name: "Flow Meter",
+    ico: "🔵",
+    desc: "Magnetic / Vortex flowmeter troubleshooting",
+    problems: [
+      { id: "zero_flow", ico: "0️⃣", title: "Zero Flow Show Ho Raha", desc: "Actual flow hai par zero dikh raha" },
+      { id: "wrong_flow", ico: "📊", title: "Galat Flow Reading", desc: "Actual se zyada ya kam" },
+      { id: "no_output", ico: "📵", title: "Koi Output Nahi", desc: "Signal nahi aa raha" },
+      { id: "noise", ico: "📈", title: "Noisy Signal", desc: "Reading bahut fluctuate karti hai" }
+    ]
+  },
+  level_transmitter: {
+    name: "Level Transmitter",
+    ico: "💧",
+    desc: "DP / Ultrasonic / Radar level transmitter",
+    problems: [
+      { id: "zero_level", ico: "0️⃣", title: "Level Zero Show Ho Raha", desc: "Tank mein liquid hai par zero" },
+      { id: "full_level", ico: "💯", title: "Level Hamesha Full", desc: "100% ya 20mA stuck" },
+      { id: "wrong_level", ico: "📊", title: "Galat Level", desc: "Actual level se mismatch" },
+      { id: "fluctuating", ico: "📈", title: "Level Fluctuate", desc: "Stable nahi rehta" }
+    ]
+  },
+  control_valve: {
+    name: "Control Valve",
+    ico: "🎛️",
+    desc: "Control valve / positioner troubleshooting",
+    problems: [
+      { id: "not_moving", ico: "🚫", title: "Valve Move Nahi Kar Raha", desc: "Signal dene par bhi nahi hilta" },
+      { id: "fully_open", ico: "⬆️", title: "Valve Hamesha Full Open", desc: "Close signal par bhi open" },
+      { id: "fully_closed", ico: "⬇️", title: "Valve Hamesha Closed", desc: "Open signal par bhi closed" },
+      { id: "hunting", ico: "📈", title: "Valve Hunting", desc: "Bar bar open/close hota hai" }
+    ]
+  },
+  ph_analyzer: {
+    name: "pH / Conductivity Analyzer",
+    ico: "🧪",
+    desc: "pH meter aur conductivity analyzer",
+    problems: [
+      { id: "wrong_ph", ico: "📊", title: "Galat pH Reading", desc: "Buffer se match nahi karta" },
+      { id: "slow_response", ico: "🐌", title: "Slow Response", desc: "Reading change hone mein der lagti hai" },
+      { id: "unstable", ico: "📈", title: "Unstable Reading", desc: "pH value settle nahi hoti" },
+      { id: "no_reading", ico: "📵", title: "No Reading / Error", desc: "Display par error aa raha hai" }
+    ]
+  }
+};
+
+const solutions = {
+  pressure_transmitter_no_output: {
+    title: "Pressure Transmitter — Koi Output Nahi",
+    desc: "4mA signal nahi aa raha — yeh steps follow karo",
+    steps: [
+      { title: "Power Supply Check Karo", detail: "Multimeter se transmitter ke terminal par voltage measure karo. 24VDC hona chahiye (range: 12-36VDC). Agar voltage nahi hai toh power supply ya wiring problem hai.", ok: "Voltage sahi hai (24VDC) — agla step dekho", fail: "⚠️ Power supply nahi aa rahi! Control panel mein fuse check karo, cable continuity check karo, terminal connections tight hain ya nahi dekho." },
+      { title: "Loop Wiring Check Karo", detail: "Positive (+) aur negative (-) wiring correct hai? Terminal screw tight hai? Cable damage toh nahi? Multimeter resistance mode mein wire continuity check karo.", ok: "Wiring sahi hai — agla step", fail: "⚠️ Wiring problem! Loose connection ya broken wire mila — fix karo aur dobara test karo." },
+      { title: "Transmitter LED / Indicator Dekho", detail: "Kuch transmitters mein indicator LED hota hai. Green = OK, Red = Fault. Transmitter body par koi damage ya burn marks hain? Transmitter garam toh nahi ho raha?", ok: "No damage, LED normal — agla step", fail: "⚠️ Physical damage ya burn marks hain — transmitter replace karna padega." },
+      { title: "Loop Current Check Karo", detail: "Multimeter ko mA mode mein loop mein series mein connect karo. Minimum 4mA aana chahiye even without pressure. Agar 0mA hai toh transmitter internally faulty hai.", ok: "4mA aa raha hai — agla step", fail: "⚠️0mA hai — transmitter faulty hai, replace karo ya workshop mein bhejo." },
+      { title: "Zero Calibration Check Karo", detail: "HART communicator ya local keypad se zero trim check karo. Sensor range sahi set hai? Lower range value (LRV) aur upper range value (URV) verify karo.", ok: "✅ Calibration sahi thi ya fix ho gayi!", fail: "⚠️ Range setting galat thi — sahi values set karo aur save karo." }
+    ],
+    result: "Pressure transmitter output problem solve ho gayi! Regular maintenance ke liye har 6 mahine mein calibration check karo."
+  },
+  pressure_transmitter_fluctuating: {
+    title: "Pressure Transmitter — Fluctuating Reading",
+    desc: "Reading stable nahi — yeh systematically check karo",
+    steps: [
+      { title: "Process Connection Check Karo", detail: "Impulse line mein air/gas bubble toh nahi hai? Condensate pot theek se fill hai? Isolation valve fully open hai? Impulse line choked toh nahi?", ok: "Process connection clear hai — agla step", fail: "⚠️ Impulse line mein problem hai — drain karo, purge karo aur refill karo." },
+      { title: "Damping Value Check Karo", detail: "HART communicator se damping value check karo. Default 0.2-1 second hoti hai. Turbulent process ke liye 2-5 second damping set karo taaki noise filter ho.", ok: "Damping sahi set hai — agla step", fail: "⚠️ Damping increase karo — HART se 2-5 second set karo." },
+      { title: "Electrical Noise Check Karo", detail: "Cable properly shielded hai? Shield grounding ek taraf se ki gayi hai? High power cables ke paas instrument cable toh nahi hai? Cable ko twist karo ya shielded cable use karo.", ok: "No electrical noise — agla step", fail: "⚠️ Electrical noise problem — cable route change karo ya shielded cable use karo." },
+      { title: "Process Condition Check Karo", detail: "Actual process mein fluctuation toh nahi hai? Pump pulsation, cavitation ya turbulence toh nahi? Upstream mein valve throttling toh nahi?", ok: "✅ Process normal hai — transmitter theek kaam kar raha hai!", fail: "⚠️ Process mein actual fluctuation hai — snubber ya pulsation dampener lagao." }
+    ],
+    result: "Fluctuation problem solve! Damping settings aur proper cable routing se stable reading milegi."
+  },
+  temperature_open_circuit: {
+    title: "Temperature Sensor — Open Circuit / Burnout",
+    desc: "Sensor burnout ya open circuit — systematically check karo",
+    steps: [
+      { title: "Sensor Resistance Check Karo", detail: "RTD PT100 ke liye: 0°C par 100Ω, 100°C par 138.5Ω hona chahiye. Multimeter se sensor terminals par resistance measure karo. Thermocouple ke liye: millivolt meter se EMF check karo.", ok: "Resistance/EMF normal hai — agla step", fail: "⚠️ Resistance OL (open) ya zero hai — sensor faulty/burned hai, replace karna padega." },
+      { title: "Extension Cable Check Karo", detail: "Thermocouple wire compensating cable se hi connect hona chahiye — same type (K type ke liye K type cable). RTD ke liye copper cable use hoti hai. Wire continuity check karo.", ok: "Cable sahi hai — agla step", fail: "⚠️ Wrong cable type ya broken wire — replace karo sahi cable se." },
+      { title: "Transmitter Input Check Karo", detail: "Transmitter mein sensor type correctly configure hai? RTD: PT100, 3-wire. Thermocouple: Type K/J. HART se configuration verify karo ya local display se.", ok: "Configuration sahi hai — agla step", fail: "⚠️ Wrong sensor type configured — HART se sahi sensor type set karo." },
+      { title: "Cold Junction Compensation (TC)", detail: "Thermocouple ke liye: terminal head mein temperature bahut high toh nahi? Cold junction compensation enable hai? Transmitter ka CJC sensor theek kaam kar raha hai?", ok: "✅ CJC sahi kaam kar raha hai — problem solve!", fail: "⚠️ CJC problem — transmitter replace ya repair karo." }
+    ],
+    result: "Temperature sensor issue solve! Sensor replacement aur correct wiring se problem fix ho gayi."
+  },
+  flow_meter_zero_flow: {
+    title: "Flow Meter — Zero Flow Reading",
+    desc: "Actual flow hai par meter zero dikh raha hai",
+    steps: [
+      { title: "Empty Pipe Check Karo (Mag Meter)", detail: "Magnetic flowmeter sirf liquid se filled pipe mein kaam karta hai. Pipe fully filled hai? Air pocket toh nahi? Flow meter orientation sahi hai (horizontal ya vertical as per manual)?", ok: "Pipe fully filled hai — agla step", fail: "⚠️ Pipe empty ya partially filled — proper installation ensure karo, upstream mein back pressure valve lagao." },
+      { title: "Minimum Flow Check Karo", detail: "Flow meter ki minimum measurable flow (rangeability) check karo. Agar actual flow too low hai toh zero dikha sakta hai. Meter ka range actual flow se match karta hai?", ok: "Flow range mein hai — agla step", fail: "⚠️ Flow too low for meter range — proper sized meter lagao." },
+      { title: "Zero Calibration Check Karo", detail: "No-flow condition mein zero trim karo. Pipe band karo (upstream/downstream valves), zero flow ensure karo aur zero calibration karo. Mag meter mein empty pipe detection disable karo temporarily.", ok: "Zero trim sahi ho gaya — agla step", fail: "⚠️ Zero drift hai — zero calibration karo ya factory reset karo." },
+      { title: "Electrode/Sensor Check Karo", detail: "Mag meter mein electrodes dirty/coated toh nahi? Coating (scaling, fouling) measurement affect karti hai. Electrodes clean karo. Vortex meter mein shedder bar damage toh nahi?", ok: "✅ Electrodes clean hain — flow meter theek hai!", fail: "⚠️ Electrodes coated/damaged — clean karo ya replace karo." }
+    ],
+    result: "Flow meter zero reading problem solve! Regular cleaning aur calibration se accurate reading milegi."
+  },
+  control_valve_not_moving: {
+    title: "Control Valve — Valve Move Nahi Kar Raha",
+    desc: "Control signal dene par bhi valve operate nahi ho raha",
+    steps: [
+      { title: "Air Supply Check Karo", detail: "Pneumatic actuator ke liye instrument air supply check karo. 3-15 PSI ya 6-30 PSI range mein hona chahiye. Air filter regulator (AFR) check karo — clogged toh nahi? Pressure gauge se verify karo.", ok: "Air supply sahi hai — agla step", fail: "⚠️ Air supply nahi — main air header check karo, AFR clean/replace karo, solenoid valve check karo." },
+      { title: "I/P Converter Check Karo", detail: "4-20mA input I/P converter ko 3-15 PSI pneumatic signal mein convert karta hai. I/P ka input current check karo (4-20mA aa raha hai?). Output pressure measure karo pneumatic line mein.", ok: "I/P output sahi hai — agla step", fail: "⚠️ I/P converter faulty — clean karo ya replace karo. Nozzle/flapper check karo." },
+      { title: "Positioner Check Karo", detail: "Positioner ka feedback linkage check karo — loose toh nahi? Positioner manual mode mein test karo — manually air deke valve move hota hai? Positioner calibration check karo.", ok: "Positioner theek hai — agla step", fail: "⚠️ Positioner faulty ya miscalibrated — recalibrate karo ya replace karo." },
+      { title: "Valve Mechanical Check Karo", detail: "Valve stem physically free hai? Corrosion, scaling ya galling toh nahi? Packing gland overtightened toh nahi — stem movement restrict ho sakti hai. Actuator diaphragm leak toh nahi?", ok: "✅ Mechanical sab sahi — valve properly operate ho raha hai!", fail: "⚠️ Mechanical problem — packing adjust karo, stem polish karo ya valve workshop mein bhejo." }
+    ],
+    result: "Control valve problem solve! Regular lubrication aur air supply maintenance se future issues avoid honge."
+  },
+  ph_analyzer_wrong_ph: {
+    title: "pH Meter — Galat pH Reading",
+    desc: "Buffer solution se match nahi karta — systematically fix karo",
+    steps: [
+      { title: "Electrode Check Karo", detail: "Glass electrode crack toh nahi? Reference junction blocked toh nahi? Electrode age check karo — glass electrode ka life 1-2 year hoti hai. Electrode KCl solution mein store kiya tha?", ok: "Electrode physically OK — agla step", fail: "⚠️ Electrode damaged ya old — replace karo. New electrode ko 24 hours buffer mein condition karo." },
+      { title: "2-Point Calibration Karo", detail: "pH 4 aur pH 7 buffer solution se 2-point calibration karo. Buffer temperature note karo — temperature affect karta hai. Slope 95-105% aur asymmetry potential ±30mV mein hona chahiye.", ok: "Calibration sahi ho gayi — agla step", fail: "⚠️ Slope bahut low (<90%) — electrode replace karo. Buffer expire toh nahi? Fresh buffer use karo." },
+      { title: "Temperature Compensation Check Karo", detail: "Automatic Temperature Compensation (ATC) enable hai? Temperature probe properly connected hai? Process temperature accurately measure ho rahi hai? Manual temperature correctly entered hai?", ok: "ATC sahi hai — agla step", fail: "⚠️ Temperature compensation problem — ATC probe check karo ya manual temperature correctly enter karo." },
+      { title: "Reference Junction Check Karo", detail: "Reference junction clogged ya poisoned toh nahi? Sulfide, protein ya heavy metals junction block kar sakte hain. Junction clean karo dilute HCl se. KCl refill karo agar refillable electrode hai.", ok: "✅ Reference junction clear — pH reading sahi aa rahi hai!", fail: "⚠️ Reference junction poisoned — electrode replace karo aur process ke liye suitable electrode type choose karo." }
+    ],
+    result: "pH meter calibration aur electrode maintenance se accurate readings milegi. Har hafte calibration karo aur electrode monthly inspect karo."
+  }
+};
+
+// Default solutions for unmapped combinations
+const defaultSolution = (inst, prob) => ({
+  title: `${data[inst].name} — ${data[inst].problems.find(p=>p.id===prob)?.title}`,
+  desc: "Step-by-step troubleshooting guide",
+  steps: [
+    { title: "Visual Inspection Karo", detail: "Instrument par koi physical damage, corrosion ya burn marks hain? Connections tight hain? Wiring insulation damage toh nahi?", ok: "Visually OK — agla step", fail: "⚠️ Physical damage mila — repair ya replace karo." },
+    { title: "Power Supply Verify Karo", detail: "Instrument ko required voltage supply ho rahi hai? Multimeter se measure karo. Specifications datasheet mein check karo.", ok: "Power supply sahi — agla step", fail: "⚠️ Power issue — supply check karo, fuse replace karo." },
+    { title: "Signal Output Check Karo", detail: "Instrument ka output signal (4-20mA / pulse / digital) multimeter ya HART communicator se verify karo. Expected range mein hai?", ok: "Signal sahi — agla step", fail: "⚠️ Signal problem — calibration karo ya instrument replace karo." },
+    { title: "Calibration Check Karo", detail: "Last calibration kab ki thi? Zero aur span check karo. HART communicator se loop test karo.", ok: "✅ Calibration sahi hai — instrument OK!", fail: "⚠️ Recalibration ki zarurat hai — follow manufacturer procedure." }
+  ],
+  result: "Systematic troubleshooting se problem identify ho gayi! Regular maintenance schedule follow karo."
+});
+
+let currentInst = null;
+let currentProb = null;
+let stepStates = [];
+
+function selectInst(instId) {
+  currentInst = instId;
+  const inst = data[instId];
+  document.getElementById('instSection').style.display = 'none';
+  document.getElementById('probSection').classList.add('show');
+  document.getElementById('selectedInstCard').innerHTML = `
+    <div class="ico">${inst.ico}</div>
+    <div><h3>${inst.name}</h3><p>${inst.desc}</p></div>`;
+  document.getElementById('probGrid').innerHTML = inst.problems.map(p => `
+    <div class="prob-btn" onclick="selectProb('${p.id}')">
+      <div class="prob-ico">${p.ico}</div>
+      <div><h4>${p.title}</h4><p>${p.desc}</p></div>
+    </div>`).join('');
+}
+
+function selectProb(probId) {
+  currentProb = probId;
+  const key = `${currentInst}_${probId}`;
+  const sol = solutions[key] || defaultSolution(currentInst, probId);
+  document.getElementById('probSection').classList.remove('show');
+  document.getElementById('solSection').classList.add('show');
+  document.getElementById('solTitle').textContent = sol.title;
+  document.getElementById('solDesc').textContent = sol.desc;
+  stepStates = sol.steps.map(() => 'pending');
+  document.getElementById('resultBox').classList.remove('show');
+  document.getElementById('resultText').textContent = sol.result;
+  document.getElementById('stepsContainer').innerHTML = sol.steps.map((s,i) => `
+    <div class="step" id="step_${i}">
+      <div class="step-header" onclick="toggleStep(${i})">
+        <div class="step-num" id="stepNum_${i}">${i+1}</div>
+        <div class="step-title">
+          <h4>${s.title}</h4>
+          <p>Tap karke expand karo</p>
+        </div>
+        <div class="step-status" id="stepStatus_${i}">○</div>
+      </div>
+      <div class="step-body">
+        <p class="step-detail">${s.detail}</p>
+        <div class="step-actions">
+          <button class="action-btn btn-ok" onclick="markStep(${i},'ok')">✅ Sahi Hai</button>
+          <button class="action-btn btn-fail" onclick="markStep(${i},'fail')">❌ Problem Mili</button>
+        </div>
+        <div class="alert-box ${s.ok.startsWith('✅')?'alert-green':'alert-yellow'}" id="alertOk_${i}">✅ ${s.ok}</div>
+        <div class="alert-box alert-red" id="alertFail_${i}">❌ ${s.fail}</div>
+      </div>
+    </div>`).join('');
+  toggleStep(0);
+}
+
+function toggleStep(i) {
+  document.querySelectorAll('.step').forEach((s,idx) => { if(idx!==i) s.classList.remove('open'); });
+  document.getElementById('step_'+i).classList.toggle('open');
+}
+
+function markStep(i, result) {
+  const sol = solutions[`${currentInst}_${currentProb}`] || defaultSolution(currentInst, currentProb);
+  stepStates[i] = result;
+  const stepEl = document.getElementById('step_'+i);
+  const alertOk = document.getElementById('alertOk_'+i);
+  const alertFail = document.getElementById('alertFail_'+i);
+  alertOk.classList.remove('show');
+  alertFail.classList.remove('show');
+  if (result === 'ok') {
+    stepEl.classList.add('done');
+    stepEl.classList.remove('problem-found');
+    document.getElementById('stepStatus_'+i).textContent = '✅';
+    alertOk.classList.add('show');
+    if (i < sol.steps.length - 1) setTimeout(() => toggleStep(i+1), 800);
+    else { document.getElementById('resultBox').classList.add('show'); }
+  } else {
+    stepEl.classList.add('problem-found');
+    stepEl.classList.remove('done');
+    document.getElementById('stepStatus_'+i).textContent = '❌';
+    alertFail.classList.add('show');
+  }
+}
+
+function goBack(to) {
+  if (to === 'inst') {
+    document.getElementById('probSection').classList.remove('show');
+    document.getElementById('instSection').style.display = 'block';
+  } else {
+    document.getElementById('solSection').classList.remove('show');
+    document.getElementById('probSection').classList.add('show');
+  }
+}
+
+function resetAll() {
+  currentInst = null; currentProb = null;
+  document.getElementById('solSection').classList.remove('show');
+  document.getElementById('probSection').classList.remove('show');
+  document.getElementById('instSection').style.display = 'block';
+  document.getElementById('resultBox').classList.remove('show');
+}
+</script>
+
+</body>
+</html>
