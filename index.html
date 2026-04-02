@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#0a0a0f;--card:#16161f;--border:#2a2a3a;--accent:#ff6b2b;--accent2:#ffb347;--text:#f0eee8;--muted:#7a7a9a;--tag:#1e1e2e}
+:root{--bg:#0a0a0f;--card:#16161f;--border:#2a2a3a;--accent:#ff6b2b;--accent2:#ffb347;--text:#f0eee8;--muted:#7a7a9a;--tag:#1e1e2e;--green:#00c864;--red:#ff4444}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 80% 10%,rgba(255,107,43,.13) 0%,transparent 60%),radial-gradient(ellipse 40% 30% at 10% 80%,rgba(255,179,71,.08) 0%,transparent 50%);pointer-events:none;z-index:0}
@@ -15,14 +15,14 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 /* BANNER */
 .banner{position:relative;z-index:10;background:linear-gradient(90deg,#ff6b2b,#ffb347);padding:10px 24px;text-align:center;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
 .banner p{font-size:.88rem;font-weight:600;color:#fff}
-.g-ytsubscribe{vertical-align:middle}
 
 /* HEADER */
 header{position:sticky;top:0;z-index:100;background:rgba(10,10,15,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
 .nav{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px}
 .logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:var(--text);text-decoration:none}
 .logo span{color:var(--accent)}
-.nav-links a{color:var(--muted);text-decoration:none;font-size:.85rem;font-weight:500;padding:6px 12px;border-radius:8px;transition:all .2s}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.85rem;font-weight:500;padding:6px 12px;border-radius:8px;transition:all .2s;cursor:pointer}
 .nav-links a:hover{color:var(--text);background:rgba(255,107,43,.1)}
 
 /* HERO */
@@ -32,10 +32,10 @@ header{position:sticky;top:0;z-index:100;background:rgba(10,10,15,.92);backdrop-
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
 .hero h1{font-family:'Syne',sans-serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:800;line-height:1.1;letter-spacing:-1px}
 .hero h1 em{font-style:normal;color:var(--accent)}
-.hero p{color:var(--muted);font-size:1rem;max-width:480px;margin-top:14px;line-height:1.8}
+.hero-desc{color:var(--muted);font-size:1rem;max-width:480px;margin-top:14px;line-height:1.8}
 .hero-btns{margin-top:28px;display:flex;gap:12px;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;gap:8px;border-radius:10px;padding:12px 24px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:none;transition:all .2s}
-.btn-primary{background:var(--accent);color:#fff;border:none}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:10px;padding:12px 24px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:none;transition:all .2s;border:none}
+.btn-primary{background:var(--accent);color:#fff}
 .btn-primary:hover{background:#ff8c50;transform:translateY(-2px)}
 .btn-outline{background:transparent;color:var(--text);border:1px solid var(--border)}
 .btn-outline:hover{border-color:var(--accent);color:var(--accent)}
@@ -54,8 +54,6 @@ header{position:sticky;top:0;z-index:100;background:rgba(10,10,15,.92);backdrop-
 .section-title{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800}
 .view-all{font-size:.82rem;color:var(--muted);text-decoration:none}
 .view-all:hover{color:var(--accent)}
-
-/* TAG */
 .tag{display:inline-block;background:var(--tag);border:1px solid var(--border);color:var(--accent2);font-size:.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 9px;border-radius:6px}
 
 /* VIDEO GRID */
@@ -110,28 +108,26 @@ header{position:sticky;top:0;z-index:100;background:rgba(10,10,15,.92);backdrop-
 .msec ul li::before{content:'→';position:absolute;left:0;color:var(--accent)}
 .mtags{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
 
-/* INPUT STYLE */
+/* INPUT */
 .inp{background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;padding:11px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s;width:100%}
 .inp:focus{border-color:var(--accent)}
 .inp::placeholder{color:var(--muted)}
 textarea.inp{resize:none}
 .submit-btn{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:13px;font-weight:700;font-size:.9rem;cursor:pointer;font-family:'Syne',sans-serif;transition:background .2s;width:100%}
 .submit-btn:hover{background:#ff8c50}
-.success-msg{display:none;background:rgba(0,200,100,.1);border:1px solid rgba(0,200,100,.3);border-radius:8px;padding:12px;text-align:center;color:#00c864;font-size:.88rem}
+.success-msg{display:none;background:rgba(0,200,100,.1);border:1px solid rgba(0,200,100,.3);border-radius:8px;padding:12px;text-align:center;color:var(--green);font-size:.88rem}
 
 /* CONTACT */
 .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 .contact-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px}
-.contact-info-item{display:flex;align-items:center;gap:12px;background:var(--tag);border:1px solid var(--border);border-radius:10px;padding:12px 16px;text-decoration:none;color:var(--text);transition:border-color .2s;margin-bottom:12px}
-.contact-info-item:hover{border-color:var(--accent)}
-.contact-info-item .ci-label{font-size:.72rem;color:var(--muted);margin-bottom:2px}
-.contact-info-item .ci-val{font-size:.9rem;font-weight:600}
+.ci{display:flex;align-items:center;gap:12px;background:var(--tag);border:1px solid var(--border);border-radius:10px;padding:12px 16px;text-decoration:none;color:var(--text);margin-bottom:12px;transition:border-color .2s}
+.ci:hover{border-color:var(--accent)}
 
 /* Q&A */
 .qa-ask{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;margin-bottom:28px}
 .qa-list{display:flex;flex-direction:column;gap:16px}
 .qa-item{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px}
-.qa-answer{background:rgba(255,107,43,.08);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:12px 16px;margin-top:10px}
+.qa-ans{background:rgba(255,107,43,.08);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:12px 16px;margin-top:10px}
 
 /* ABOUT */
 .about-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:40px;display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center}
@@ -146,7 +142,7 @@ textarea.inp{resize:none}
 .nl-box p{color:var(--muted);margin-bottom:24px;font-size:.9rem}
 .nl-form{display:flex;gap:10px;max-width:440px;margin:0 auto}
 .nl-form input{flex:1}
-.nl-form button{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:11px 22px;font-weight:600;font-size:.9rem;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
+.nl-form button{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:11px 22px;font-weight:600;font-size:.9rem;cursor:pointer;font-family:'DM Sans',sans-serif}
 .nl-form button:hover{background:#ff8c50}
 
 /* FOOTER */
@@ -156,7 +152,10 @@ footer strong{color:var(--accent);font-family:'Syne',sans-serif}
 .footer-links a{color:var(--muted);text-decoration:none;font-size:.83rem}
 .footer-links a:hover{color:var(--accent)}
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+/* ADMIN MODAL */
+.admin-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);z-index:9999;align-items:center;justify-content:center;padding:20px}
+.admin-overlay.open{display:flex}
+.admin-box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:36px;max-width:380px;width:100%}
 
 @media(max-width:900px){
   .hero{grid-template-columns:1fr}.hero-img{display:none}
@@ -167,7 +166,7 @@ footer strong{color:var(--accent);font-family:'Syne',sans-serif}
 }
 @media(max-width:600px){
   .video-grid,.enc-grid{grid-template-columns:1fr}
-  .nav-links a:not(:last-child){display:none}
+  .nav-links a[href="#videos"],.nav-links a[href="#encyclopedia"],.nav-links a[href="#contact"],.nav-links a[href="#qa"]{display:none}
   .nl-form{flex-direction:column}
   .stats{gap:20px}
 }
@@ -191,7 +190,9 @@ footer strong{color:var(--accent);font-family:'Syne',sans-serif}
       <a href="#encyclopedia">Encyclopedia</a>
       <a href="#qa">Q&A</a>
       <a href="#contact">Contact</a>
+      <a href="/troubleshooting.html" style="color:var(--accent2)">🔧 Troubleshooting</a>
       <a href="https://youtube.com/@sugartechindia" target="_blank" style="color:var(--accent)">YouTube ↗</a>
+      <a onclick="openAdminModal()" style="background:rgba(255,107,43,.15);border:1px solid rgba(255,107,43,.3);color:var(--accent);border-radius:8px">🔐 Admin</a>
     </div>
   </div>
 </header>
@@ -201,7 +202,7 @@ footer strong{color:var(--accent);font-family:'Syne',sans-serif}
   <div>
     <div class="badge">🇮🇳 Instrumentation & Automation</div>
     <h1>Industrial <em>Tech</em><br/>Hindi Mein<br/>Samjho</h1>
-    <p>Sensors, Controllers, Flowmeters, Analyzers — India ke sabse behtareen instrumentation channel par aapka swagat hai.</p>
+    <p class="hero-desc">Sensors, Controllers, Flowmeters, Analyzers — India ke sabse behtareen instrumentation channel par aapka swagat hai.</p>
     <div class="hero-btns">
       <a class="btn btn-primary" href="https://youtube.com/@sugartechindia" target="_blank">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M23.5 6.19a3.02 3.02 0 00-2.12-2.14C19.54 3.5 12 3.5 12 3.5s-7.54 0-9.38.55A3.02 3.02 0 00.5 6.19C0 8.04 0 12 0 12s0 3.96.5 5.81a3.02 3.02 0 002.12 2.14C4.46 20.5 12 20.5 12 20.5s7.54 0 9.38-.55a3.02 3.02 0 002.12-2.14C24 15.96 24 12 24 12s0-3.96-.5-5.81zM9.75 15.5v-7l6.5 3.5-6.5 3.5z"/></svg>
@@ -259,16 +260,14 @@ footer strong{color:var(--accent);font-family:'Syne',sans-serif}
 </section>
 
 <!-- TROUBLESHOOTING BANNER -->
-<section class="section" id="troubleshooting">
+<section class="section">
   <div style="background:linear-gradient(135deg,rgba(255,107,43,.15),rgba(255,179,71,.08));border:1px solid rgba(255,107,43,.4);border-radius:16px;padding:36px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap">
     <div>
       <div class="section-label">🔧 New Feature</div>
       <h3 style="font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;margin-bottom:10px">Instrument Troubleshooting Guide</h3>
-      <p style="color:var(--muted);font-size:.9rem;max-width:500px;line-height:1.7">Pressure Transmitter, Flow Meter, Temperature Sensor, Control Valve — kisi bhi instrument ki problem step-by-step solve karo. India mein pehli baar Hindi mein!</p>
+      <p style="color:var(--muted);font-size:.9rem;max-width:500px;line-height:1.7">Pressure Transmitter, Flow Meter, Temperature Sensor — kisi bhi instrument ki problem step-by-step solve karo!</p>
     </div>
-    <a href="/troubleshooting.html" style="display:inline-flex;align-items:center;gap:10px;background:var(--accent);color:#fff;border:none;border-radius:12px;padding:14px 28px;font-size:.95rem;font-weight:700;font-family:'Syne',sans-serif;text-decoration:none;white-space:nowrap;transition:all .2s" onmouseover="this.style.background='#ff8c50'" onmouseout="this.style.background='var(--accent)'">
-      🔧 Guide Kholo →
-    </a>
+    <a href="/troubleshooting.html" class="btn btn-primary">🔧 Guide Kholo →</a>
   </div>
 </section>
 
@@ -286,21 +285,12 @@ footer strong{color:var(--accent);font-family:'Syne',sans-serif}
         <div style="width:64px;height:64px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0">👨‍💻</div>
         <div>
           <h3 style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800">Aditya Tiwari</h3>
-          <p style="color:var(--accent);font-size:.82rem;font-weight:600">SugarTechIndia — Founder & Creator</p>
+          <p style="color:var(--accent);font-size:.82rem;font-weight:600">Founder & Creator</p>
         </div>
       </div>
-      <a href="tel:+919893788283" class="contact-info-item">
-        <span style="font-size:1.2rem">📱</span>
-        <div><div class="ci-label">Mobile</div><div class="ci-val">+91-9893788283</div></div>
-      </a>
-      <a href="mailto:adityatiwari093@gmail.com" class="contact-info-item">
-        <span style="font-size:1.2rem">✉️</span>
-        <div><div class="ci-label">Email</div><div class="ci-val">adityatiwari093@gmail.com</div></div>
-      </a>
-      <a href="https://youtube.com/@sugartechindia" target="_blank" class="contact-info-item">
-        <span style="font-size:1.2rem">🎬</span>
-        <div><div class="ci-label">YouTube</div><div class="ci-val">@sugartechindia</div></div>
-      </a>
+      <a href="tel:+919893788283" class="ci"><span style="font-size:1.2rem">📱</span><div><div style="font-size:.72rem;color:var(--muted)">Mobile</div><div style="font-size:.9rem;font-weight:600">+91-9893788283</div></div></a>
+      <a href="mailto:adityatiwari093@gmail.com" class="ci"><span style="font-size:1.2rem">✉️</span><div><div style="font-size:.72rem;color:var(--muted)">Email</div><div style="font-size:.9rem;font-weight:600">adityatiwari093@gmail.com</div></div></a>
+      <a href="https://youtube.com/@sugartechindia" target="_blank" class="ci"><span style="font-size:1.2rem">🎬</span><div><div style="font-size:.72rem;color:var(--muted)">YouTube</div><div style="font-size:.9rem;font-weight:600">@sugartechindia</div></div></a>
     </div>
     <div class="contact-card">
       <h3 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;margin-bottom:20px">💬 Message Bhejo</h3>
@@ -331,7 +321,7 @@ footer strong{color:var(--accent);font-family:'Syne',sans-serif}
       <input id="qName" class="inp" type="text" placeholder="Aapka Naam (optional)"/>
       <textarea id="qText" class="inp" rows="3" placeholder="Aapka sawaal likhein..."></textarea>
       <button class="submit-btn" onclick="submitQuestion()">🚀 Sawaal Bhejo</button>
-      <div id="qSuccess" class="success-msg">✅ Sawaal submit ho gaya! Jald hi jawab milega.</div>
+      <div id="qSuccess" class="success-msg">✅ Sawaal submit ho gaya!</div>
     </div>
   </div>
   <div class="qa-list" id="qaList">
@@ -344,7 +334,7 @@ footer strong{color:var(--accent);font-family:'Syne',sans-serif}
   <div class="about-box">
     <div>
       <h3>🎯 SugarTechIndia Ke Baare Mein</h3>
-      <p>Hum India ke instrumentation aur automation professionals ke liye Hindi mein high-quality technical content banate hain. Chahe aap field engineer ho, student ho ya plant operator — yahan sab kuch practical aur simple language mein milega.</p>
+      <p>Hum India ke instrumentation aur automation professionals ke liye Hindi mein high-quality technical content banate hain.</p>
     </div>
     <a class="yt-btn" href="https://youtube.com/@sugartechindia" target="_blank">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M23.5 6.19a3.02 3.02 0 00-2.12-2.14C19.54 3.5 12 3.5 12 3.5s-7.54 0-9.38.55A3.02 3.02 0 00.5 6.19C0 8.04 0 12 0 12s0 3.96.5 5.81a3.02 3.02 0 002.12 2.14C4.46 20.5 12 20.5 12 20.5s7.54 0 9.38-.55a3.02 3.02 0 002.12-2.14C24 15.96 24 12 24 12s0-3.96-.5-5.81zM9.75 15.5v-7l6.5 3.5-6.5 3.5z"/></svg>
@@ -365,27 +355,6 @@ footer strong{color:var(--accent);font-family:'Syne',sans-serif}
   </div>
 </section>
 
-<!-- ADMIN LOGIN MODAL -->
-<div id="adminModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);z-index:9999;align-items:center;justify-content:center;padding:20px">
-  <div style="background:var(--card);border:1px solid var(--border);border-radius:20px;padding:36px;max-width:380px;width:100%">
-    <div style="text-align:center;margin-bottom:24px">
-      <div style="font-size:2.5rem;margin-bottom:10px">🔐</div>
-      <h3 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800">Admin Login</h3>
-      <p style="font-size:.82rem;color:var(--muted);margin-top:6px">SugarTechIndia Admin Panel</p>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:12px">
-      <input id="adminUser" class="inp" type="text" placeholder="Username" autocomplete="off"/>
-      <input id="adminPass" class="inp" type="password" placeholder="Password"/>
-      <div id="adminError" style="display:none;background:rgba(255,68,68,.1);border:1px solid rgba(255,68,68,.3);border-radius:8px;padding:10px;text-align:center;color:#ff8888;font-size:.82rem">❌ Galat Username ya Password!</div>
-      <button onclick="adminLogin()" style="background:var(--accent);color:#fff;border:none;border-radius:8px;padding:13px;font-weight:700;font-size:.9rem;cursor:pointer;font-family:'Syne',sans-serif">🔓 Login Karo</button>
-      <button onclick="closeAdminModal()" style="background:var(--tag);color:var(--muted);border:1px solid var(--border);border-radius:8px;padding:11px;font-weight:600;font-size:.85rem;cursor:pointer;font-family:'DM Sans',sans-serif">Cancel</button>
-    </div>
-    <div id="adminSuccess" style="display:none;text-align:center;margin-top:16px">
-      <div style="background:rgba(0,200,100,.1);border:1px solid rgba(0,200,100,.3);border-radius:8px;padding:12px;color:#00c864;font-size:.88rem">✅ Admin Login Successful! Welcome Aditya! 👋</div>
-    </div>
-  </div>
-</div>
-
 <!-- FOOTER -->
 <footer>
   <div class="footer-links">
@@ -394,16 +363,13 @@ footer strong{color:var(--accent);font-family:'Syne',sans-serif}
     <a href="#encyclopedia">Encyclopedia</a>
     <a href="#qa">Q&A</a>
     <a href="#contact">Contact</a>
+    <a href="/troubleshooting.html">Troubleshooting</a>
   </div>
   <p>© 2025 <strong>SugarTechIndia</strong> — India Ka Instrumentation Channel 🇮🇳</p>
   <p style="margin-top:6px">Made with ❤️ for Indian Engineers & Technicians</p>
-  <!-- Hidden Admin Button -->
-  <div style="margin-top:16px">
-    <span onclick="showAdminModal()" style="font-size:.72rem;color:#2a2a3a;cursor:pointer;user-select:none">⚙️</span>
-  </div>
 </footer>
 
-<!-- MODAL -->
+<!-- ENCYCLOPEDIA MODAL -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
   <div class="modal">
     <div class="modal-hdr">
@@ -422,15 +388,100 @@ footer strong{color:var(--accent);font-family:'Syne',sans-serif}
   </div>
 </div>
 
+<!-- ADMIN MODAL -->
+<div class="admin-overlay" id="adminOverlay">
+  <div class="admin-box">
+    <div style="text-align:center;margin-bottom:24px">
+      <div style="font-size:2.5rem;margin-bottom:10px">🔐</div>
+      <h3 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800">Admin Login</h3>
+      <p style="font-size:.82rem;color:var(--muted);margin-top:6px">SugarTechIndia Admin Panel</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <input id="adminUser" class="inp" type="text" placeholder="Username" autocomplete="off"/>
+      <input id="adminPass" class="inp" type="password" placeholder="Password"/>
+      <div id="adminError" style="display:none;background:rgba(255,68,68,.1);border:1px solid rgba(255,68,68,.3);border-radius:8px;padding:10px;text-align:center;color:#ff8888;font-size:.82rem"></div>
+      <button onclick="doAdminLogin()" class="submit-btn">🔓 Login Karo</button>
+      <button onclick="closeAdminModal()" style="background:var(--tag);color:var(--muted);border:1px solid var(--border);border-radius:8px;padding:11px;font-weight:600;font-size:.85rem;cursor:pointer;font-family:'DM Sans',sans-serif;width:100%">Cancel</button>
+    </div>
+    <div id="adminSuccess" style="display:none;margin-top:16px;background:rgba(0,200,100,.1);border:1px solid rgba(0,200,100,.3);border-radius:8px;padding:12px;color:var(--green);font-size:.88rem;text-align:center">✅ Welcome Aditya! 👋</div>
+  </div>
+</div>
+
 <script>
-// ===================== YOUTUBE =====================
+// ===== ADMIN =====
+const A_USER = 'aditya';
+const A_PASS = 'Sugar@Tech2025#';
+let attempts = 0;
+let lockTime = 0;
+
+function openAdminModal() {
+  if (localStorage.getItem('sti_admin') === 'yes') {
+    if (confirm('Admin mode ON hai. Logout karna hai?')) {
+      localStorage.removeItem('sti_admin');
+      alert('Logout ho gaye!');
+      loadQuestions();
+    }
+    return;
+  }
+  document.getElementById('adminUser').value = '';
+  document.getElementById('adminPass').value = '';
+  document.getElementById('adminError').style.display = 'none';
+  document.getElementById('adminSuccess').style.display = 'none';
+  document.getElementById('adminOverlay').classList.add('open');
+  setTimeout(() => document.getElementById('adminUser').focus(), 200);
+}
+
+function closeAdminModal() {
+  document.getElementById('adminOverlay').classList.remove('open');
+}
+
+function doAdminLogin() {
+  const now = Date.now();
+  if (now < lockTime) {
+    const m = Math.ceil((lockTime - now) / 60000);
+    showAdminErr('🔒 ' + m + ' minute baad try karo!');
+    return;
+  }
+  const u = document.getElementById('adminUser').value.trim();
+  const p = document.getElementById('adminPass').value.trim();
+  if (u === A_USER && p === A_PASS) {
+    attempts = 0;
+    localStorage.setItem('sti_admin', 'yes');
+    document.getElementById('adminError').style.display = 'none';
+    document.getElementById('adminSuccess').style.display = 'block';
+    setTimeout(() => { closeAdminModal(); loadQuestions(); }, 1500);
+  } else {
+    attempts++;
+    if (attempts >= 3) {
+      lockTime = Date.now() + 5 * 60000;
+      showAdminErr('🔒 3 baar galat — 5 min lock!');
+      attempts = 0;
+    } else {
+      showAdminErr('❌ Galat! ' + (3 - attempts) + ' attempts baaki.');
+    }
+    document.getElementById('adminPass').value = '';
+  }
+}
+
+function showAdminErr(msg) {
+  const el = document.getElementById('adminError');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.getElementById('adminOverlay').classList.contains('open')) doAdminLogin();
+  if (e.key === 'Escape') { closeAdminModal(); closeModalBtn(); }
+});
+
+// ===== YOUTUBE =====
 const YT_API_KEY = 'AIzaSyCL-qxIodEl0ARVO7IDvUXM5a0iuqvC394';
 const CHANNEL_ID = 'UCEi3rGduiFjbPT6EWrrwmXw';
 
 async function loadYouTubeVideos() {
   const grid = document.getElementById('videoGrid');
   try {
-    const res = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${YT_API_KEY}&channelId=${CHANNEL_ID}&part=snippet&order=date&maxResults=50&type=video&videoDuration=medium`);
+    const res = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${YT_API_KEY}&channelId=${CHANNEL_ID}&part=snippet&order=date&maxResults=50&type=video`);
     const data = await res.json();
     if (!data.items || !data.items.length) { grid.innerHTML = '<p style="color:var(--muted);grid-column:1/-1;text-align:center;padding:40px">Koi video nahi mili.</p>'; return; }
     const ids = data.items.map(v => v.id.videoId).join(',');
@@ -439,9 +490,9 @@ async function loadYouTubeVideos() {
     const filtered = dd.items.filter(v => {
       const d = v.contentDetails.duration;
       const m = d.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
-      return (parseInt(m[1]||0)*3600 + parseInt(m[2]||0)*60 + parseInt(m[3]||0)) >= 60;
+      return (parseInt(m[1]||0)*3600+parseInt(m[2]||0)*60+parseInt(m[3]||0)) >= 60;
     });
-    if (!filtered.length) { grid.innerHTML = '<p style="color:var(--muted);grid-column:1/-1;text-align:center;padding:40px">Koi regular video nahi mili.</p>'; return; }
+    if (!filtered.length) { grid.innerHTML = '<p style="color:var(--muted);grid-column:1/-1;text-align:center;padding:40px">Koi video nahi mili.</p>'; return; }
     grid.innerHTML = filtered.map(v => {
       const id = v.id, title = v.snippet.title;
       const thumb = v.snippet.thumbnails.high?.url || v.snippet.thumbnails.default?.url;
@@ -455,7 +506,7 @@ async function loadYouTubeVideos() {
         <div class="play-btn"><div class="play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
         <div style="position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,.8);color:#fff;font-size:.72rem;padding:2px 6px;border-radius:4px">${ds}</div></div>
         <div class="vbody"><span class="tag">SugarTechIndia</span><h3>${title}</h3></div>
-        <div class="vfoot"><span>▶ Watch on YouTube</span><span>${date}</span></div>
+        <div class="vfoot"><span>▶ YouTube</span><span>${date}</span></div>
       </a>`;
     }).join('');
   } catch(e) {
@@ -464,178 +515,126 @@ async function loadYouTubeVideos() {
 }
 loadYouTubeVideos();
 
-// ===================== ENCYCLOPEDIA =====================
+// ===== ENCYCLOPEDIA =====
 const instruments = [
-  {id:1,icon:"🔴",color:"#2a1010",cat:"pressure",name:"Pressure Transmitter",tag:"Pressure",short:"Process pressure ko 4-20mA signal mein convert karta hai.",def:"Pressure Transmitter ek industrial sensor hai jo fluid ya gas ka pressure measure karta hai aur use 4-20mA ya HART signal mein convert karke control room ko bhejta hai.",work:"Sensing diaphragm pressure ke hisaab se deflect hota hai. Strain gauge ya capacitive sensor se deflection measure hota hai aur electronic circuit use 4-20mA mein convert karta hai. 4mA = min pressure, 20mA = max pressure.",apps:["Oil & Gas pipelines pressure monitoring","Boiler steam pressure control","Chemical reactor pressure measurement","Water supply pressure monitoring"],tags:["4-20mA","HART","Gauge","Absolute","DP"]},
-  {id:2,icon:"💧",color:"#0a1a2a",cat:"level",name:"Level Transmitter",tag:"Level",short:"Tank ya vessel mein liquid level continuously measure karta hai.",def:"Level Transmitter kisi bhi tank, vessel ya silo mein liquid ya solid ka level continuously measure karta hai aur 4-20mA signal provide karta hai.",work:"DP type mein tank ke bottom par pressure measure hoti hai. Ultrasonic type mein sound waves liquid surface se bounce hoke wapas aati hain aur time calculate hota hai. Radar type mein microwave signals use hoti hain.",apps:["Water treatment plant tank level","Oil storage tank monitoring","Chemical dosing tank level","Boiler drum level control"],tags:["DP Type","Ultrasonic","Radar","Float","4-20mA"]},
-  {id:3,icon:"🌡️",color:"#1a0a00",cat:"temperature",name:"Temperature Transmitter",tag:"Temperature",short:"RTD ya thermocouple signal ko 4-20mA mein convert karta hai.",def:"Temperature Transmitter RTD ya Thermocouple se milne wale weak signal ko amplify karke 4-20mA standard signal mein convert karta hai taaki long distance tak signal loss ke bina bheja ja sake.",work:"RTD ka resistance temperature ke saath change hota hai. Transmitter is resistance change ko measure karta hai aur Wheatstone bridge circuit se accurate temperature calculate karta hai. Phir 4-20mA mein map karta hai.",apps:["Furnace temperature control","Heat exchanger monitoring","Pasteurization process","HVAC systems"],tags:["PT100","RTD","Thermocouple","4-20mA","HART"]},
-  {id:4,icon:"🔵",color:"#0a1020",cat:"flow",name:"Magnetic Flow Transmitter",tag:"Flow",short:"Conductive liquid ka flow Faraday's law se measure karta hai.",def:"Electromagnetic Flowmeter electrically conductive liquids ka volumetric flow rate measure karta hai. Isme koi moving parts nahi hoti isliye maintenance bahut kam hoti hai.",work:"Faraday's law par kaam karta hai. Pipe ke around magnets magnetic field create karte hain. Conductive liquid is field mein se flow karta hai toh EMF generate hoti hai jo flow rate ke proportional hoti hai.",apps:["Water treatment plants","Sewage flow measurement","Chemical dosing lines","Food & beverage industry"],tags:["Faraday's Law","No Moving Parts","Conductive","EMF"]},
-  {id:5,icon:"🌀",color:"#0a1a10",cat:"flow",name:"Vortex Flowmeter",tag:"Flow",short:"Von Karman effect se vortices count karke flow measure karta hai.",def:"Vortex Flowmeter Von Karman vortex shedding effect use karke gas, steam ya liquid ka flow measure karta hai. High temperature steam measurement ke liye bahut popular hai.",work:"Pipe ke andar bluff body (shedder bar) hoti hai. Fluid is par se guzarta hai toh alternate sides par vortices create hoti hain. Frequency flow velocity ke proportional hoti hai.",apps:["Steam flow measurement","Compressed air monitoring","Natural gas metering","Chemical plant flow control"],tags:["Von Karman","Vortex Shedding","Steam","Gas","Piezoelectric"]},
-  {id:6,icon:"⚖️",color:"#1a1a00",cat:"flow",name:"Density Meter",tag:"Analyzer",short:"Liquid ya gas ki density real-time mein measure karta hai.",def:"Density Meter process liquid ya gas ki density ya specific gravity continuously measure karta hai. Sugar concentration, acid strength measurement ke liye bhi use hota hai.",work:"Vibrating tube principle par kaam karta hai. U-shaped tube mein liquid flow karta hai aur tube vibrate karta hai. Liquid ki density ke hisaab se vibration frequency change hoti hai.",apps:["Sugar mill mein Brix measurement","Acid/alkali concentration","Brewery alcohol content","Crude oil density"],tags:["Vibrating Tube","Brix","Specific Gravity","Concentration"]},
-  {id:7,icon:"⚡",color:"#0a0a1a",cat:"analyzer",name:"Conductivity Meter",tag:"Analyzer",short:"Liquid mein dissolved salts/ions ki concentration measure karta hai.",def:"Conductivity Meter liquid ki electrical conductivity measure karta hai jo directly dissolved ions/salts ki concentration indicate karta hai.",work:"Do ya char electrodes liquid mein dube hote hain. AC current pass hota hai. Liquid ki conductivity ke hisaab se current flow hota hai. Ohm's law se resistance calculate hoti hai.",apps:["RO plant water purity check","Boiler feedwater monitoring","Chemical process control","Effluent treatment"],tags:["TDS","Salinity","EC","mS/cm","Water Quality"]},
-  {id:8,icon:"🧪",color:"#1a000a",cat:"analyzer",name:"pH Meter",tag:"Analyzer",short:"Liquid ki acidity ya alkalinity measure karta hai.",def:"pH Meter liquid ka pH value measure karta hai. pH scale 0-14 hoti hai — 7 neutral, 7 se kam acidic, 7 se zyada alkaline.",work:"Glass electrode H+ ions ke liye sensitive hota hai. Reference electrode ke saath electrochemical cell banata hai. H+ ion concentration ke hisaab se voltage generate hota hai.",apps:["Effluent treatment pH control","Drinking water treatment","Chemical neutralization","Food processing"],tags:["Glass Electrode","H+ Ions","0-14 Scale","Buffer"]},
-  {id:9,icon:"💨",color:"#001a1a",cat:"analyzer",name:"O2 Analyzer",tag:"Analyzer",short:"Flue gas mein oxygen percentage measure karta hai.",def:"O2 Analyzer gas streams mein oxygen ki concentration measure karta hai. Combustion efficiency improve karne aur safety ke liye boilers, furnaces mein widely used hai.",work:"Zirconia type mein zirconium oxide cell high temperature par oxygen ions conduct karta hai. Reference aur process side ke oxygen partial pressure difference se Nernst equation ke through EMF generate hota hai.",apps:["Boiler combustion control","Furnace efficiency optimization","Inert gas purging monitoring","Safety systems"],tags:["Zirconia","Nernst","Combustion","Flue Gas","ppm/%"]},
-  {id:10,icon:"🔔",color:"#1a0010",cat:"switch",name:"Pressure Switch",tag:"Switch",short:"Set pressure par ON/OFF signal deta hai.",def:"Pressure Switch jab process pressure ek pre-set value tak pahunchti hai toh electrical contact open ya close kar deta hai. Safety shutdown aur alarm systems mein use hota hai.",work:"Sensing element process pressure feel karta hai. Jab pressure set point cross karta hai toh element move karta hai aur micro-switch operate karta hai. Adjustable spring se set point set ki jaati hai.",apps:["High pressure alarm","Pump protection","Compressor safety trip","Fire fighting systems"],tags:["Set Point","SPDT","Micro Switch","NO/NC","Dead Band"]},
-  {id:11,icon:"📊",color:"#001010",cat:"switch",name:"Level Switch",tag:"Switch",short:"High ya low level par ON/OFF signal deta hai.",def:"Level Switch tank mein liquid level ek specific point par pahunchne par electrical signal generate karta hai. Overflow protection aur dry run protection ke liye use hota hai.",work:"Float type mein liquid par float hota hai. Level badhne par float upar uthta hai aur reed switch operate karta hai. Vibrating fork type mein liquid mein doobne par vibration ruk jaati hai.",apps:["Tank overflow prevention","Pump dry run protection","Sump pit control","Chemical tank alarms"],tags:["Float Type","Vibrating Fork","Reed Switch","High/Low"]},
-  {id:12,icon:"📡",color:"#0a001a",cat:"level",name:"Radar Level Transmitter",tag:"Level",short:"Microwave waves se contactless level measurement karta hai.",def:"Radar Level Transmitter microwave radio waves emit karta hai. Harsh environments mein bhi accurate measurement deta hai — extreme temperature, pressure, vapour, foam sab mein.",work:"Antenna se microwave pulses liquid surface se reflect hokar wapas aati hain. Time of Flight measure hota hai. Distance = (Speed of Light × Time) / 2. Is se level calculate hota hai.",apps:["Crude oil storage tanks","Corrosive chemical vessels","Silos mein solid level","High pressure vessels"],tags:["Non-Contact","FMCW","GWR","Microwave","TOF"]},
-  {id:13,icon:"🔄",color:"#1a1000",cat:"switch",name:"Zero Speed Sensor",tag:"Switch",short:"Machine ke ruk jaane par turant signal deta hai.",def:"Zero Speed Sensor rotating machinery ki speed monitor karta hai aur jab speed minimum threshold se neeche girki hai toh alarm ya trip signal generate karta hai.",work:"Inductive proximity sensor rotating target ke pass lagta hai. Har tooth pass hone par pulse generate hoti hai. Jab pulses aana band ho jaate hain toh zero speed output activate hota hai.",apps:["Conveyor belt jam detection","Kiln rotation monitoring","Bucket elevator safety","Crusher/mill protection"],tags:["Proximity","Pulse Count","RPM","Safety Relay"]},
-  {id:14,icon:"🔲",color:"#001a00",cat:"switch",name:"Limit Switch",tag:"Switch",short:"Mechanical position detect karta hai — valve open/close feedback.",def:"Limit Switch physical contact se machine parts ki position ya motion detect karta hai. Valve open/close position, actuator position feedback ke liye use hota hai.",work:"Actuator machine part ko touch karta hai. Jab machine part move karta hai aur actuator operate karta hai toh internal micro-switch ka contact change hota hai.",apps:["Valve position feedback","Conveyor item detection","Door/gate position","Machine safety guarding"],tags:["NO/NC","Position Feedback","Mechanical","NAMUR"]},
-  {id:15,icon:"🎛️",color:"#1a0a1a",cat:"valve",name:"Valve Positioner",tag:"Valve",short:"Control valve ki exact position maintain karta hai.",def:"Valve Positioner control valve stem ki actual position continuously monitor karta hai aur use 4-20mA ke according exact position par rakhta hai.",work:"Controller se 4-20mA signal milta hai. Position sensor valve ki actual position feedback deta hai. Positioner in dono compare karta hai aur pneumatic pressure adjust karke valve ko sahi position par laata hai.",apps:["Flow control valves","Pressure reducing valves","Temperature control loops","Split-range control"],tags:["4-20mA","HART","LVDT","Pneumatic","Closed Loop"]},
-  {id:16,icon:"💪",color:"#0a1a0a",cat:"valve",name:"Actuator",tag:"Valve",short:"Control signal ko mechanical motion mein convert karta hai.",def:"Actuator electrical, pneumatic ya hydraulic energy ko mechanical force mein convert karta hai taaki valve ya other final control element operate kar sake.",work:"Pneumatic actuator mein compressed air diaphragm par act karta hai jo stem move karta hai. Electric actuator mein motor gear train se stem rotate karta hai.",apps:["Globe valve operation","Butterfly valve automation","Damper control","Gate valve remote operation"],tags:["Pneumatic","Electric","Hydraulic","Linear","Rotary"]},
-  {id:17,icon:"🔌",color:"#1a0000",cat:"valve",name:"Solenoid Valve",tag:"Valve",short:"Electrical signal se on/off operate hone wala valve.",def:"Solenoid Valve electrically operated valve hai jo electrical current se operate hota hai. Jab coil energize hoti hai toh magnetic field plunger ko attract karta hai jo valve open ya close karta hai.",work:"Coil mein current flow hone par magnetic field create hoti hai jo ferromagnetic plunger attract karta hai. Plunger move karke valve seat se door hota hai aur flow path khulta hai.",apps:["Pneumatic system air control","Water irrigation","Fuel control in burners","Hydraulic circuit control"],tags:["NC/NO","Coil","Plunger","2-way","3-way","24VDC"]},
-  {id:18,icon:"🌊",color:"#001020",cat:"pressure",name:"DP Transmitter",tag:"Pressure",short:"Do points ka pressure difference measure karta hai.",def:"DP Transmitter do process points ke beech pressure difference measure karta hai. Flow measurement, level measurement aur filter condition monitoring mein use hota hai.",work:"High aur low pressure ports dono sides par connect hote hain. Sensing diaphragm dono pressures ke beech deflect hota hai. Flow = K × √(ΔP).",apps:["Orifice plate flow measurement","Tank level hydrostatic","Filter monitoring","Venturi tube flow"],tags:["ΔP","Orifice","Venturi","4-20mA","HART"]},
-  {id:19,icon:"📻",color:"#001a10",cat:"level",name:"Ultrasonic Level",tag:"Level",short:"Sound waves se non-contact liquid level measure karta hai.",def:"Ultrasonic Level Transmitter ultrasonic sound waves emit karta hai jo liquid surface se reflect hokar wapas aate hain. Open channels, water tanks mein best choice hai.",work:"Transducer se ultrasonic pulses emit hote hain. Liquid surface se reflect hokar wapas aate hain. Time of flight measure hota hai. Distance = (Speed of Sound × Time) / 2.",apps:["Open channel flow","Water tank level","Sump pump control","River/dam level"],tags:["Non-Contact","Time of Flight","Echo","Temp Compensation"]},
-  {id:20,icon:"🌡️",color:"#200a00",cat:"temperature",name:"Thermocouple",tag:"Temperature",short:"Do metals ke junction par temperature se EMF generate hota hai.",def:"Thermocouple Seebeck effect par based hai — do alag metals ke junction par temperature difference se small voltage generate hoti hai. High temperature measurement ke liye best hai.",work:"Do alag dhatu ek end par weld ki jaati hain — hot junction. Doosra end cold junction hota hai. Temperature difference se EMF generate hoti hai jo temperature indicate karta hai.",apps:["Furnace temperature upto 1200°C","Boiler flue gas temperature","Kiln temperature","Heat treatment"],tags:["Type K","Type J","Type T","Seebeck Effect","mV"]},
-  {id:21,icon:"〰️",color:"#0a2000",cat:"temperature",name:"RTD / PT100",tag:"Temperature",short:"Resistance change se accurate temperature measure karta hai.",def:"RTD platinum wire ka resistance temperature ke saath predictable tarike se change hota hai. PT100 ka matlab 0°C par 100 ohm resistance. Thermocouples se zyada accurate hota hai.",work:"Platinum wire ka resistance temperature badhne par linearly increase hota hai — ~0.385 ohm/°C. 2-wire, 3-wire ya 4-wire connection possible hai — 4-wire sabse accurate.",apps:["HVAC precision control","Pharmaceutical process","Food processing","Laboratory instruments"],tags:["PT100","PT1000","3-Wire","4-Wire","±0.1°C","Platinum"]},
-  {id:22,icon:"🔦",color:"#0a0a20",cat:"level",name:"Guided Wave Radar",tag:"Level",short:"Probe ke through radar waves guide karke accurate level measure karta hai.",def:"GWR mein microwave pulses ek probe ke through liquid surface tak guide kiya jaata hai. Turbulence, foam, vapour mein bhi accurate kaam karta hai.",work:"Transmitter se microwave pulses probe ke along neeche jaate hain. Liquid surface par dielectric constant change hone se energy reflect hoti hai. TDR se distance calculate hota hai.",apps:["Interface level (oil-water)","LPG/LNG storage","Solids level in silos","Turbulent liquid tanks"],tags:["TDR","GWR","Probe","Dielectric","Interface"]}
+  {id:1,icon:"🔴",color:"#2a1010",cat:"pressure",name:"Pressure Transmitter",tag:"Pressure",short:"Process pressure ko 4-20mA signal mein convert karta hai.",def:"Pressure Transmitter ek industrial sensor hai jo fluid ya gas ka pressure measure karta hai aur use 4-20mA ya HART signal mein convert karke control room ko bhejta hai.",work:"Sensing diaphragm pressure ke hisaab se deflect hota hai. Strain gauge ya capacitive sensor se deflection measure hota hai aur electronic circuit use 4-20mA mein convert karta hai. 4mA = min pressure, 20mA = max pressure.",apps:["Oil & Gas pipelines","Boiler steam pressure","Chemical reactor","Water supply"],tags:["4-20mA","HART","Gauge","Absolute","DP"]},
+  {id:2,icon:"💧",color:"#0a1a2a",cat:"level",name:"Level Transmitter",tag:"Level",short:"Tank ya vessel mein liquid level continuously measure karta hai.",def:"Level Transmitter kisi bhi tank, vessel ya silo mein liquid ya solid ka level continuously measure karta hai aur 4-20mA signal provide karta hai.",work:"DP type mein tank ke bottom par pressure measure hoti hai. Ultrasonic type mein sound waves liquid surface se bounce hoke wapas aati hain. Radar type mein microwave signals use hoti hain.",apps:["Water treatment plant","Oil storage tank","Chemical dosing","Boiler drum"],tags:["DP Type","Ultrasonic","Radar","Float","4-20mA"]},
+  {id:3,icon:"🌡️",color:"#1a0a00",cat:"temperature",name:"Temperature Transmitter",tag:"Temperature",short:"RTD ya thermocouple signal ko 4-20mA mein convert karta hai.",def:"Temperature Transmitter RTD ya Thermocouple se milne wale weak signal ko amplify karke 4-20mA standard signal mein convert karta hai.",work:"RTD ka resistance temperature ke saath change hota hai. Transmitter is resistance change ko measure karta hai aur 4-20mA mein map karta hai.",apps:["Furnace control","Heat exchanger","Pasteurization","HVAC"],tags:["PT100","RTD","Thermocouple","4-20mA","HART"]},
+  {id:4,icon:"🔵",color:"#0a1020",cat:"flow",name:"Magnetic Flow Transmitter",tag:"Flow",short:"Conductive liquid ka flow Faraday's law se measure karta hai.",def:"Electromagnetic Flowmeter electrically conductive liquids ka volumetric flow rate measure karta hai. Isme koi moving parts nahi hoti.",work:"Faraday's law par kaam karta hai. Pipe ke around magnets magnetic field create karte hain. Conductive liquid EMF generate karta hai jo flow rate ke proportional hoti hai.",apps:["Water treatment","Sewage flow","Chemical lines","Food industry"],tags:["Faraday's Law","No Moving Parts","EMF","Conductive"]},
+  {id:5,icon:"🌀",color:"#0a1a10",cat:"flow",name:"Vortex Flowmeter",tag:"Flow",short:"Von Karman effect se vortices count karke flow measure karta hai.",def:"Vortex Flowmeter Von Karman vortex shedding effect use karke gas, steam ya liquid ka flow measure karta hai.",work:"Pipe ke andar bluff body hoti hai. Fluid is par se guzarta hai toh vortices create hoti hain. Frequency flow velocity ke proportional hoti hai.",apps:["Steam flow","Compressed air","Natural gas","Chemical flow"],tags:["Von Karman","Vortex","Steam","Gas","Piezoelectric"]},
+  {id:6,icon:"⚖️",color:"#1a1a00",cat:"flow",name:"Density Meter",tag:"Analyzer",short:"Liquid ya gas ki density real-time mein measure karta hai.",def:"Density Meter process liquid ya gas ki density ya specific gravity continuously measure karta hai.",work:"Vibrating tube principle par kaam karta hai. Liquid ki density ke hisaab se vibration frequency change hoti hai.",apps:["Sugar mill Brix","Acid concentration","Brewery","Crude oil"],tags:["Vibrating Tube","Brix","Specific Gravity","Concentration"]},
+  {id:7,icon:"⚡",color:"#0a0a1a",cat:"analyzer",name:"Conductivity Meter",tag:"Analyzer",short:"Liquid mein dissolved salts/ions ki concentration measure karta hai.",def:"Conductivity Meter liquid ki electrical conductivity measure karta hai jo directly dissolved ions/salts ki concentration indicate karta hai.",work:"Electrodes ke beech AC current pass hota hai. Liquid ki conductivity ke hisaab se current flow hota hai.",apps:["RO plant","Boiler feedwater","Chemical process","Effluent"],tags:["TDS","Salinity","EC","mS/cm"]},
+  {id:8,icon:"🧪",color:"#1a000a",cat:"analyzer",name:"pH Meter",tag:"Analyzer",short:"Liquid ki acidity ya alkalinity measure karta hai.",def:"pH Meter liquid ka pH value measure karta hai. pH scale 0-14 hoti hai — 7 neutral, 7 se kam acidic, 7 se zyada alkaline.",work:"Glass electrode H+ ions ke liye sensitive hota hai. Ion concentration ke hisaab se voltage generate hota hai.",apps:["Effluent treatment","Drinking water","Chemical neutralization","Food"],tags:["Glass Electrode","H+ Ions","0-14","Buffer"]},
+  {id:9,icon:"💨",color:"#001a1a",cat:"analyzer",name:"O2 Analyzer",tag:"Analyzer",short:"Flue gas mein oxygen percentage measure karta hai.",def:"O2 Analyzer gas streams mein oxygen ki concentration measure karta hai. Combustion efficiency ke liye boilers mein widely used.",work:"Zirconia type mein zirconium oxide cell oxygen ions conduct karta hai. Partial pressure difference se EMF generate hota hai.",apps:["Boiler combustion","Furnace efficiency","Inert gas purging","Safety"],tags:["Zirconia","Nernst","Combustion","Flue Gas"]},
+  {id:10,icon:"🔔",color:"#1a0010",cat:"switch",name:"Pressure Switch",tag:"Switch",short:"Set pressure par ON/OFF signal deta hai.",def:"Pressure Switch jab process pressure ek pre-set value tak pahunchti hai toh electrical contact open ya close kar deta hai.",work:"Sensing element pressure feel karta hai. Set point cross hone par micro-switch operate karta hai.",apps:["High pressure alarm","Pump protection","Compressor trip","Fire fighting"],tags:["Set Point","SPDT","NO/NC","Dead Band"]},
+  {id:11,icon:"📊",color:"#001010",cat:"switch",name:"Level Switch",tag:"Switch",short:"High ya low level par ON/OFF signal deta hai.",def:"Level Switch tank mein liquid level ek specific point par pahunchne par electrical signal generate karta hai.",work:"Float type mein liquid par float hota hai. Level badhne par float upar uthta hai aur reed switch operate karta hai.",apps:["Tank overflow","Pump dry run","Sump pit","Chemical alarms"],tags:["Float Type","Vibrating Fork","Reed Switch","High/Low"]},
+  {id:12,icon:"📡",color:"#0a001a",cat:"level",name:"Radar Level Transmitter",tag:"Level",short:"Microwave waves se contactless level measurement karta hai.",def:"Radar Level Transmitter microwave radio waves emit karta hai. Harsh environments mein bhi accurate measurement deta hai.",work:"Antenna se microwave pulses liquid surface se reflect hokar wapas aati hain. Time of Flight se level calculate hota hai.",apps:["Crude oil tanks","Corrosive vessels","Silos","High pressure tanks"],tags:["Non-Contact","FMCW","GWR","Microwave","TOF"]},
+  {id:13,icon:"🔄",color:"#1a1000",cat:"switch",name:"Zero Speed Sensor",tag:"Switch",short:"Machine ke ruk jaane par turant signal deta hai.",def:"Zero Speed Sensor rotating machinery ki speed monitor karta hai aur minimum threshold se neeche jaane par alarm generate karta hai.",work:"Proximity sensor rotating target ke pass lagta hai. Pulses aana band hone par zero speed output activate hota hai.",apps:["Conveyor jam","Kiln rotation","Bucket elevator","Crusher protection"],tags:["Proximity","Pulse","RPM","Safety"]},
+  {id:14,icon:"🔲",color:"#001a00",cat:"switch",name:"Limit Switch",tag:"Switch",short:"Mechanical position detect karta hai — valve feedback.",def:"Limit Switch physical contact se machine parts ki position detect karta hai. Valve open/close feedback ke liye use hota hai.",work:"Actuator machine part ko touch karta hai. Contact change hone par control system ko position information milti hai.",apps:["Valve position","Conveyor detection","Door position","Machine guarding"],tags:["NO/NC","Position","Mechanical","NAMUR"]},
+  {id:15,icon:"🎛️",color:"#1a0a1a",cat:"valve",name:"Valve Positioner",tag:"Valve",short:"Control valve ki exact position maintain karta hai.",def:"Valve Positioner control valve stem ki actual position continuously monitor karta hai aur 4-20mA ke according rakhta hai.",work:"4-20mA command aur actual position compare karta hai. Difference hone par pneumatic pressure adjust karta hai.",apps:["Flow control","Pressure reducing","Temperature loops","Split-range"],tags:["4-20mA","HART","LVDT","Pneumatic"]},
+  {id:16,icon:"💪",color:"#0a1a0a",cat:"valve",name:"Actuator",tag:"Valve",short:"Control signal ko mechanical motion mein convert karta hai.",def:"Actuator electrical, pneumatic ya hydraulic energy ko mechanical force mein convert karta hai valve operate karne ke liye.",work:"Pneumatic actuator mein compressed air diaphragm par act karta hai. Electric actuator mein motor gear train se stem rotate karta hai.",apps:["Globe valve","Butterfly valve","Damper control","Gate valve"],tags:["Pneumatic","Electric","Hydraulic","Linear","Rotary"]},
+  {id:17,icon:"🔌",color:"#1a0000",cat:"valve",name:"Solenoid Valve",tag:"Valve",short:"Electrical signal se on/off operate hone wala valve.",def:"Solenoid Valve electrically operated valve hai jo current se operate hota hai. Coil energize hone par magnetic field plunger attract karta hai.",work:"Coil mein current flow par magnetic field create hoti hai jo plunger attract karta hai. Valve seat se door hoke flow path khulta hai.",apps:["Pneumatic control","Water irrigation","Fuel control","Hydraulic circuit"],tags:["NC/NO","Coil","Plunger","2-way","3-way","24VDC"]},
+  {id:18,icon:"🌊",color:"#001020",cat:"pressure",name:"DP Transmitter",tag:"Pressure",short:"Do points ka pressure difference measure karta hai.",def:"DP Transmitter do process points ke beech pressure difference measure karta hai. Flow aur level measurement mein use hota hai.",work:"High aur low pressure ports connect hote hain. Sensing diaphragm deflect hota hai. Flow = K × √(ΔP).",apps:["Orifice flow","Tank level","Filter monitoring","Venturi flow"],tags:["ΔP","Orifice","Venturi","4-20mA","HART"]},
+  {id:19,icon:"📻",color:"#001a10",cat:"level",name:"Ultrasonic Level",tag:"Level",short:"Sound waves se non-contact liquid level measure karta hai.",def:"Ultrasonic Level Transmitter ultrasonic sound waves emit karta hai jo liquid surface se reflect hokar wapas aate hain.",work:"Transducer se pulses emit hote hain. Reflect hoke wapas aate hain. Time of flight se distance calculate hota hai.",apps:["Open channel","Water tank","Sump pump","River level"],tags:["Non-Contact","TOF","Echo","Temp Compensation"]},
+  {id:20,icon:"🌡️",color:"#200a00",cat:"temperature",name:"Thermocouple",tag:"Temperature",short:"Do metals ke junction par temperature se EMF generate hota hai.",def:"Thermocouple Seebeck effect par based hai. Do alag metals ke junction par temperature difference se voltage generate hoti hai.",work:"Hot junction aur cold junction ke beech temperature difference se EMF generate hoti hai jo temperature indicate karta hai.",apps:["Furnace 1200°C+","Boiler flue gas","Kiln","Heat treatment"],tags:["Type K","Type J","Type T","Seebeck","mV"]},
+  {id:21,icon:"〰️",color:"#0a2000",cat:"temperature",name:"RTD / PT100",tag:"Temperature",short:"Resistance change se accurate temperature measure karta hai.",def:"RTD platinum wire ka resistance temperature ke saath predictable tarike se change hota hai. PT100 = 0°C par 100Ω.",work:"Platinum resistance temperature badhne par linearly increase hota hai. 4-wire connection sabse accurate hota hai.",apps:["HVAC precision","Pharmaceutical","Food processing","Laboratory"],tags:["PT100","PT1000","3-Wire","4-Wire","±0.1°C"]},
+  {id:22,icon:"🔦",color:"#0a0a20",cat:"level",name:"Guided Wave Radar",tag:"Level",short:"Probe ke through radar waves guide karke level measure karta hai.",def:"GWR mein microwave pulses probe ke through liquid surface tak guide kiya jaata hai. Turbulence, foam mein bhi accurate.",work:"Pulses probe ke along neeche jaate hain. Liquid surface par reflect hoti hain. TDR se distance calculate hota hai.",apps:["Oil-water interface","LPG/LNG","Silos","Turbulent tanks"],tags:["TDR","GWR","Probe","Dielectric","Interface"]}
 ];
 
 let currentCat = 'all';
-
 function renderCards(list) {
   const grid = document.getElementById('encGrid');
   if (!list.length) { grid.innerHTML = '<p style="color:var(--muted);grid-column:1/-1;text-align:center;padding:40px">Koi instrument nahi mila 🔍</p>'; return; }
   grid.innerHTML = list.map(i => `
     <div class="enc-card" onclick="openModal(${i.id})">
-      <div class="enc-head">
-        <div class="enc-icon" style="background:${i.color}">${i.icon}</div>
-        <div><h4>${i.name}</h4><span class="tag">${i.tag}</span></div>
-      </div>
+      <div class="enc-head"><div class="enc-icon" style="background:${i.color}">${i.icon}</div><div><h4>${i.name}</h4><span class="tag">${i.tag}</span></div></div>
       <p>${i.short}</p>
       <div class="enc-foot"><span>${i.cat}</span><span class="more">Aur Jaano →</span></div>
     </div>`).join('');
 }
-
-function filterCat(cat, el) {
-  currentCat = cat;
-  document.querySelectorAll('.filter').forEach(e => e.classList.remove('active'));
-  el.classList.add('active');
-  applyFilters(document.querySelector('.enc-search').value.toLowerCase(), cat);
-}
-
-function filterEnc(q) { applyFilters(q.toLowerCase(), currentCat); }
-
-function applyFilters(q, cat) {
-  let list = instruments;
-  if (cat !== 'all') list = list.filter(i => i.cat === cat);
-  if (q) list = list.filter(i => i.name.toLowerCase().includes(q) || i.short.toLowerCase().includes(q));
-  renderCards(list);
-}
-
-function openModal(id) {
-  const i = instruments.find(x => x.id === id);
-  document.getElementById('mIcon').textContent = i.icon;
-  document.getElementById('mIcon').style.background = i.color;
-  document.getElementById('mTitle').textContent = i.name;
-  document.getElementById('mTag').textContent = i.tag;
-  document.getElementById('mDef').textContent = i.def;
-  document.getElementById('mWork').textContent = i.work;
-  document.getElementById('mApps').innerHTML = i.apps.map(a => `<li>${a}</li>`).join('');
-  document.getElementById('mTags').innerHTML = i.tags.map(t => `<span class="tag">${t}</span>`).join('');
+function filterCat(cat,el){currentCat=cat;document.querySelectorAll('.filter').forEach(e=>e.classList.remove('active'));el.classList.add('active');applyFilters(document.querySelector('.enc-search').value.toLowerCase(),cat)}
+function filterEnc(q){applyFilters(q.toLowerCase(),currentCat)}
+function applyFilters(q,cat){let list=instruments;if(cat!=='all')list=list.filter(i=>i.cat===cat);if(q)list=list.filter(i=>i.name.toLowerCase().includes(q)||i.short.toLowerCase().includes(q));renderCards(list)}
+function openModal(id){
+  const i=instruments.find(x=>x.id===id);
+  document.getElementById('mIcon').textContent=i.icon;
+  document.getElementById('mIcon').style.background=i.color;
+  document.getElementById('mTitle').textContent=i.name;
+  document.getElementById('mTag').textContent=i.tag;
+  document.getElementById('mDef').textContent=i.def;
+  document.getElementById('mWork').textContent=i.work;
+  document.getElementById('mApps').innerHTML=i.apps.map(a=>`<li>${a}</li>`).join('');
+  document.getElementById('mTags').innerHTML=i.tags.map(t=>`<span class="tag">${t}</span>`).join('');
   document.getElementById('modalOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflow='hidden';
 }
-
-function closeModal(e) { if (e.target.id === 'modalOverlay') closeModalBtn(); }
-function closeModalBtn() { document.getElementById('modalOverlay').classList.remove('open'); document.body.style.overflow = ''; }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalBtn(); });
+function closeModal(e){if(e.target.id==='modalOverlay')closeModalBtn()}
+function closeModalBtn(){document.getElementById('modalOverlay').classList.remove('open');document.body.style.overflow=''}
 renderCards(instruments);
 
-// ===================== CONTACT =====================
-function sendContact() {
-  const n = document.getElementById('cName').value.trim();
-  const e = document.getElementById('cEmail').value.trim();
-  const s = document.getElementById('cSubject').value.trim();
-  const m = document.getElementById('cMsg').value.trim();
-  if (!n || !e || !m) { alert('Naam, Email aur Message zaroori hai!'); return; }
-  window.location.href = `mailto:adityatiwari093@gmail.com?subject=${encodeURIComponent(s||'SugarTechIndia Contact')}&body=${encodeURIComponent('Naam: '+n+'\nEmail: '+e+'\n\nMessage:\n'+m)}`;
-  document.getElementById('cSuccess').style.display = 'block';
-  document.getElementById('cName').value = '';
-  document.getElementById('cEmail').value = '';
-  document.getElementById('cSubject').value = '';
-  document.getElementById('cMsg').value = '';
+// ===== CONTACT =====
+function sendContact(){
+  const n=document.getElementById('cName').value.trim();
+  const e=document.getElementById('cEmail').value.trim();
+  const s=document.getElementById('cSubject').value.trim();
+  const m=document.getElementById('cMsg').value.trim();
+  if(!n||!e||!m){alert('Naam, Email aur Message zaroori hai!');return}
+  window.location.href=`mailto:adityatiwari093@gmail.com?subject=${encodeURIComponent(s||'SugarTechIndia Contact')}&body=${encodeURIComponent('Naam: '+n+'\nEmail: '+e+'\n\nMessage:\n'+m)}`;
+  document.getElementById('cSuccess').style.display='block';
+  document.getElementById('cName').value='';
+  document.getElementById('cEmail').value='';
+  document.getElementById('cSubject').value='';
+  document.getElementById('cMsg').value='';
 }
 
-// ===================== Q&A FIREBASE =====================
-const DB_URL = 'https://sugartechindia-60aee-default-rtdb.asia-southeast1.firebasedatabase.app';
-
-async function submitQuestion() {
-  const name = document.getElementById('qName').value.trim() || 'Anonymous';
-  const text = document.getElementById('qText').value.trim();
-  if (!text) { alert('Sawaal likhna zaroori hai!'); return; }
-  try {
-    await fetch(`${DB_URL}/questions.json`, { method: 'POST', body: JSON.stringify({ name, text, time: Date.now() }) });
-    document.getElementById('qSuccess').style.display = 'block';
-    document.getElementById('qName').value = '';
-    document.getElementById('qText').value = '';
-    setTimeout(() => document.getElementById('qSuccess').style.display = 'none', 4000);
+// ===== Q&A =====
+const DB_URL='https://sugartechindia-60aee-default-rtdb.asia-southeast1.firebasedatabase.app';
+async function submitQuestion(){
+  const name=document.getElementById('qName').value.trim()||'Anonymous';
+  const text=document.getElementById('qText').value.trim();
+  if(!text){alert('Sawaal likhna zaroori hai!');return}
+  try{
+    await fetch(`${DB_URL}/questions.json`,{method:'POST',body:JSON.stringify({name,text,time:Date.now()})});
+    document.getElementById('qSuccess').style.display='block';
+    document.getElementById('qName').value='';
+    document.getElementById('qText').value='';
+    setTimeout(()=>document.getElementById('qSuccess').style.display='none',4000);
     loadQuestions();
-  } catch(e) { alert('Error! Internet check karo.'); }
+  }catch(e){alert('Error! Internet check karo.')}
 }
-
-async function submitAnswer(qId) {
-  const aText = document.getElementById('ans_'+qId).value.trim();
-  if (!aText) { alert('Jawab likhna zaroori hai!'); return; }
-  try {
-    await fetch(`${DB_URL}/questions/${qId}/answers.json`, { method: 'POST', body: JSON.stringify({ text: aText, time: Date.now(), by: 'Aditya Tiwari ✅' }) });
-    document.getElementById('ans_'+qId).value = '';
+async function submitAnswer(qId){
+  const t=document.getElementById('ans_'+qId).value.trim();
+  if(!t){alert('Jawab likhna zaroori hai!');return}
+  try{
+    await fetch(`${DB_URL}/questions/${qId}/answers.json`,{method:'POST',body:JSON.stringify({text:t,time:Date.now(),by:'Aditya Tiwari ✅'})});
+    document.getElementById('ans_'+qId).value='';
     loadQuestions();
-  } catch(e) { alert('Error!'); }
+  }catch(e){alert('Error!')}
 }
-
-function timeAgo(ts) {
-  const d = Math.floor((Date.now()-ts)/1000);
-  if (d < 60) return 'abhi abhi';
-  if (d < 3600) return Math.floor(d/60)+' min pehle';
-  if (d < 86400) return Math.floor(d/3600)+' ghante pehle';
+function timeAgo(ts){
+  const d=Math.floor((Date.now()-ts)/1000);
+  if(d<60)return'abhi abhi';
+  if(d<3600)return Math.floor(d/60)+' min pehle';
+  if(d<86400)return Math.floor(d/3600)+' ghante pehle';
   return Math.floor(d/86400)+' din pehle';
 }
-
-async function loadQuestions() {
-  const list = document.getElementById('qaList');
-  try {
-    const res = await fetch(`${DB_URL}/questions.json`);
-    const data = await res.json();
-    if (!data) { list.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted)">🤔 Abhi koi sawaal nahi hai. Pehla sawaal aap poochho!</div>'; return; }
-    const isAdmin = localStorage.getItem('sti_admin') === 'yes';
-    list.innerHTML = Object.entries(data).reverse().map(([id,q]) => {
-      const answers = q.answers ? Object.values(q.answers) : [];
-      const ansHtml = answers.map(a => `
-        <div class="qa-answer">
-          <div style="display:flex;justify-content:space-between;margin-bottom:6px">
-            <span style="font-size:.78rem;font-weight:700;color:var(--accent)">${a.by}</span>
-            <span style="font-size:.72rem;color:var(--muted)">${timeAgo(a.time)}</span>
-          </div>
-          <p style="font-size:.88rem;line-height:1.7">${a.text}</p>
-        </div>`).join('');
-      const adminBox = isAdmin ? `
-        <div style="margin-top:12px;display:flex;gap:8px">
-          <textarea id="ans_${id}" class="inp" rows="2" placeholder="Jawab likhein..." style="flex:1"></textarea>
-          <button onclick="submitAnswer(&#39;${id}&#39;)" class="submit-btn" style="width:auto;padding:10px 16px;white-space:nowrap;font-size:.82rem">Jawab Do</button>
-        </div>` : '';
-      return `<div class="qa-item">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
-          <div style="display:flex;align-items:center;gap:10px">
-            <div style="width:36px;height:36px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:800;color:#fff;flex-shrink:0">${q.name.charAt(0).toUpperCase()}</div>
-            <div><p style="font-size:.85rem;font-weight:700">${q.name}</p><p style="font-size:.72rem;color:var(--muted)">${timeAgo(q.time)}</p></div>
-          </div>
-          <span class="tag">${answers.length} jawab</span>
-        </div>
-        <p style="font-size:.92rem;line-height:1.7;margin-bottom:10px">${q.text}</p>
-        ${ansHtml}${adminBox}
-      </div>`;
+async function loadQuestions(){
+  const list=document.getElementById('qaList');
+  try{
+    const res=await fetch(`${DB_URL}/questions.json`);
+    const data=await res.json();
+    if(!data){list.innerHTML='<div style="text-align:center;padding:40px;color:var(--muted)">🤔 Abhi koi sawaal nahi. Pehla sawaal aap poochho!</div>';return}
+    const isAdmin=localStorage.getItem('sti_admin')==='yes';
+    list.innerHTML=Object.entries(data).reverse().map(([id,q])=>{
+      const answers=q.answers?Object.values(q.answers):[];
+      const ansHtml=answers.map(a=>`<div class="qa-ans"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:.78rem;font-weight:700;color:var(--accent)">${a.by}</span><span style="font-size:.72rem;color:var(--muted)">${timeAgo(a.time)}</span></div><p style="font-size:.88rem;line-height:1.7">${a.text}</p></div>`).join('');
+      const adminBox=isAdmin?`<div style="margin-top:12px;display:flex;gap:8px"><textarea id="ans_${id}" class="inp" rows="2" placeholder="Jawab likhein..." style="flex:1"></textarea><button onclick="submitAnswer('${id}')" class="submit-btn" style="width:auto;padding:10px 16px;font-size:.82rem;white-space:nowrap">Jawab Do</button></div>`:'';
+      return`<div class="qa-item"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px"><div style="display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:800;color:#fff;flex-shrink:0">${q.name.charAt(0).toUpperCase()}</div><div><p style="font-size:.85rem;font-weight:700">${q.name}</p><p style="font-size:.72rem;color:var(--muted)">${timeAgo(q.time)}</p></div></div><span class="tag">${answers.length} JAWAB</span></div><p style="font-size:.92rem;line-height:1.7;margin-bottom:10px">${q.text}</p>${ansHtml}${adminBox}</div>`;
     }).join('');
-  } catch(e) { list.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted)">⚠️ Load nahi hua.</div>'; }
+  }catch(e){list.innerHTML='<div style="text-align:center;padding:40px;color:var(--muted)">⚠️ Load nahi hua.</div>'}
 }
-
-function checkAdmin() {
-  const pass = prompt('Admin Password:');
-  if (pass === 'sugar@admin2025') { localStorage.setItem('sti_admin','yes'); alert('✅ Admin mode on!'); loadQuestions(); }
-  else alert('❌ Wrong password');
-}
-
 loadQuestions();
-setInterval(loadQuestions, 30000);
+setInterval(loadQuestions,30000);
 </script>
 </body>
 </html>
