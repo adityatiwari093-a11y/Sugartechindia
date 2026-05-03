@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="hi">
 <head>
 <meta charset="UTF-8"/>
@@ -26,147 +27,187 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .banner{position:relative;z-index:10;background:linear-gradient(90deg,#ff6b2b,#ffb347);padding:10px 24px;text-align:center;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
 .banner p{font-size:.88rem;font-weight:600;color:#fff}
 
-header{position:sticky;top:0;z-index:100;background:rgba(10,10,15,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+header{position:sticky;top:0;z-index:100;background:rgba(10,10,15,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(–border)}
 .nav{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px}
-.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:var(--text);text-decoration:none}
-.logo span{color:var(--accent)}
+.logo{font-family:‘Syne’,sans-serif;font-weight:800;font-size:1.2rem;color:var(–text);text-decoration:none}
+.logo span{color:var(–accent)}
 .nav-links{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
-.nav-links a{color:var(--muted);text-decoration:none;font-size:.82rem;font-weight:500;padding:5px 10px;border-radius:8px;transition:all .2s;cursor:pointer}
-.nav-links a:hover{color:var(--text);background:rgba(255,107,43,.1)}
+.nav-links a{color:var(–muted);text-decoration:none;font-size:.82rem;font-weight:500;padding:5px 10px;border-radius:8px;transition:all .2s;cursor:pointer}
+.nav-links a:hover{color:var(–text);background:rgba(255,107,43,.1)}
 
 .hero{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:60px 24px 40px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
-.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,107,43,.12);border:1px solid rgba(255,107,43,.3);border-radius:100px;padding:6px 14px;font-size:.78rem;font-weight:500;color:var(--accent2);margin-bottom:20px}
-.badge::before{content:'';width:7px;height:7px;background:var(--accent);border-radius:50%;animation:pulse 1.5s infinite}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,107,43,.12);border:1px solid rgba(255,107,43,.3);border-radius:100px;padding:6px 14px;font-size:.78rem;font-weight:500;color:var(–accent2);margin-bottom:20px}
+.badge::before{content:’’;width:7px;height:7px;background:var(–accent);border-radius:50%;animation:pulse 1.5s infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
-.hero h1{font-family:'Syne',sans-serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:800;line-height:1.1;letter-spacing:-1px}
-.hero h1 em{font-style:normal;color:var(--accent)}
-.hero-desc{color:var(--muted);font-size:1rem;max-width:480px;margin-top:14px;line-height:1.8}
+.hero h1{font-family:‘Syne’,sans-serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:800;line-height:1.1;letter-spacing:-1px}
+.hero h1 em{font-style:normal;color:var(–accent)}
+.hero-desc{color:var(–muted);font-size:1rem;max-width:480px;margin-top:14px;line-height:1.8}
 .hero-btns{margin-top:28px;display:flex;gap:12px;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;gap:8px;border-radius:10px;padding:12px 24px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:none;transition:all .2s;border:none}
-.btn-primary{background:var(--accent);color:#fff}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:10px;padding:12px 24px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:‘DM Sans’,sans-serif;text-decoration:none;transition:all .2s;border:none}
+.btn-primary{background:var(–accent);color:#fff}
 .btn-primary:hover{background:#ff8c50;transform:translateY(-2px)}
-.btn-outline{background:transparent;color:var(--text);border:1px solid var(--border)}
-.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+.btn-outline{background:transparent;color:var(–text);border:1px solid var(–border)}
+.btn-outline:hover{border-color:var(–accent);color:var(–accent)}
 .stats{display:flex;gap:32px;margin-top:36px}
-.stat h3{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--accent)}
-.stat p{font-size:.8rem;color:var(--muted)}
-.hero-img{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;aspect-ratio:16/10;position:relative}
+.stat h3{font-family:‘Syne’,sans-serif;font-size:1.6rem;font-weight:800;color:var(–accent)}
+.stat p{font-size:.8rem;color:var(–muted)}
+.hero-img{background:var(–card);border:1px solid var(–border);border-radius:16px;overflow:hidden;aspect-ratio:16/10;position:relative}
 .hero-img img{width:100%;height:100%;object-fit:cover;opacity:.85}
 .hero-img-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,15,.8),transparent 60%)}
 .hero-img-label{position:absolute;bottom:16px;left:16px;font-size:.8rem;font-weight:600}
 
 .section{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 24px 64px}
 .section-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:28px}
-.section-label{font-family:'Syne',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
-.section-title{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800}
-.view-all{font-size:.82rem;color:var(--muted);text-decoration:none}
-.view-all:hover{color:var(--accent)}
-.tag{display:inline-block;background:var(--tag);border:1px solid var(--border);color:var(--accent2);font-size:.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 9px;border-radius:6px}
+.section-label{font-family:‘Syne’,sans-serif;font-size:.7rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(–accent);margin-bottom:6px}
+.section-title{font-family:‘Syne’,sans-serif;font-size:1.4rem;font-weight:800}
+.view-all{font-size:.82rem;color:var(–muted);text-decoration:none}
+.view-all:hover{color:var(–accent)}
+.tag{display:inline-block;background:var(–tag);border:1px solid var(–border);color:var(–accent2);font-size:.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 9px;border-radius:6px}
 
 .video-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.video-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:all .3s;text-decoration:none;color:inherit;display:block}
+.video-card{background:var(–card);border:1px solid var(–border);border-radius:14px;overflow:hidden;cursor:pointer;transition:all .3s;text-decoration:none;color:inherit;display:block}
 .video-card:hover{border-color:rgba(255,107,43,.6);transform:translateY(-5px)}
 .vthumb{position:relative;aspect-ratio:16/9;background:#111;overflow:hidden}
 .vthumb img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
 .video-card:hover .vthumb img{transform:scale(1.06)}
 .play-btn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.3)}
-.play-icon{width:48px;height:48px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.play-icon{width:48px;height:48px;background:var(–accent);border-radius:50%;display:flex;align-items:center;justify-content:center}
 .play-icon svg{width:18px;height:18px;fill:#fff;margin-left:3px}
 .vbody{padding:16px}
 .vbody .tag{margin-bottom:10px}
-.vbody h3{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;line-height:1.4;margin-bottom:8px}
-.vfoot{display:flex;justify-content:space-between;padding:10px 16px;border-top:1px solid var(--border);font-size:.76rem;color:var(--muted)}
+.vbody h3{font-family:‘Syne’,sans-serif;font-size:.95rem;font-weight:700;line-height:1.4;margin-bottom:8px}
+.vfoot{display:flex;justify-content:space-between;padding:10px 16px;border-top:1px solid var(–border);font-size:.76rem;color:var(–muted)}
 
-.enc-search{width:100%;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 20px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:1rem;outline:none;margin-bottom:16px;transition:border-color .2s}
-.enc-search:focus{border-color:var(--accent)}
-.enc-search::placeholder{color:var(--muted)}
+.enc-search{width:100%;background:var(–card);border:1px solid var(–border);border-radius:12px;padding:14px 20px;color:var(–text);font-family:‘DM Sans’,sans-serif;font-size:1rem;outline:none;margin-bottom:16px;transition:border-color .2s}
+.enc-search:focus{border-color:var(–accent)}
+.enc-search::placeholder{color:var(–muted)}
 .filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px}
-.filter{background:var(--card);border:1px solid var(--border);border-radius:100px;padding:6px 16px;font-size:.8rem;color:var(--muted);cursor:pointer;transition:all .2s}
-.filter:hover,.filter.active{background:rgba(255,107,43,.15);border-color:var(--accent);color:var(--accent)}
+.filter{background:var(–card);border:1px solid var(–border);border-radius:100px;padding:6px 16px;font-size:.8rem;color:var(–muted);cursor:pointer;transition:all .2s}
+.filter:hover,.filter.active{background:rgba(255,107,43,.15);border-color:var(–accent);color:var(–accent)}
 .enc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.enc-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:all .3s}
+.enc-card{background:var(–card);border:1px solid var(–border);border-radius:14px;overflow:hidden;cursor:pointer;transition:all .3s}
 .enc-card:hover{border-color:rgba(255,107,43,.6);transform:translateY(-4px)}
 .enc-head{padding:20px 20px 0;display:flex;align-items:flex-start;gap:14px}
 .enc-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
-.enc-head h4{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;line-height:1.3;margin-bottom:4px}
-.enc-card p{padding:12px 20px 16px;font-size:.82rem;color:var(--muted);line-height:1.7}
-.enc-foot{padding:12px 20px;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted)}
-.enc-foot .more{color:var(--accent);font-weight:600}
+.enc-head h4{font-family:‘Syne’,sans-serif;font-size:.95rem;font-weight:700;line-height:1.3;margin-bottom:4px}
+.enc-card p{padding:12px 20px 16px;font-size:.82rem;color:var(–muted);line-height:1.7}
+.enc-foot{padding:12px 20px;border-top:1px solid var(–border);display:flex;justify-content:space-between;font-size:.78rem;color:var(–muted)}
+.enc-foot .more{color:var(–accent);font-weight:600}
 
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s}
 .modal-overlay.open{opacity:1;pointer-events:all}
-.modal{background:var(--card);border:1px solid var(--border);border-radius:20px;max-width:640px;width:100%;max-height:85vh;overflow-y:auto;transform:translateY(20px);transition:transform .3s}
+.modal{background:var(–card);border:1px solid var(–border);border-radius:20px;max-width:640px;width:100%;max-height:85vh;overflow-y:auto;transform:translateY(20px);transition:transform .3s}
 .modal-overlay.open .modal{transform:translateY(0)}
 .modal-hdr{padding:28px 28px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
 .modal-title-grp{display:flex;align-items:center;gap:16px}
 .modal-ico{width:60px;height:60px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0}
-.modal-hdr h2{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:6px}
-.modal-close{background:var(--tag);border:1px solid var(--border);color:var(--muted);width:36px;height:36px;border-radius:8px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
-.modal-close:hover{border-color:var(--accent);color:var(--accent)}
+.modal-hdr h2{font-family:‘Syne’,sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:6px}
+.modal-close{background:var(–tag);border:1px solid var(–border);color:var(–muted);width:36px;height:36px;border-radius:8px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
+.modal-close:hover{border-color:var(–accent);color:var(–accent)}
 .modal-body{padding:24px 28px 28px}
 .msec{margin-bottom:20px}
-.msec h3{font-family:'Syne',sans-serif;font-size:.85rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
-.msec p{font-size:.9rem;color:var(--muted);line-height:1.8}
+.msec h3{font-family:‘Syne’,sans-serif;font-size:.85rem;font-weight:700;color:var(–accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.msec p{font-size:.9rem;color:var(–muted);line-height:1.8}
 .msec ul{list-style:none;display:flex;flex-direction:column;gap:6px}
-.msec ul li{font-size:.88rem;color:var(--muted);padding-left:16px;position:relative}
-.msec ul li::before{content:'->>';position:absolute;left:0;color:var(--accent)}
+.msec ul li{font-size:.88rem;color:var(–muted);padding-left:16px;position:relative}
+.msec ul li::before{content:’->>’;position:absolute;left:0;color:var(–accent)}
 .mtags{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
 
-.inp{background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;padding:11px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s;width:100%}
-.inp:focus{border-color:var(--accent)}
-.inp::placeholder{color:var(--muted)}
+.inp{background:rgba(255,255,255,.06);border:1px solid var(–border);border-radius:8px;padding:11px 16px;color:var(–text);font-family:‘DM Sans’,sans-serif;font-size:.9rem;outline:none;transition:border-color .2s;width:100%}
+.inp:focus{border-color:var(–accent)}
+.inp::placeholder{color:var(–muted)}
 textarea.inp{resize:none}
-.submit-btn{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:13px;font-weight:700;font-size:.9rem;cursor:pointer;font-family:'Syne',sans-serif;transition:background .2s;width:100%}
+.submit-btn{background:var(–accent);color:#fff;border:none;border-radius:8px;padding:13px;font-weight:700;font-size:.9rem;cursor:pointer;font-family:‘Syne’,sans-serif;transition:background .2s;width:100%}
 .submit-btn:hover{background:#ff8c50}
-.success-msg{display:none;background:rgba(0,200,100,.1);border:1px solid rgba(0,200,100,.3);border-radius:8px;padding:12px;text-align:center;color:var(--green);font-size:.88rem}
+.success-msg{display:none;background:rgba(0,200,100,.1);border:1px solid rgba(0,200,100,.3);border-radius:8px;padding:12px;text-align:center;color:var(–green);font-size:.88rem}
 
 .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-.contact-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px}
-.ci{display:flex;align-items:center;gap:12px;background:var(--tag);border:1px solid var(--border);border-radius:10px;padding:12px 16px;text-decoration:none;color:var(--text);margin-bottom:12px;transition:border-color .2s}
-.ci:hover{border-color:var(--accent)}
+.contact-card{background:var(–card);border:1px solid var(–border);border-radius:16px;padding:32px}
+.ci{display:flex;align-items:center;gap:12px;background:var(–tag);border:1px solid var(–border);border-radius:10px;padding:12px 16px;text-decoration:none;color:var(–text);margin-bottom:12px;transition:border-color .2s}
+.ci:hover{border-color:var(–accent)}
 
-.qa-ask{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;margin-bottom:28px}
+.qa-ask{background:var(–card);border:1px solid var(–border);border-radius:16px;padding:28px;margin-bottom:28px}
 .qa-list{display:flex;flex-direction:column;gap:16px}
-.qa-item{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px}
-.qa-ans{background:rgba(255,107,43,.08);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:12px 16px;margin-top:10px}
+.qa-item{background:var(–card);border:1px solid var(–border);border-radius:14px;padding:20px}
+.qa-ans{background:rgba(255,107,43,.08);border-left:3px solid var(–accent);border-radius:0 8px 8px 0;padding:12px 16px;margin-top:10px}
 
-.about-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:40px;display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center}
-.about-box h3{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:10px}
-.about-box p{color:var(--muted);font-size:.88rem;line-height:1.8}
-.yt-btn{display:inline-flex;align-items:center;gap:10px;background:#ff0000;color:#fff;border:none;border-radius:10px;padding:14px 26px;font-size:.9rem;font-weight:700;font-family:'Syne',sans-serif;cursor:pointer;text-decoration:none;white-space:nowrap;transition:all .2s}
+.about-box{background:var(–card);border:1px solid var(–border);border-radius:16px;padding:40px;display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center}
+.about-box h3{font-family:‘Syne’,sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:10px}
+.about-box p{color:var(–muted);font-size:.88rem;line-height:1.8}
+.yt-btn{display:inline-flex;align-items:center;gap:10px;background:#ff0000;color:#fff;border:none;border-radius:10px;padding:14px 26px;font-size:.9rem;font-weight:700;font-family:‘Syne’,sans-serif;cursor:pointer;text-decoration:none;white-space:nowrap;transition:all .2s}
 .yt-btn:hover{background:#cc0000;transform:scale(1.04)}
 
 .nl-box{background:linear-gradient(135deg,rgba(255,107,43,.12),rgba(255,179,71,.06));border:1px solid rgba(255,107,43,.3);border-radius:16px;padding:48px 40px;text-align:center}
-.nl-box h3{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:8px}
-.nl-box p{color:var(--muted);margin-bottom:24px;font-size:.9rem}
+.nl-box h3{font-family:‘Syne’,sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:8px}
+.nl-box p{color:var(–muted);margin-bottom:24px;font-size:.9rem}
 .nl-form{display:flex;gap:10px;max-width:440px;margin:0 auto}
 .nl-form input{flex:1}
-.nl-form button{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:11px 22px;font-weight:600;font-size:.9rem;cursor:pointer;font-family:'DM Sans',sans-serif}
+.nl-form button{background:var(–accent);color:#fff;border:none;border-radius:8px;padding:11px 22px;font-weight:600;font-size:.9rem;cursor:pointer;font-family:‘DM Sans’,sans-serif}
 .nl-form button:hover{background:#ff8c50}
 
-footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:36px 24px;text-align:center;color:var(--muted);font-size:.82rem}
-footer strong{color:var(--accent);font-family:'Syne',sans-serif}
+footer{position:relative;z-index:1;border-top:1px solid var(–border);padding:36px 24px;text-align:center;color:var(–muted);font-size:.82rem}
+footer strong{color:var(–accent);font-family:‘Syne’,sans-serif}
 .footer-links{display:flex;justify-content:center;gap:20px;margin-bottom:16px;flex-wrap:wrap}
-.footer-links a{color:var(--muted);text-decoration:none;font-size:.83rem}
-.footer-links a:hover{color:var(--accent)}
+.footer-links a{color:var(–muted);text-decoration:none;font-size:.83rem}
+.footer-links a:hover{color:var(–accent)}
 
 .admin-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);z-index:9999;align-items:center;justify-content:center;padding:20px}
 .admin-overlay.open{display:flex}
-.admin-box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:36px;max-width:380px;width:100%}
+.admin-box{background:var(–card);border:1px solid var(–border);border-radius:20px;padding:36px;max-width:380px;width:100%}
+
+/* ===== AI SEARCH WIDGET STYLES ===== */
+.ai-search-section{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 24px 64px}
+.ai-search-inner{background:var(–card);border:1px solid var(–border);border-radius:20px;padding:36px}
+.ai-search-header{margin-bottom:24px}
+.ai-search-header h2{font-family:‘Syne’,sans-serif;font-size:1.4rem;font-weight:800;margin-bottom:6px}
+.ai-search-box{display:flex;gap:10px;background:rgba(255,255,255,.04);border:1.5px solid var(–border);border-radius:14px;padding:10px 12px;transition:border-color .2s,box-shadow .2s}
+.ai-search-box:focus-within{border-color:var(–accent);box-shadow:0 0 0 3px rgba(255,107,43,.15)}
+.ai-search-box input{flex:1;background:transparent;border:none;outline:none;color:var(–text);font-size:1rem;font-family:‘DM Sans’,sans-serif;padding:4px 6px}
+.ai-search-box input::placeholder{color:var(–muted)}
+.ai-search-box button{background:var(–accent);border:none;border-radius:10px;color:#fff;font-family:‘Syne’,sans-serif;font-size:.9rem;font-weight:700;padding:10px 22px;cursor:pointer;transition:background .18s,transform .1s;white-space:nowrap;display:flex;align-items:center;gap:6px}
+.ai-search-box button:hover{background:#ff8c50}
+.ai-search-box button:active{transform:scale(0.97)}
+.ai-search-box button:disabled{opacity:.5;cursor:not-allowed}
+.ai-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.ai-chip{background:var(–tag);border:1px solid var(–border);border-radius:20px;padding:5px 14px;font-size:.78rem;color:var(–muted);cursor:pointer;transition:all .18s}
+.ai-chip:hover{border-color:var(–accent);color:var(–accent);background:rgba(255,107,43,.1)}
+.ai-answer-box{margin-top:20px;background:rgba(255,255,255,.03);border:1px solid var(–border);border-radius:14px;overflow:hidden;animation:aiSlideIn .3s ease}
+@keyframes aiSlideIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.ai-answer-hdr{display:flex;align-items:center;gap:10px;padding:12px 18px;background:rgba(255,107,43,.08);border-bottom:1px solid var(–border)}
+.ai-badge{background:var(–accent);color:#fff;font-family:‘Syne’,sans-serif;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:.5px}
+.ai-qtxt{color:var(–muted);font-size:.85rem;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ai-answer-body{padding:18px 20px;line-height:1.8;font-size:.95rem;color:var(–text);max-height:400px;overflow-y:auto}
+.ai-answer-body p{margin-bottom:10px}
+.ai-answer-body p:last-child{margin-bottom:0}
+.ai-answer-body strong{color:var(–accent2);font-weight:600}
+.ai-answer-body ul,.ai-answer-body ol{padding-left:20px;margin-bottom:10px}
+.ai-answer-body li{margin-bottom:4px}
+.ai-answer-body code{background:var(–tag);border:1px solid var(–border);border-radius:4px;padding:1px 6px;font-size:.85rem;color:#fbbf24}
+.ai-answer-ftr{display:flex;justify-content:flex-end;padding:8px 16px;border-top:1px solid var(–border);gap:8px}
+.ai-icon-btn{background:transparent;border:1px solid var(–border);border-radius:8px;color:var(–muted);font-size:.78rem;padding:4px 12px;cursor:pointer;transition:all .18s;font-family:‘DM Sans’,sans-serif}
+.ai-icon-btn:hover{border-color:var(–accent);color:var(–accent)}
+.ai-typing{display:flex;align-items:center;gap:8px;padding:20px;color:var(–muted);font-size:.9rem}
+.ai-dots{display:flex;gap:4px}
+.ai-dots span{width:6px;height:6px;background:var(–accent);border-radius:50%;animation:aiDot 1.2s infinite}
+.ai-dots span:nth-child(2){animation-delay:.2s}
+.ai-dots span:nth-child(3){animation-delay:.4s}
+@keyframes aiDot{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-6px);opacity:1}}
+.ai-error{padding:16px 20px;color:#f87171;font-size:.9rem}
 
 @media(max-width:900px){
-  .hero{grid-template-columns:1fr}.hero-img{display:none}
-  .video-grid{grid-template-columns:1fr 1fr}
-  .enc-grid{grid-template-columns:1fr 1fr}
-  .contact-grid{grid-template-columns:1fr}
-  .about-box{grid-template-columns:1fr}
+.hero{grid-template-columns:1fr}.hero-img{display:none}
+.video-grid{grid-template-columns:1fr 1fr}
+.enc-grid{grid-template-columns:1fr 1fr}
+.contact-grid{grid-template-columns:1fr}
+.about-box{grid-template-columns:1fr}
 }
 @media(max-width:600px){
-  .video-grid,.enc-grid{grid-template-columns:1fr}
-  .nl-form{flex-direction:column}
-  .stats{gap:20px}
+.video-grid,.enc-grid{grid-template-columns:1fr}
+.nl-form{flex-direction:column}
+.stats{gap:20px}
 }
 </style>
+
 </head>
 <body>
 
@@ -182,6 +223,7 @@ footer strong{color:var(--accent);font-family:'Syne',sans-serif}
     <div class="nav-links">
       <a href="#videos">Videos</a>
       <a href="#encyclopedia">Encyclopedia</a>
+      <a href="#ai-search">🤖 AI Search</a>
       <a href="#qa">Q&A</a>
       <a href="#contact">Contact</a>
       <a href="/Sugartechindia/troubleshooting.html" style="color:var(--accent2)">🔧 Guide</a>
@@ -216,6 +258,8 @@ footer strong{color:var(--accent);font-family:'Syne',sans-serif}
   </div>
 </section>
 
+<!-- VIDEOS SECTION -->
+
 <section class="section" id="videos">
   <div class="section-head">
     <div>
@@ -228,6 +272,8 @@ footer strong{color:var(--accent);font-family:'Syne',sans-serif}
     <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted)">⏳ Videos load ho rahe hain...</div>
   </div>
 </section>
+
+<!-- ENCYCLOPEDIA SECTION -->
 
 <section class="section" id="encyclopedia">
   <div class="section-head">
@@ -250,6 +296,8 @@ footer strong{color:var(--accent);font-family:'Syne',sans-serif}
   <div class="enc-grid" id="encGrid"></div>
 </section>
 
+<!-- TROUBLESHOOTING BANNER -->
+
 <section class="section">
   <div style="background:linear-gradient(135deg,rgba(255,107,43,.15),rgba(255,179,71,.08));border:1px solid rgba(255,107,43,.4);border-radius:16px;padding:36px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap">
     <div>
@@ -260,6 +308,37 @@ footer strong{color:var(--accent);font-family:'Syne',sans-serif}
     <a href="/Sugartechindia/troubleshooting.html" class="btn btn-primary">🔧 Guide Kholo</a>
   </div>
 </section>
+
+<!-- AI SEARCH SECTION -->
+
+<section class="ai-search-section" id="ai-search">
+  <div class="section-head">
+    <div>
+      <div class="section-label">🤖 AI Powered</div>
+      <div class="section-title">AI Search — Koi Bhi Sawaal Poochho</div>
+    </div>
+  </div>
+  <div class="ai-search-inner">
+    <div class="ai-search-box">
+      <input type="text" id="aiInput" placeholder="Jaise: 4-20mA kya hota hai? PID controller explain karo..." />
+      <button id="aiBtn" onclick="aiSearch()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        Poochho
+      </button>
+    </div>
+    <div class="ai-chips">
+      <span class="ai-chip" onclick="aiSet('4-20mA signal kya hota hai?')">4-20mA Signal</span>
+      <span class="ai-chip" onclick="aiSet('PID controller kaise kaam karta hai?')">PID Controller</span>
+      <span class="ai-chip" onclick="aiSet('SCADA system kya hai?')">SCADA System</span>
+      <span class="ai-chip" onclick="aiSet('Pressure transmitter kaise calibrate karte hain?')">Calibration</span>
+      <span class="ai-chip" onclick="aiSet('RTD aur Thermocouple mein kya fark hai?')">RTD vs Thermocouple</span>
+      <span class="ai-chip" onclick="aiSet('Flow meter ke prakar kaunse hain?')">Flow Meter Types</span>
+    </div>
+    <div id="aiAnswer" style="display:none"></div>
+  </div>
+</section>
+
+<!-- CONTACT SECTION -->
 
 <section class="section" id="contact">
   <div class="section-head">
@@ -295,6 +374,8 @@ footer strong{color:var(--accent);font-family:'Syne',sans-serif}
   </div>
 </section>
 
+<!-- Q&A SECTION -->
+
 <section class="section" id="qa">
   <div class="section-head">
     <div>
@@ -317,6 +398,8 @@ footer strong{color:var(--accent);font-family:'Syne',sans-serif}
   </div>
 </section>
 
+<!-- ABOUT SECTION -->
+
 <section class="section">
   <div class="about-box">
     <div>
@@ -329,6 +412,8 @@ footer strong{color:var(--accent);font-family:'Syne',sans-serif}
     </a>
   </div>
 </section>
+
+<!-- NEWSLETTER -->
 
 <section class="section">
   <div class="nl-box">
@@ -346,6 +431,7 @@ footer strong{color:var(--accent);font-family:'Syne',sans-serif}
     <a href="https://youtube.com/@sugartechindia" target="_blank">YouTube</a>
     <a href="#videos">Videos</a>
     <a href="#encyclopedia">Encyclopedia</a>
+    <a href="#ai-search">AI Search</a>
     <a href="#qa">Q&A</a>
     <a href="#contact">Contact</a>
     <a href="/Sugartechindia/troubleshooting.html">Troubleshooting</a>
@@ -353,6 +439,8 @@ footer strong{color:var(--accent);font-family:'Syne',sans-serif}
   <p>© 2025 <strong>SugarTechIndia</strong> — India Ka Instrumentation Channel 🇮🇳</p>
   <p style="margin-top:6px">Made with ❤️ for Indian Engineers & Technicians</p>
 </footer>
+
+<!-- INSTRUMENT MODAL -->
 
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
   <div class="modal">
@@ -371,6 +459,8 @@ footer strong{color:var(--accent);font-family:'Syne',sans-serif}
     </div>
   </div>
 </div>
+
+<!-- ADMIN MODAL -->
 
 <div class="admin-overlay" id="adminOverlay">
   <div class="admin-box">
@@ -391,7 +481,7 @@ footer strong{color:var(--accent);font-family:'Syne',sans-serif}
 </div>
 
 <script>
-// ADMIN
+// ===== ADMIN =====
 const A_USER='aditya';
 const A_PASS='Sugar@Tech2025#';
 let attempts=0,lockTime=0;
@@ -412,18 +502,10 @@ function openAdminModal(){
   document.getElementById('adminOverlay').classList.add('open');
   setTimeout(()=>document.getElementById('adminUser').focus(),200);
 }
-
-function closeAdminModal(){
-  document.getElementById('adminOverlay').classList.remove('open');
-}
-
+function closeAdminModal(){document.getElementById('adminOverlay').classList.remove('open');}
 function doAdminLogin(){
   const now=Date.now();
-  if(now<lockTime){
-    const m=Math.ceil((lockTime-now)/60000);
-    showErr('🔒 '+m+' minute baad try karo!');
-    return;
-  }
+  if(now<lockTime){const m=Math.ceil((lockTime-now)/60000);showErr('🔒 '+m+' minute baad try karo!');return;}
   const u=document.getElementById('adminUser').value.trim();
   const p=document.getElementById('adminPass').value.trim();
   if(u===A_USER&&p===A_PASS){
@@ -439,19 +521,13 @@ function doAdminLogin(){
     document.getElementById('adminPass').value='';
   }
 }
-
-function showErr(msg){
-  const el=document.getElementById('adminError');
-  el.textContent=msg;
-  el.style.display='block';
-}
-
+function showErr(msg){const el=document.getElementById('adminError');el.textContent=msg;el.style.display='block';}
 document.addEventListener('keydown',e=>{
   if(e.key==='Enter'&&document.getElementById('adminOverlay').classList.contains('open'))doAdminLogin();
   if(e.key==='Escape'){closeAdminModal();closeModalBtn();}
 });
 
-// YOUTUBE
+// ===== YOUTUBE =====
 const YT_API_KEY='AIzaSyCL-qxIodEl0ARVO7IDvUXM5a0iuqvC394';
 const CHANNEL_ID='UCEi3rGduiFjbPT6EWrrwmXw';
 
@@ -486,7 +562,7 @@ async function loadYouTubeVideos(){
 }
 loadYouTubeVideos();
 
-// ENCYCLOPEDIA
+// ===== ENCYCLOPEDIA =====
 const instruments=[
   {id:1,icon:"🔴",color:"#2a1010",cat:"pressure",name:"Pressure Transmitter",tag:"Pressure",short:"Process pressure ko 4-20mA signal mein convert karta hai.",def:"Pressure Transmitter ek industrial sensor hai jo fluid ya gas ka pressure measure karta hai aur use 4-20mA ya HART signal mein convert karke control room ko bhejta hai.",work:"Sensing diaphragm pressure ke hisaab se deflect hota hai. Strain gauge ya capacitive sensor se deflection measure hota hai aur electronic circuit use 4-20mA mein convert karta hai. 4mA = min pressure, 20mA = max pressure.",apps:["Oil & Gas pipelines","Boiler steam pressure","Chemical reactor","Water supply"],tags:["4-20mA","HART","Gauge","Absolute","DP"]},
   {id:2,icon:"💧",color:"#0a1a2a",cat:"level",name:"Level Transmitter",tag:"Level",short:"Tank ya vessel mein liquid level continuously measure karta hai.",def:"Level Transmitter kisi bhi tank, vessel ya silo mein liquid ya solid ka level continuously measure karta hai aur 4-20mA signal provide karta hai.",work:"DP type mein tank ke bottom par pressure measure hoti hai. Ultrasonic type mein sound waves liquid surface se bounce hoke wapas aati hain. Radar type mein microwave signals use hoti hain.",apps:["Water treatment plant","Oil storage tank","Chemical dosing","Boiler drum"],tags:["DP Type","Ultrasonic","Radar","Float","4-20mA"]},
@@ -516,7 +592,7 @@ let currentCat='all';
 function renderCards(list){
   const grid=document.getElementById('encGrid');
   if(!list.length){grid.innerHTML='<p style="color:var(--muted);grid-column:1/-1;text-align:center;padding:40px">Koi instrument nahi mila</p>';return;}
-  grid.innerHTML=list.map(i=>'<div class="enc-card" onclick="openModal('+i.id+')" ><div class="enc-head"><div class="enc-icon" style="background:'+i.color+'">'+i.icon+'</div><div><h4>'+i.name+'</h4><span class="tag">'+i.tag+'</span></div></div><p>'+i.short+'</p><div class="enc-foot"><span>'+i.cat+'</span><span class="more">Aur Jaano</span></div></div>').join('');
+  grid.innerHTML=list.map(i=>'<div class="enc-card" onclick="openModal('+i.id+')"><div class="enc-head"><div class="enc-icon" style="background:'+i.color+'">'+i.icon+'</div><div><h4>'+i.name+'</h4><span class="tag">'+i.tag+'</span></div></div><p>'+i.short+'</p><div class="enc-foot"><span>'+i.cat+'</span><span class="more">Aur Jaano →</span></div></div>').join('');
 }
 function filterCat(cat,el){currentCat=cat;document.querySelectorAll('.filter').forEach(e=>e.classList.remove('active'));el.classList.add('active');applyFilters(document.querySelector('.enc-search').value.toLowerCase(),cat);}
 function filterEnc(q){applyFilters(q.toLowerCase(),currentCat);}
@@ -538,7 +614,7 @@ function closeModal(e){if(e.target.id==='modalOverlay')closeModalBtn();}
 function closeModalBtn(){document.getElementById('modalOverlay').classList.remove('open');document.body.style.overflow='';}
 renderCards(instruments);
 
-// CONTACT
+// ===== CONTACT =====
 function sendContact(){
   const n=document.getElementById('cName').value.trim();
   const e=document.getElementById('cEmail').value.trim();
@@ -553,7 +629,7 @@ function sendContact(){
   document.getElementById('cMsg').value='';
 }
 
-// Q&A
+// ===== Q&A =====
 const DB_URL='https://sugartechindia-60aee-default-rtdb.asia-southeast1.firebasedatabase.app';
 async function submitQuestion(){
   const name=document.getElementById('qName').value.trim()||'Anonymous';
@@ -596,507 +672,92 @@ async function loadQuestions(){
       const answers=q.answers?Object.values(q.answers):[];
       const ansHtml=answers.map(a=>'<div class="qa-ans"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:.78rem;font-weight:700;color:var(--accent)">'+a.by+'</span><span style="font-size:.72rem;color:var(--muted)">'+timeAgo(a.time)+'</span></div><p style="font-size:.88rem;line-height:1.7">'+a.text+'</p></div>').join('');
       const adminBox=isAdmin?'<div style="margin-top:12px;display:flex;gap:8px"><textarea id="ans_'+id+'" class="inp" rows="2" placeholder="Jawab likhein..." style="flex:1"></textarea><button onclick="submitAnswer(\''+id+'\')" class="submit-btn" style="width:auto;padding:10px 16px;font-size:.82rem;white-space:nowrap">Jawab Do</button></div>':'';
-      return '<div class="qa-item"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px"><div style="display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:800;color:#fff;flex-shrink:0">'+q.name.charAt(0).toUpperCase()+'</div><div><p style="font-size:.85rem;font-weight:700">'+q.name+'</p><p style="font-size:.72rem;color:var(--muted)">'+timeAgo(q.time)+'</p></div></div><span class="tag">'+answers.length+' JAWAB</span></div><p style="font-size:.92rem;line-height:1.7;margin-bottom:10px">'+q.text+'</p>'+ansHtml+adminBox+'</div>';
-    }).join('');
-  }catch(e){list.innerHTML='<div style="text-align:center;padding:40px;color:var(--muted)">Load nahi hua. Refresh karo.</div>';}
+
+```
+  return '<div class="qa-item"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px"><div style="display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:800;color:#fff;flex-shrink:0">'+q.name.charAt(0).toUpperCase()+'</div><div><p style="font-size:.85rem;font-weight:700">'+q.name+'</p><p style="font-size:.72rem;color:var(--muted)">'+timeAgo(q.time)+'</p></div></div><span class="tag">'+answers.length+' JAWAB</span></div><p style="font-size:.92rem;line-height:1.7;margin-bottom:10px">'+q.text+'</p>'+ansHtml+adminBox+'</div>';
+}).join('');
+```
+
+}catch(e){list.innerHTML=’<div style="text-align:center;padding:40px;color:var(--muted)">Load nahi hua. Refresh karo.</div>’;}
 }
 loadQuestions();
 setInterval(loadQuestions,30000);
-  <!DOCTYPE html>
 
-<html lang="hi">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Search - SugarTechIndia</title>
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Noto+Sans:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --primary: #f97316;
-    --primary-dark: #ea6c0a;
-    --bg: #0f1117;
-    --surface: #1a1d27;
-    --surface2: #22263a;
-    --border: #2e3350;
-    --text: #e8eaf6;
-    --text-muted: #8b90b8;
-    --glow: rgba(249,115,22,0.18);
-  }
+// ===== AI SEARCH =====
+document.getElementById(‘aiInput’).addEventListener(‘keydown’,function(e){
+if(e.key===‘Enter’)aiSearch();
+});
 
-- { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-font-family: ‘Noto Sans’, sans-serif;
-background: var(–bg);
-color: var(–text);
-min-height: 100vh;
-display: flex;
-align-items: center;
-justify-content: center;
-padding: 20px;
+function aiSet(text){
+document.getElementById(‘aiInput’).value=text;
+aiSearch();
 }
 
-.widget-container {
-width: 100%;
-max-width: 720px;
+function aiSearch(){
+const input=document.getElementById(‘aiInput’);
+const query=input.value.trim();
+if(!query)return;
+const btn=document.getElementById(‘aiBtn’);
+const box=document.getElementById(‘aiAnswer’);
+btn.disabled=true;
+box.style.display=‘block’;
+box.innerHTML=’<div class="ai-answer-hdr"><span class="ai-badge">AI</span><span class="ai-qtxt">’+aiEsc(query)+’</span></div><div class="ai-typing"><div class="ai-dots"><span></span><span></span><span></span></div><span>Soch raha hoon…</span></div>’;
+aiCallAPI(query).then(ans=>{
+box.innerHTML=’<div class="ai-answer-hdr"><span class="ai-badge">AI</span><span class="ai-qtxt">’+aiEsc(query)+’</span></div><div class="ai-answer-body" id="aiContent">’+aiFormat(ans)+’</div><div class="ai-answer-ftr"><button class="ai-icon-btn" onclick="aiCopy()">📋 Copy</button><button class="ai-icon-btn" onclick="aiClear()">✕ Band karo</button></div>’;
+}).catch(err=>{
+box.innerHTML=’<div class="ai-answer-hdr"><span class="ai-badge">AI</span><span class="ai-qtxt">’+aiEsc(query)+’</span></div><div class="ai-error">⚠️ Kuch gadbad ho gayi. Thodi der baad try karo.<br><small style="opacity:.6">’+err.message+’</small></div>’;
+}).finally(()=>{btn.disabled=false;});
 }
 
-.widget-header {
-text-align: center;
-margin-bottom: 28px;
+async function aiCallAPI(question){
+const response=await fetch(‘https://api.anthropic.com/v1/messages’,{
+method:‘POST’,
+headers:{‘Content-Type’:‘application/json’},
+body:JSON.stringify({
+model:‘claude-sonnet-4-20250514’,
+max_tokens:1000,
+system:‘Aap SugarTechIndia website ke AI assistant ho. Aap har sawaal ka jawab HINDI mein dete ho.\n\nRules:\n- Hamesha Hindi mein jawab do\n- Short aur clear answer do\n- Technical terms ko simple Hindi mein explain karo\n- Instrumentation/automation se related sawaal ho to extra detail do\n- Bullet points use karo jahan zaroorat ho\n- Friendly aur helpful tone rakho’,
+messages:[{role:‘user’,content:question}]
+})
+});
+if(!response.ok){
+const err=await response.json().catch(()=>({}));
+throw new Error(err&&err.error&&err.error.message?err.error.message:’API Error ’+response.status);
+}
+const data=await response.json();
+return data.content&&data.content[0]?data.content[0].text:‘Jawab nahi mila.’;
 }
 
-.widget-header h1 {
-font-family: ‘Rajdhani’, sans-serif;
-font-size: 2rem;
-font-weight: 700;
-letter-spacing: 1px;
-color: #fff;
+function aiFormat(text){
+return text
+.replace(/**(.+?)**/g,’<strong>$1</strong>’)
+.replace(/`([^`]+)`/g,’<code>$1</code>’)
+.replace(/^#{1,3}\s(.+)$/gm,’<strong style="font-size:1.05rem;display:block;margin:8px 0 4px">$1</strong>’)
+.replace(/^*\s(.+)$/gm,’<li>$1</li>’)
+.replace(/^-\s(.+)$/gm,’<li>$1</li>’)
+.replace(/(<li>[\s\S]*?</li>)/g,’<ul>$1</ul>’)
+.replace(/\n\n/g,’</p><p>’)
+.replace(/\n/g,’<br>’);
 }
 
-.widget-header h1 span {
-color: var(–primary);
+function aiEsc(t){return t.replace(/&/g,’&’).replace(/</g,’<’).replace(/>/g,’>’).replace(/”/g,’"’);}
+
+function aiCopy(){
+const el=document.getElementById(‘aiContent’);
+if(el){
+navigator.clipboard.writeText(el.innerText).then(()=>{
+const btn=event.target;
+btn.textContent=‘✅ Copied!’;
+setTimeout(()=>btn.textContent=‘📋 Copy’,2000);
+});
+}
 }
 
-.widget-header p {
-color: var(–text-muted);
-font-size: 0.85rem;
-margin-top: 6px;
+function aiClear(){
+document.getElementById(‘aiAnswer’).style.display=‘none’;
+document.getElementById(‘aiInput’).value=’’;
 }
-
-.search-box {
-display: flex;
-gap: 10px;
-background: var(–surface);
-border: 1.5px solid var(–border);
-border-radius: 14px;
-padding: 10px 12px;
-transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.search-box:focus-within {
-border-color: var(–primary);
-box-shadow: 0 0 0 3px var(–glow);
-}
-
-.search-box input {
-flex: 1;
-background: transparent;
-border: none;
-outline: none;
-color: var(–text);
-font-size: 1rem;
-font-family: ‘Noto Sans’, sans-serif;
-padding: 4px 6px;
-}
-
-.search-box input::placeholder {
-color: var(–text-muted);
-}
-
-.search-box button {
-background: var(–primary);
-border: none;
-border-radius: 10px;
-color: #fff;
-font-family: ‘Rajdhani’, sans-serif;
-font-size: 1rem;
-font-weight: 600;
-padding: 8px 20px;
-cursor: pointer;
-transition: background 0.18s, transform 0.1s;
-white-space: nowrap;
-display: flex;
-align-items: center;
-gap: 6px;
-}
-
-.search-box button:hover { background: var(–primary-dark); }
-.search-box button:active { transform: scale(0.97); }
-.search-box button:disabled { opacity: 0.5; cursor: not-allowed; }
-
-.suggestions {
-display: flex;
-flex-wrap: wrap;
-gap: 8px;
-margin-top: 14px;
-}
-
-.suggestion-chip {
-background: var(–surface2);
-border: 1px solid var(–border);
-border-radius: 20px;
-padding: 5px 14px;
-font-size: 0.78rem;
-color: var(–text-muted);
-cursor: pointer;
-transition: all 0.18s;
-}
-
-.suggestion-chip:hover {
-border-color: var(–primary);
-color: var(–primary);
-background: var(–glow);
-}
-
-.answer-box {
-margin-top: 22px;
-background: var(–surface);
-border: 1.5px solid var(–border);
-border-radius: 14px;
-overflow: hidden;
-animation: slideIn 0.3s ease;
-}
-
-@keyframes slideIn {
-from { opacity: 0; transform: translateY(10px); }
-to { opacity: 1; transform: translateY(0); }
-}
-
-.answer-header {
-display: flex;
-align-items: center;
-gap: 10px;
-padding: 12px 18px;
-background: var(–surface2);
-border-bottom: 1px solid var(–border);
-}
-
-.answer-header .ai-badge {
-background: var(–primary);
-color: #fff;
-font-family: ‘Rajdhani’, sans-serif;
-font-size: 0.75rem;
-font-weight: 700;
-padding: 3px 10px;
-border-radius: 20px;
-letter-spacing: 0.5px;
-}
-
-.answer-header .question-text {
-color: var(–text-muted);
-font-size: 0.85rem;
-flex: 1;
-white-space: nowrap;
-overflow: hidden;
-text-overflow: ellipsis;
-}
-
-.answer-body {
-padding: 18px 20px;
-line-height: 1.75;
-font-size: 0.95rem;
-color: var(–text);
-}
-
-.answer-body p { margin-bottom: 10px; }
-.answer-body p:last-child { margin-bottom: 0; }
-
-.answer-body strong {
-color: var(–primary);
-font-weight: 600;
-}
-
-.answer-body ul, .answer-body ol {
-padding-left: 20px;
-margin-bottom: 10px;
-}
-
-.answer-body li { margin-bottom: 4px; }
-
-.answer-body code {
-background: var(–surface2);
-border: 1px solid var(–border);
-border-radius: 4px;
-padding: 1px 6px;
-font-size: 0.85rem;
-color: #fbbf24;
-}
-
-.typing-indicator {
-display: flex;
-align-items: center;
-gap: 5px;
-padding: 20px;
-color: var(–text-muted);
-font-size: 0.9rem;
-}
-
-.dots {
-display: flex;
-gap: 4px;
-}
-
-.dots span {
-width: 6px;
-height: 6px;
-background: var(–primary);
-border-radius: 50%;
-animation: bounce 1.2s infinite;
-}
-
-.dots span:nth-child(2) { animation-delay: 0.2s; }
-.dots span:nth-child(3) { animation-delay: 0.4s; }
-
-@keyframes bounce {
-0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
-30% { transform: translateY(-6px); opacity: 1; }
-}
-
-.error-msg {
-padding: 16px 20px;
-color: #f87171;
-font-size: 0.9rem;
-}
-
-/* Scrollable answer */
-.answer-body {
-max-height: 400px;
-overflow-y: auto;
-scrollbar-width: thin;
-scrollbar-color: var(–border) transparent;
-}
-
-/* Copy button */
-.answer-footer {
-display: flex;
-justify-content: flex-end;
-padding: 8px 16px;
-border-top: 1px solid var(–border);
-gap: 8px;
-}
-
-.icon-btn {
-background: transparent;
-border: 1px solid var(–border);
-border-radius: 8px;
-color: var(–text-muted);
-font-size: 0.78rem;
-padding: 4px 12px;
-cursor: pointer;
-transition: all 0.18s;
-font-family: ‘Noto Sans’, sans-serif;
-}
-
-.icon-btn:hover {
-border-color: var(–primary);
-color: var(–primary);
-}
-
-/* ===== EMBED INSTRUCTIONS ===== */
-.embed-info {
-margin-top: 32px;
-background: var(–surface);
-border: 1.5px dashed var(–border);
-border-radius: 12px;
-padding: 16px 20px;
-}
-
-.embed-info h3 {
-font-family: ‘Rajdhani’, sans-serif;
-font-size: 1rem;
-color: var(–primary);
-margin-bottom: 8px;
-}
-
-.embed-info p {
-font-size: 0.8rem;
-color: var(–text-muted);
-line-height: 1.6;
-}
-
-.embed-info code {
-display: block;
-background: var(–bg);
-border: 1px solid var(–border);
-border-radius: 6px;
-padding: 10px 14px;
-font-size: 0.75rem;
-color: #86efac;
-margin-top: 10px;
-word-break: break-all;
-line-height: 1.7;
-}
-</style>
-
-</head>
-<body>
-
-<div class="widget-container">
-
-  <!-- Header -->
-
-  <div class="widget-header">
-    <h1>Sugar<span>Tech</span>India <span style="color:#fff;font-weight:400;font-size:1.3rem">AI Search</span></h1>
-    <p>Koi bhi sawaal poochho — AI turant jawab dega 🤖</p>
-  </div>
-
-  <!-- Search Input -->
-
-  <div class="search-box">
-    <input type="text" id="searchInput" placeholder="Jaise: 4-20mA kya hota hai? PID controller kya hai?" />
-    <button id="searchBtn" onclick="doSearch()">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-      Poochho
-    </button>
-  </div>
-
-  <!-- Quick Suggestions -->
-
-  <div class="suggestions">
-    <span class="suggestion-chip" onclick="setQuery('4-20mA signal kya hota hai?')">4-20mA signal</span>
-    <span class="suggestion-chip" onclick="setQuery('PID controller kaise kaam karta hai?')">PID Controller</span>
-    <span class="suggestion-chip" onclick="setQuery('SCADA system kya hai?')">SCADA System</span>
-    <span class="suggestion-chip" onclick="setQuery('Pressure transmitter kaise calibrate karte hain?')">Pressure Transmitter</span>
-    <span class="suggestion-chip" onclick="setQuery('RTD aur Thermocouple mein kya fark hai?')">RTD vs Thermocouple</span>
-    <span class="suggestion-chip" onclick="setQuery('Flow meter ke prakar kaunse hain?')">Flow Meter Types</span>
-  </div>
-
-  <!-- Answer Box -->
-
-  <div id="answerBox" style="display:none;"></div>
-
-  <!-- Embed Info (remove this section when adding to your website) -->
-
-  <div class="embed-info">
-    <h3>📋 Website mein kaise add karein</h3>
-    <p>Apni website ki <strong>index.html</strong> mein yeh code paste karo jahaan chahte ho search dikhna:</p>
-    <code>&lt;!-- AI Search Widget --&gt;<br>
-&lt;div id="ai-search-section"&gt;&lt;/div&gt;<br>
-&lt;script src="ai-search-widget.js"&gt;&lt;/script&gt;</code>
-    <p style="margin-top:8px;">Ya seedha is file ka <strong>&lt;style&gt;</strong> aur <strong>&lt;script&gt;</strong> apni main HTML mein merge kar do.</p>
-  </div>
-
-</div>
-
-<script>
-  // Enter key support
-  document.getElementById('searchInput').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') doSearch();
-  });
-
-  function setQuery(text) {
-    document.getElementById('searchInput').value = text;
-    doSearch();
-  }
-
-  function doSearch() {
-    const input = document.getElementById('searchInput');
-    const query = input.value.trim();
-    if (!query) return;
-
-    const btn = document.getElementById('searchBtn');
-    const answerBox = document.getElementById('answerBox');
-
-    btn.disabled = true;
-
-    // Show loading
-    answerBox.style.display = 'block';
-    answerBox.innerHTML = `
-      <div class="answer-header">
-        <span class="ai-badge">AI</span>
-        <span class="question-text">${escapeHtml(query)}</span>
-      </div>
-      <div class="typing-indicator">
-        <div class="dots"><span></span><span></span><span></span></div>
-        <span>Soch raha hoon...</span>
-      </div>
-    `;
-
-    callClaudeAPI(query)
-      .then(answer => {
-        answerBox.innerHTML = `
-          <div class="answer-header">
-            <span class="ai-badge">AI</span>
-            <span class="question-text">${escapeHtml(query)}</span>
-          </div>
-          <div class="answer-body" id="answerContent">${formatAnswer(answer)}</div>
-          <div class="answer-footer">
-            <button class="icon-btn" onclick="copyAnswer()">📋 Copy</button>
-            <button class="icon-btn" onclick="clearAnswer()">✕ Band karo</button>
-          </div>
-        `;
-      })
-      .catch(err => {
-        answerBox.innerHTML = `
-          <div class="answer-header">
-            <span class="ai-badge">AI</span>
-            <span class="question-text">${escapeHtml(query)}</span>
-          </div>
-          <div class="error-msg">⚠️ Kuch gadbad ho gayi. Thodi der baad try karo.<br><small style="opacity:0.6">${err.message}</small></div>
-        `;
-      })
-      .finally(() => {
-        btn.disabled = false;
-      });
-  }
-
-  async function callClaudeAPI(question) {
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 1000,
-        system: `Aap SugarTechIndia website ke AI assistant ho. Aap har sawaal ka jawab HINDI mein dete ho (Roman script mein nahi, Devanagari mein).
-
-Rules:
-- Hamesha Hindi mein jawab do
-- Short aur clear answer do
-- Technical terms ko simple Hindi mein explain karo
-- Agar instrumentation/automation se related sawaal ho to extra detail do
-- Bullet points use karo jahan zaroorat ho
-- Friendly aur helpful tone rakho`,
-        messages: [{ role: "user", content: question }]
-      })
-    });
-
-    if (!response.ok) {
-      const err = await response.json().catch(() => ({}));
-      throw new Error(err?.error?.message || `API Error ${response.status}`);
-    }
-
-    const data = await response.json();
-    return data.content?.[0]?.text || "Jawab nahi mila.";
-  }
-
-  function formatAnswer(text) {
-    // Basic markdown-like formatting
-    return text
-      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-      .replace(/`([^`]+)`/g, '<code>$1</code>')
-      .replace(/^#{1,3}\s(.+)$/gm, '<strong style="font-size:1.05rem;display:block;margin:8px 0 4px">$1</strong>')
-      .replace(/^\* (.+)$/gm, '<li>$1</li>')
-      .replace(/^- (.+)$/gm, '<li>$1</li>')
-      .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
-      .replace(/\n\n/g, '</p><p>')
-      .replace(/\n/g, '<br>')
-      .replace(/^(.+)$/, '<p>$1</p>');
-  }
-
-  function escapeHtml(text) {
-    return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-
-  function copyAnswer() {
-    const el = document.getElementById('answerContent');
-    if (el) {
-      navigator.clipboard.writeText(el.innerText).then(() => {
-        const btn = event.target;
-        btn.textContent = '✅ Copied!';
-        setTimeout(() => btn.textContent = '📋 Copy', 2000);
-      });
-    }
-  }
-
-  function clearAnswer() {
-    document.getElementById('answerBox').style.display = 'none';
-    document.getElementById('searchInput').value = '';
-  }
 </script>
 
-</body>
-</html>
-</script>
 </body>
 </html>
